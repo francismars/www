@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
   type();
 
   // Highlight active nav link on scroll
-  const sections = ['about', 'projects', 'videos', 'education', 'skills'];
+  const sections = ['about', 'projects', 'contributions', 'videos', 'education', 'skills'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
   function onScroll() {
     let scrollPos = window.scrollY + 120;
@@ -50,18 +50,21 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!container) return;
     container.innerHTML = '';
     projects.forEach(project => {
+      const githubLink = project.github !== '#' ? `<a href="${project.github}" target="_blank" title="GitHub">
+              <img src="images/github.jpg" alt="GitHub" />
+            </a>` : '';
+      const websiteLink = project.website !== '#' ? `<a href="${project.website}" target="_blank" title="Website">
+              <img src="images/www.png" alt="Website" class="invert-icon" />
+            </a>` : '';
+      
       const card = document.createElement('div');
       card.className = 'project-card';
       card.innerHTML = `
         <div class="project-header">
           <span><strong>${project.name} <span class="tag">${project.type}</span></strong></span>
           <span class="project-links">
-            <a href="${project.github}" target="_blank" title="GitHub">
-              <img src="images/github.jpg" alt="GitHub" />
-            </a>
-            <a href="${project.website}" target="_blank" title="Website">
-              <img src="images/www.png" alt="Website" class="invert-icon" />
-            </a>
+            ${githubLink}
+            ${websiteLink}
           </span>
         </div>
         <p style="color:var(--muted-text);">${project.description}</p>
@@ -72,6 +75,39 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   renderProjects();
+
+  // Dynamically render contributions
+  function renderContributions() {
+    if (typeof contributions === 'undefined') return;
+    const container = document.getElementById('contributions-list');
+    if (!container) return;
+    container.innerHTML = '';
+    contributions.forEach(contribution => {
+      const githubLink = contribution.github !== '#' ? `<a href="${contribution.github}" target="_blank" title="GitHub">
+              <img src="images/github.jpg" alt="GitHub" />
+            </a>` : '';
+      const websiteLink = contribution.website !== '#' ? `<a href="${contribution.website}" target="_blank" title="Website">
+              <img src="images/www.png" alt="Website" class="invert-icon" />
+            </a>` : '';
+      
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div class="project-header">
+          <span><strong>${contribution.name} <span class="tag">${contribution.type}</span></strong></span>
+          <span class="project-links">
+            ${githubLink}
+            ${websiteLink}
+          </span>
+        </div>
+        <p style="color:var(--muted-text);">${contribution.description}</p>
+        ${contribution.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  renderContributions();
 
   // Dynamically render videos
   function renderVideos() {
