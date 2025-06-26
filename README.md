@@ -4,7 +4,7 @@ A modern, responsive personal portfolio website showcasing software engineering 
 
 ## 🚀 Live Demo
 
-Visit the live website: [Francis Mars Portfolio](https://francismars.github.io/cvwebsite)
+Visit the live website: [Francis Mars Portfolio](https://francismars.github.io/www/)
 
 ## 🛠️ Technologies Used
 
