@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Francis Mars - Software Engineer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a id="top"></a>
+  <nav class="navbar" aria-label="Main Navigation">
+    <a href="#top" class="navbar-profile" aria-label="Back to top">
+      <img src="images/profile.jpg" alt="Francis Mars" class="navbar-profile-pic" />
+      <span class="navbar-profile-name">Francis Mars</span>
+    </a>
+    <button class="navbar-burger" aria-label="Open navigation" aria-controls="navbar-links" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="navbar-links" id="navbar-links">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#videos">Appearances</a>
+      <a href="#education">Education</a>
+      <a href="#skills">Skills</a>
+    </div>
+  </nav>
+  <header>
+    <img src="images/profile.jpg" alt="Francis Mars" class="profile-pic" />
+    <h1 class="glow">Francis Mars</h1>
+    <div id="typed" style="font-size:1.2rem; margin-top:0.5em; min-height:1.5em; font-family: 'Fira Code', monospace; color:var(--muted-text);"></div>
+    <div class="socials" style="margin-top:1.5em;">
+      <a href="https://github.com/francismars" target="_blank" title="GitHub">
+        <img src="images/github.jpg" alt="Nostr logo" />
+      </a>
+      <a href="https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl" target="_blank" title="Nostr">
+        <img src="images/nostr.png" alt="Nostr logo" />
+      </a>
+      <a href="https://x.com/btcfrancis" target="_blank" title="X (Twitter)">
+        <img src="images/x.png" alt="Nostr logo" /> 
+      </a>
+
+    </div>
+  </header>
+  <div class="section" id="about">
+    <h2>About Me</h2>
+    <p style="color:var(--muted-text); font-size:1.15rem; line-height:1.7;">
+      Hi, I'm <strong>Francis</strong>, a software developer passionate about building <strong>practical tools with real-world impact</strong>.
+      I developed <strong>Chain Duel</strong>, a Lightning-powered videogame, 
+      and <strong>PubPay</strong>, a simple way to split payments or receive donations via Lightning on Nostr.
+      My work often explores the intersection of <strong>tech and permissionless money</strong>.
+      I enjoy creating projects that are fun, useful, and aligned with open-source values.
+      When I'm not at the computer, you'll likely find me <em>lifting weights, hiking</em>, or just spending time outdoors getting sun and fresh air.  
+    </p>
+  </div>
+  <div class="section" id="projects">
+    <h2>Projects</h2>
+    <div id="projects-list"></div>
+  </div>
+  <div class="section" id="videos">
+    <h2>Appearances</h2>
+    <div class="video-grid" id="videos-list">
+    </div>
+  </div>
+  <div class="section" id="education">
+    <h2>Education</h2>
+    <div style="margin-bottom:2em;">
+      <h3 style="margin-bottom:0.5em; color:var(--accent); font-size:1.2em;">Academic Degrees</h3>
+      <ul>
+        <li>
+          <strong>B.Sc. in Information Technologies</strong><br>
+          University of Lisbon, 2022
+          <ul style="margin-top:0.5em;">
+            <li><em>Minored in </em>Statistics and Operations Research</li>
+          </ul>
+        </li>
+        <li style="margin-top:1.2em;">
+          <strong>M.Sc. in Informatics</strong><br>
+          University of Lisbon, 2024
+        </li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="margin-bottom:0.5em; color:var(--accent); font-size:1.2em;">Additional Training</h3>
+      <ul>
+        <li>Chaincode Labs: Bitcoin Protocol Development Seminar (2021)</li>
+        <li>Chaincode Labs: Lightning Protocol Development Seminar (2022)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="section" id="skills">
+    <h2>Skills</h2>
+    <ul>
+      <li><span class="tag">JavaScript</span> <span class="tag">TypeScript</span> <span class="tag">Node.js</span> <span class="tag">React</span></li>
+      <li><span class="tag">Python</span> <span class="tag">Java</span> <span class="tag">Go</span></li>
+      <li><span class="tag">Bitcoin</span> <span class="tag">Lightning</span> <span class="tag">AI</span> <span class="tag">ML</span></li>
+      <li><span class="tag">Public Speaking</span> <span class="tag">Education</span></li>
+    </ul>
+  </div>
+  <footer style="text-align:center; padding:2em 1em; color:var(--muted-text); font-size:1.1rem;">
+    &copy; 2025 Francis Mars.
+  </footer>
+  <script src="projects.js"></script>
+  <script src="videos.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>
