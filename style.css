@@ -348,4 +348,17 @@ html {
   .navbar-profile {
     margin-left: 0;
   }
+}
+/* Favicon styling for circular appearance */
+link[rel="icon"] {
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* Alternative approach using CSS mask */
+@supports (mask: circle()) {
+  link[rel="icon"] {
+    mask: circle();
+    -webkit-mask: circle();
+  }
 } 
