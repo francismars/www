@@ -30,7 +30,7 @@ async function handleLNURLContact(event) {
     console.log('LNURL-pay response:', lnurlp);
 
     // Step 2: Prepare callback URL
-    const amount = 5000000; // 10,000 sats in millisats
+    const amount = 3000000
     const callbackUrl = `${lnurlp.callback}?amount=${amount}&comment=${encodeURIComponent(message)}`;
     console.log('Callback URL:', callbackUrl);
 
