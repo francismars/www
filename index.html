@@ -25,6 +25,7 @@
       <a href="#videos">Appearances</a>
       <a href="#education">Education</a>
       <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
     </div>
   </nav>
   <header>
@@ -103,6 +104,26 @@
       <li><span class="tag">Public Speaking</span> <span class="tag">Education</span></li>
     </ul>
   </div>
+  <div class="section" id="contact">
+    <h2>Contact Me (with Lightning)</h2>
+    <form id="lnurl-contact-form" onsubmit="return handleLNURLContact(event)">
+      <textarea id="contact-message" maxlength="200" placeholder="Your message (max 200 chars)" required></textarea>
+      <button type="submit">Send & Pay 5,000 sats</button>
+    </form>
+    <div id="invoice-section" style="display:none; margin-top:2em; text-align:center;">
+      <div style="position:relative;">
+        <button id="close-invoice" style="position:absolute; top:5px; right:5px; background:var(--accent); border:none; color:#111; border-radius:4px; padding:0.3em 0.6em; cursor:pointer; font-size:12px; font-weight:600; font-family:'Inter',sans-serif;">X</button>
+        <h3>⚡ Pay with Lightning</h3>
+        <p>Scan this QR code with your Lightning wallet app:</p>
+        <div id="invoice-qr" style="display:inline-block; padding:1em; background:white; border-radius:8px; margin:1em 0;"></div>
+        <p style="font-size:0.9em; color:var(--muted-text);">If QR code doesn't work, copy the invoice below:</p>
+        <div style="position:relative;">
+          <div id="invoice-string" style="word-break:break-all; background:#222; padding:1em; border-radius:6px; font-family:monospace; font-size:0.8em; margin:1em 0; max-width:100%; overflow-x:auto;"></div>
+          <button id="copy-invoice" style="position:absolute; top:5px; right:5px; background:var(--accent); border:none; color:#111; border-radius:4px; padding:0.3em 0.6em; font-size:0.7em; cursor:pointer; font-weight:600;">Copy</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <footer style="text-align:center; padding:2em 1em; color:var(--muted-text); font-size:1.1rem;">
     &copy; 2025 Francis Mars.
   </footer>
@@ -110,5 +131,6 @@
   <script src="videos.js"></script>
   <script src="contributions.js"></script>
   <script src="main.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </body>
 </html>

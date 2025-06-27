@@ -1,3 +1,103 @@
+// Decode Lightning Address to LNURL-pay endpoint
+function lightningAddressToLnurlpEndpoint(address) {
+  const [name, domain] = address.split('@');
+  return `https://${domain}/.well-known/lnurlp/${name}`;
+}
+
+// LNURL-pay contact form handler
+async function handleLNURLContact(event) {
+  event.preventDefault();
+  const message = document.getElementById('contact-message').value;
+  if (message.length > 200) {
+    alert('Message too long!');
+    return false;
+  }
+
+  // Get the Lightning Address from your config or input
+  const lightningAddress = "francis@walletofsatoshi.com"; // <-- Replace with your Lightning Address
+  const lnurlpEndpoint = lightningAddressToLnurlpEndpoint(lightningAddress);
+  
+  console.log('Lightning Address:', lightningAddress);
+  console.log('LNURL-pay endpoint:', lnurlpEndpoint);
+
+  try {
+    // Step 1: Fetch LNURL-pay parameters
+    console.log('Fetching LNURL-pay parameters...');
+    const res = await fetch(lnurlpEndpoint);
+    
+    if (!res.ok) {
+      throw new Error(`HTTP error! status: ${res.status}`);
+    }
+    
+    const lnurlp = await res.json();
+    console.log('LNURL-pay response:', lnurlp);
+
+    // Step 2: Prepare callback URL
+    const amount = 5000000; // 10,000 sats in millisats
+    const callbackUrl = `${lnurlp.callback}?amount=${amount}&comment=${encodeURIComponent(message)}`;
+    console.log('Callback URL:', callbackUrl);
+
+    // Step 3: Fetch invoice
+    console.log('Fetching invoice...');
+    const invoiceRes = await fetch(callbackUrl);
+    
+    if (!invoiceRes.ok) {
+      throw new Error(`HTTP error! status: ${invoiceRes.status}`);
+    }
+    
+    const invoiceData = await invoiceRes.json();
+    console.log('Invoice response:', invoiceData);
+
+    if (invoiceData.pr) {
+      document.getElementById('invoice-section').style.display = 'block';
+      document.getElementById('invoice-string').textContent = invoiceData.pr;
+      if (window.QRCode) {
+        document.getElementById('invoice-qr').innerHTML = '';
+        new QRCode(document.getElementById('invoice-qr'), {
+          text: invoiceData.pr,
+          width: 250,
+          height: 250,
+          colorDark: "#000000",
+          colorLight: "#FFFFFF",
+          correctLevel: QRCode.CorrectLevel.H
+        });
+      }
+      
+      // Add event listeners for close and copy buttons
+      document.getElementById('close-invoice').addEventListener('click', function() {
+        document.getElementById('invoice-section').style.display = 'none';
+        document.getElementById('contact-message').value = '';
+      });
+      
+      document.getElementById('copy-invoice').addEventListener('click', function() {
+        const invoiceText = document.getElementById('invoice-string').textContent;
+        navigator.clipboard.writeText(invoiceText).then(function() {
+          const copyBtn = document.getElementById('copy-invoice');
+          const originalText = copyBtn.textContent;
+          copyBtn.textContent = 'Copied!';
+          copyBtn.style.background = '#22c55e';
+          setTimeout(function() {
+            copyBtn.textContent = originalText;
+            copyBtn.style.background = 'var(--accent)';
+          }, 2000);
+        }).catch(function(err) {
+          console.error('Failed to copy: ', err);
+          alert('Failed to copy invoice. Please copy it manually.');
+        });
+      });
+      
+      console.log('QR code generated successfully');
+    } else {
+      alert('Failed to generate invoice. Please try again.');
+      console.error('No invoice in response:', invoiceData);
+    }
+  } catch (err) {
+    alert('Error contacting LNURL-pay endpoint: ' + err.message);
+    console.error('Error details:', err);
+  }
+  return false;
+}
+
 // Typing effect for the header
 // Fun animated typing effect for the header
 // (from index.html)
@@ -15,7 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
   type();
 
   // Highlight active nav link on scroll
-  const sections = ['about', 'projects', 'contributions', 'videos', 'education', 'skills'];
+  const sections = ['about', 'projects', 'contributions', 'videos', 'education', 'skills', 'contact'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
   function onScroll() {
     let scrollPos = window.scrollY + 120;
