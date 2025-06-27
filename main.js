@@ -140,28 +140,23 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Dynamically render projects
+  let showAllProjects = false;
+
   function renderProjects() {
     if (typeof projects === 'undefined') return;
     const container = document.getElementById('projects-list');
     if (!container) return;
     container.innerHTML = '';
-    projects.forEach(project => {
-      const githubLink = project.github !== '#' ? `<a href="${project.github}" target="_blank" title="GitHub">
-              <img src="images/github.jpg" alt="GitHub" />
-            </a>` : '';
-      const websiteLink = project.website !== '#' ? `<a href="${project.website}" target="_blank" title="Website">
-              <img src="images/www.png" alt="Website" class="invert-icon" />
-            </a>` : '';
-      
+    const toShow = showAllProjects ? projects : projects.slice(0, 2);
+    toShow.forEach(project => {
       const card = document.createElement('div');
       card.className = 'project-card';
       card.innerHTML = `
         <div class="project-header">
           <span><strong>${project.name} <span class="tag">${project.type}</span></strong></span>
           <span class="project-links">
-            ${githubLink}
-            ${websiteLink}
+            ${project.github !== '#' ? `<a href="${project.github}" target="_blank" title="GitHub"><img src="images/github.jpg" alt="GitHub" /></a>` : ''}
+            ${project.website !== '#' ? `<a href="${project.website}" target="_blank" title="Website"><img src="images/www.png" alt="Website" class="invert-icon" /></a>` : ''}
           </span>
         </div>
         <p style="color:var(--muted-text);">${project.description}</p>
@@ -169,32 +164,54 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
       container.appendChild(card);
     });
+
+    // Show/hide the toggle button if there are more than 2 projects
+    const toggleBtn = document.getElementById('toggle-projects');
+    if (toggleBtn) {
+      if (projects.length > 2) {
+        toggleBtn.style.display = 'block';
+        toggleBtn.textContent = showAllProjects ? 'Show less' : 'Show more';
+      } else {
+        toggleBtn.style.display = 'none';
+      }
+    }
   }
 
-  renderProjects();
+  // Add event listener for the toggle button after DOMContentLoaded
+  const onProjectsToggleReady = () => {
+    const toggleBtn = document.getElementById('toggle-projects');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        showAllProjects = !showAllProjects;
+        renderProjects();
+      });
+    }
+    renderProjects();
+  };
 
-  // Dynamically render contributions
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onProjectsToggleReady);
+  } else {
+    onProjectsToggleReady();
+  }
+
+  let showAllContributions = false;
+
   function renderContributions() {
     if (typeof contributions === 'undefined') return;
     const container = document.getElementById('contributions-list');
     if (!container) return;
     container.innerHTML = '';
-    contributions.forEach(contribution => {
-      const githubLink = contribution.github !== '#' ? `<a href="${contribution.github}" target="_blank" title="GitHub">
-              <img src="images/github.jpg" alt="GitHub" />
-            </a>` : '';
-      const websiteLink = contribution.website !== '#' ? `<a href="${contribution.website}" target="_blank" title="Website">
-              <img src="images/www.png" alt="Website" class="invert-icon" />
-            </a>` : '';
-      
+    const toShow = showAllContributions ? contributions : contributions.slice(0, 2);
+    toShow.forEach(contribution => {
       const card = document.createElement('div');
       card.className = 'project-card';
       card.innerHTML = `
         <div class="project-header">
           <span><strong>${contribution.name} <span class="tag">${contribution.type}</span></strong></span>
           <span class="project-links">
-            ${githubLink}
-            ${websiteLink}
+            ${contribution.github !== '#' ? `<a href="${contribution.github}" target="_blank" title="GitHub"><img src="images/github.jpg" alt="GitHub" /></a>` : ''}
+            ${contribution.website !== '#' ? `<a href="${contribution.website}" target="_blank" title="Website"><img src="images/www.png" alt="Website" class="invert-icon" /></a>` : ''}
           </span>
         </div>
         <p style="color:var(--muted-text);">${contribution.description}</p>
@@ -202,17 +219,46 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
       container.appendChild(card);
     });
+
+    // Show/hide the toggle button if there are more than 2 contributions
+    const toggleBtn = document.getElementById('toggle-contributions');
+    if (toggleBtn) {
+      if (contributions.length > 2) {
+        toggleBtn.style.display = 'block';
+        toggleBtn.textContent = showAllContributions ? 'Show less' : 'Show more';
+      } else {
+        toggleBtn.style.display = 'none';
+      }
+    }
   }
 
-  renderContributions();
+  // Add event listener for the toggle button after DOMContentLoaded
+  const onContributionsToggleReady = () => {
+    const toggleBtn = document.getElementById('toggle-contributions');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        showAllContributions = !showAllContributions;
+        renderContributions();
+      });
+    }
+    renderContributions();
+  };
 
-  // Dynamically render videos
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onContributionsToggleReady);
+  } else {
+    onContributionsToggleReady();
+  }
+
+  let showAllVideos = false;
+
   function renderVideos() {
     if (typeof videos === 'undefined') return;
     const container = document.getElementById('videos-list');
     if (!container) return;
     container.innerHTML = '';
-    videos.forEach(video => {
+    const toShow = showAllVideos ? videos : videos.slice(0, 2);
+    toShow.forEach(video => {
       const card = document.createElement('div');
       card.className = 'video-card';
       card.innerHTML = `
@@ -221,7 +267,34 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
       container.appendChild(card);
     });
+
+    // Show/hide the toggle button if there are more than 2 videos
+    const toggleBtn = document.getElementById('toggle-videos');
+    if (toggleBtn) {
+      if (videos.length > 2) {
+        toggleBtn.style.display = 'block';
+        toggleBtn.textContent = showAllVideos ? 'Show less' : 'Show more';
+      } else {
+        toggleBtn.style.display = 'none';
+      }
+    }
   }
 
-  renderVideos();
+  // Add event listener for the toggle button after DOMContentLoaded
+  const onVideosToggleReady = () => {
+    const toggleBtn = document.getElementById('toggle-videos');
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', function() {
+        showAllVideos = !showAllVideos;
+        renderVideos();
+      });
+    }
+    renderVideos();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', onVideosToggleReady);
+  } else {
+    onVideosToggleReady();
+  }
 }); 
