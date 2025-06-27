@@ -496,4 +496,8 @@ link[rel="icon"] {
   background: #fff;
   color: var(--accent);
   box-shadow: 0 4px 16px var(--accent)40;
+}
+
+.about-justified {
+  text-align: justify;
 } 
