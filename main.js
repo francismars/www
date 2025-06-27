@@ -17,9 +17,6 @@ async function handleLNURLContact(event) {
   const lightningAddress = "francis@walletofsatoshi.com"; // <-- Replace with your Lightning Address
   const lnurlpEndpoint = lightningAddressToLnurlpEndpoint(lightningAddress);
   
-  console.log('Lightning Address:', lightningAddress);
-  console.log('LNURL-pay endpoint:', lnurlpEndpoint);
-
   try {
     // Step 1: Fetch LNURL-pay parameters
     console.log('Fetching LNURL-pay parameters...');
