@@ -476,4 +476,24 @@ link[rel="icon"] {
     font-size: 0.95em;
     padding: 0.2em 0.5em;
   }
+}
+
+.show-more-btn {
+  margin: 1.5em auto 0 auto;
+  display: block;
+  background: var(--accent);
+  color: #111;
+  border: none;
+  border-radius: 10px;
+  padding: 0.8em 2em;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px #0002;
+}
+.show-more-btn:hover {
+  background: #fff;
+  color: var(--accent);
+  box-shadow: 0 4px 16px var(--accent)40;
 } 
