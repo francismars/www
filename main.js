@@ -181,6 +181,7 @@ async function handleNostrZap(event) {
         text: invoice,
         width: 250,
         height: 250,
+        correctLevel: QRCode.CorrectLevel.M
     });
 
     submitButton.textContent = 'Message Created! Waiting for payment...';
