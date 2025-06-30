@@ -109,6 +109,8 @@
   <div class="section" id="contact">
     <h2>Contact Me (with Lightning)</h2>
     <form id="ln-contact-form" onsubmit="return handleNostrZap(event)">
+      <input type="text" id="contact-name" placeholder="Your name (optional)" maxlength="40" class="contact-input" />
+      <input type="email" id="contact-email" placeholder="Your email (optional)" maxlength="60" class="contact-input" />
       <textarea id="contact-message" maxlength="200" placeholder="Your message (max 200 chars)" required></textarea>
       <button type="submit">Send & Pay 2,000 sats</button>
     </form>

@@ -97,15 +97,22 @@ async function handleLNURLContact(event) {
 
 async function handleNostrZap(event) {
   event.preventDefault();
-  const message = document.getElementById('contact-message').value;
-  const submitButton = event.target.querySelector('button');
-  const originalButtonText = submitButton.textContent;
+  const name = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  let message = document.getElementById('contact-message').value.trim();
 
-  if (message.length > 200) {
-    alert('Message too long!');
+  let fullMessage = message;
+  if (email) fullMessage = `email: ${email}\n` + fullMessage;
+  if (name) fullMessage = `name: ${name}\n` + fullMessage;
+
+  if (fullMessage.length > 200) {
+    alert('Message too long! (including name/email)');
     return false;
   }
   
+  const submitButton = event.target.querySelector('button');
+  const originalButtonText = submitButton.textContent;
+
   submitButton.textContent = 'Preparing Message...';
   submitButton.disabled = true;
 
@@ -159,7 +166,7 @@ async function handleNostrZap(event) {
 
     // 4. Use signedZapRequest.id in your subscription filter
     const zapRequestString = encodeURIComponent(JSON.stringify(signedZapRequest));
-    const res = await fetch(`${zapEndpoint}?amount=${zapAmountMilliSats}&nostr=${zapRequestString}&comment=${encodeURIComponent(message)}`);
+    const res = await fetch(`${zapEndpoint}?amount=${zapAmountMilliSats}&nostr=${zapRequestString}&comment=${encodeURIComponent(fullMessage)}`);
     const { pr: invoice } = await res.json();
     
     if (!invoice) throw new Error('Failed to fetch invoice from zap endpoint.');
@@ -171,7 +178,7 @@ async function handleNostrZap(event) {
     const qrContainer = document.getElementById('invoice-qr');
     qrContainer.innerHTML = '';
     new QRCode(qrContainer, {
-        text: invoice.toUpperCase(),
+        text: invoice,
         width: 250,
         height: 250,
     });

@@ -500,4 +500,27 @@ link[rel="icon"] {
 
 .about-justified {
   text-align: justify;
+}
+
+.contact-input {
+  margin-bottom: 0.7em;
+  width: 100%;
+  padding: 0.8em 1em;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1em;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+.contact-input:focus {
+  outline: none;
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 0 0 2px var(--accent)22;
+  background: var(--card-bg);
+}
+.contact-input::placeholder {
+  color: var(--muted-text);
+  opacity: 1;
 } 
