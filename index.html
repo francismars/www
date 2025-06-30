@@ -34,13 +34,13 @@
     <div id="typed" style="font-size:1.2rem; margin-top:0.5em; min-height:1.5em; font-family: 'Fira Code', monospace; color:var(--muted-text);"></div>
     <div class="socials" style="margin-top:1.5em;">
       <a href="https://github.com/francismars" target="_blank" title="GitHub">
-        <img src="images/github.jpg" alt="Nostr logo" />
+        <img src="images/github.jpg" alt="GitHub logo" />
       </a>
-      <a href="https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl" target="_blank" title="Nostr">
-        <img src="images/nostr.png" alt="Nostr logo" />
+      <a href="https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl" target="_blank" title="Social">
+        <img src="images/nostr.png" alt="Social logo" />
       </a>
       <a href="https://x.com/btcfrancis" target="_blank" title="X (Twitter)">
-        <img src="images/x.png" alt="Nostr logo" /> 
+        <img src="images/x.png" alt="X logo" /> 
       </a>
 
     </div>
@@ -50,7 +50,7 @@
     <p class="about-justified" style="color:var(--muted-text); font-size:1.15rem; line-height:1.7;">
       Hi, I'm <strong>Francis</strong>, a software developer passionate about building <strong>practical tools with real-world impact</strong>.
       I developed <strong>Chain Duel</strong>, a Lightning-powered videogame, 
-      and <strong>PubPay</strong>, a simple way to split payments or receive donations via Lightning on Nostr.
+      and <strong>PubPay</strong>, a simple way to split payments or receive donations via Lightning on decentralized social.
       My work often explores the intersection of <strong>tech and permissionless money</strong>.
       I enjoy creating projects that are fun, useful, and aligned with open-source values.
       When I'm not at the computer, you'll likely find me <em>lifting weights, hiking</em>, or just spending time outdoors getting sun and fresh air.  
@@ -107,10 +107,10 @@
     </ul>
   </div>
   <div class="section" id="contact">
-    <h2>Contact Me (via Nostr Zap)</h2>
-    <form id="nostr-zap-form" onsubmit="return handleNostrZap(event)">
+    <h2>Contact Me (with Lightning)</h2>
+    <form id="ln-contact-form" onsubmit="return handleNostrZap(event)">
       <textarea id="contact-message" maxlength="200" placeholder="Your message (max 200 chars)" required></textarea>
-      <button type="submit">Send a 2,000 sat zap</button>
+      <button type="submit">Send & Pay 2,000 sats</button>
     </form>
     <div id="invoice-section" style="display:none; margin-top:2em; text-align:center;">
       <div style="position:relative;">

@@ -106,7 +106,7 @@ async function handleNostrZap(event) {
     return false;
   }
   
-  submitButton.textContent = 'Preparing Zap...';
+  submitButton.textContent = 'Preparing Message...';
   submitButton.disabled = true;
 
   const relays = [
@@ -116,7 +116,7 @@ async function handleNostrZap(event) {
     "wss://relay.nostr.nu/",
   ];
   const recipientNpub = 'npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl';
-  const zapAmountMilliSats = 21 * 1000;
+  const zapAmountMilliSats = 2000 * 1000;
 
   try {
     const pool = new NostrTools.SimplePool();
@@ -146,7 +146,6 @@ async function handleNostrZap(event) {
     const unsignedZapRequest = NostrTools.nip57.makeZapRequest({
       profile: recipientHexPubkey,
       amount: zapAmountMilliSats,
-      comment: message,
       relays,
     });
 
@@ -177,34 +176,38 @@ async function handleNostrZap(event) {
         height: 250,
     });
 
-    submitButton.textContent = 'Zap Created! Waiting for payment...';
+    submitButton.textContent = 'Message Created! Waiting for payment...';
 
     // Listen for zap receipt (robust: subscribe to all zap receipts for this pubkey, filter in JS)
     console.log('Listening for zap receipt...');
-    const sub = pool.subscribe(
-      relays,
+    const sub = pool.subscribeMany(
+      [...relays],
       [{ kinds: [9735], '#p': [recipientHexPubkey] }],
       {
         onevent(event) {
-          console.log("Zap event received", event)
-          // Find the #e tag in the event
-          const eTag = event.tags.find(tag => tag[0] === 'e');
-          if (eTag && eTag[1] === signedZapRequest.id) {
-            console.log('Zap receipt received for our zap!', event);
-            document.getElementById('invoice-section').style.display = 'none';
-            submitButton.textContent = 'Zap Confirmed! Thank you!';
-            submitButton.style.backgroundColor = '#22c55e';
-            setTimeout(() => {
-              submitButton.textContent = originalButtonText;
-              submitButton.disabled = false;
-              submitButton.style.backgroundColor = '';
-              document.getElementById('contact-message').value = '';
-            }, 5000);
-            sub.close();
-            pool.close(relays);
-          } else {
-            // Not our zap, ignore (but you can log for debugging)
-            console.log('Received unrelated zap receipt', event);
+          // Find the 'description' tag
+          const descriptionTag = event.tags.find(tag => tag[0] === 'description');
+          if (descriptionTag) {
+            try {
+              const descObj = JSON.parse(descriptionTag[1]);
+              if (descObj.id === signedZapRequest.id) {
+                console.log('Zap receipt received for our zap!', event);
+                document.getElementById('invoice-section').style.display = 'none';
+                submitButton.textContent = 'Message Confirmed! Thank you!';
+                submitButton.style.backgroundColor = '#22c55e';
+                setTimeout(() => {
+                  submitButton.textContent = originalButtonText;
+                  submitButton.disabled = false;
+                  submitButton.style.backgroundColor = '';
+                  document.getElementById('contact-message').value = '';
+                }, 5000);
+                sub.close();
+                pool.close(relays);
+                return;
+              }
+            } catch (e) {
+              console.warn('Failed to parse description tag JSON', e);
+            }
           }
         }
       }
