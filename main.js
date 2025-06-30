@@ -95,11 +95,140 @@ async function handleLNURLContact(event) {
   return false;
 }
 
-// Typing effect for the header
-// Fun animated typing effect for the header
-// (from index.html)
+async function handleNostrZap(event) {
+  event.preventDefault();
+  const message = document.getElementById('contact-message').value;
+  const submitButton = event.target.querySelector('button');
+  const originalButtonText = submitButton.textContent;
+
+  if (message.length > 200) {
+    alert('Message too long!');
+    return false;
+  }
+  
+  submitButton.textContent = 'Preparing Zap...';
+  submitButton.disabled = true;
+
+  const relays = [
+    "wss://relay.damus.io",
+    "wss://relay.primal.net",
+    "wss://relay.nostr.band/",
+    "wss://relay.nostr.nu/",
+  ];
+  const recipientNpub = 'npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl';
+  const zapAmountMilliSats = 21 * 1000;
+
+  try {
+    const pool = new NostrTools.SimplePool();
+    const { type, data: recipientHexPubkey } = NostrTools.nip19.decode(recipientNpub);
+    if (type !== 'npub') throw new Error('Invalid recipient npub.');
+
+    console.log('Fetching recipient profile...');
+    const userEvent = await pool.get(relays, { kinds: [0], authors: [recipientHexPubkey] });
+    if (!userEvent) throw new Error('Recipient profile not found on specified relays.');
+    
+    const metadata = JSON.parse(userEvent.content);
+    const lud16 = metadata.lud16 || metadata.lud06;
+    if (!lud16) throw new Error('Lightning address not found in recipient profile.');
+    
+    console.log(`Found Lightning Address: ${lud16}`);
+    let zapEndpoint;
+    if (lud16) {
+      const [name, domain] = lud16.split('@');
+      zapEndpoint = `https://${domain}/.well-known/lnurlp/${name}`;
+    } else {
+      throw new Error('No lud16 found in profile (lud06 not supported in this demo).');
+    }
+    
+    console.log('Zap endpoint:', zapEndpoint);
+    
+    // 2. Create the unsigned zap request event
+    const unsignedZapRequest = NostrTools.nip57.makeZapRequest({
+      profile: recipientHexPubkey,
+      amount: zapAmountMilliSats,
+      comment: message,
+      relays,
+    });
+
+    // 3. Generate a random keypair and sign the zap request
+    const randomPrivKey = NostrTools.generateSecretKey();
+    const randomPubKey = NostrTools.getPublicKey(randomPrivKey);
+    const signedZapRequest = NostrTools.finalizeEvent(
+      { ...unsignedZapRequest, pubkey: randomPubKey },
+      randomPrivKey
+    );
+
+    // 4. Use signedZapRequest.id in your subscription filter
+    const zapRequestString = encodeURIComponent(JSON.stringify(signedZapRequest));
+    const res = await fetch(`${zapEndpoint}?amount=${zapAmountMilliSats}&nostr=${zapRequestString}&comment=${encodeURIComponent(message)}`);
+    const { pr: invoice } = await res.json();
+    
+    if (!invoice) throw new Error('Failed to fetch invoice from zap endpoint.');
+
+    console.log('Invoice fetched:', invoice);
+    
+    document.getElementById('invoice-section').style.display = 'block';
+    document.getElementById('invoice-string').textContent = invoice;
+    const qrContainer = document.getElementById('invoice-qr');
+    qrContainer.innerHTML = '';
+    new QRCode(qrContainer, {
+        text: invoice.toUpperCase(),
+        width: 250,
+        height: 250,
+    });
+
+    submitButton.textContent = 'Zap Created! Waiting for payment...';
+
+    // Listen for zap receipt (robust: subscribe to all zap receipts for this pubkey, filter in JS)
+    console.log('Listening for zap receipt...');
+    const sub = pool.subscribe(
+      relays,
+      [{ kinds: [9735], '#p': [recipientHexPubkey] }],
+      {
+        onevent(event) {
+          console.log("Zap event received", event)
+          // Find the #e tag in the event
+          const eTag = event.tags.find(tag => tag[0] === 'e');
+          if (eTag && eTag[1] === signedZapRequest.id) {
+            console.log('Zap receipt received for our zap!', event);
+            document.getElementById('invoice-section').style.display = 'none';
+            submitButton.textContent = 'Zap Confirmed! Thank you!';
+            submitButton.style.backgroundColor = '#22c55e';
+            setTimeout(() => {
+              submitButton.textContent = originalButtonText;
+              submitButton.disabled = false;
+              submitButton.style.backgroundColor = '';
+              document.getElementById('contact-message').value = '';
+            }, 5000);
+            sub.close();
+            pool.close(relays);
+          } else {
+            // Not our zap, ignore (but you can log for debugging)
+            console.log('Received unrelated zap receipt', event);
+          }
+        }
+      }
+    );
+
+    document.getElementById('close-invoice').addEventListener('click', function() {
+      document.getElementById('invoice-section').style.display = 'none';
+      submitButton.textContent = originalButtonText;
+      submitButton.disabled = false;
+      document.getElementById('contact-message').value = '';
+      sub.close();
+      pool.close(relays);
+    }, { once: true });
+    
+  } catch (error) {
+    console.error('Zap process failed:', error);
+    alert(`Error: ${error.message}`);
+    submitButton.textContent = originalButtonText;
+    submitButton.disabled = false;
+  }
+  return false;
+}
+
 document.addEventListener('DOMContentLoaded', function() {
-  // Typing effect
   const text = "Software Engineer | Bitcoin | Lightning";
   let i = 0;
   function type() {
@@ -111,7 +240,6 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   type();
 
-  // Highlight active nav link on scroll
   const sections = ['about', 'projects', 'contributions', 'videos', 'education', 'skills', 'contact'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
   function onScroll() {
@@ -128,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
   window.addEventListener('scroll', onScroll);
   onScroll();
 
-  // Hamburger menu toggle
   const burger = document.querySelector('.navbar-burger');
   const links = document.getElementById('navbar-links');
   if (burger && links) {
@@ -139,6 +266,16 @@ document.addEventListener('DOMContentLoaded', function() {
       burger.classList.toggle('open');
     });
   }
+
+  document.querySelectorAll('#navbar-links a').forEach(link => {
+    link.addEventListener('click', () => {
+      if (links.classList.contains('open')) {
+        links.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
 
   let showAllProjects = false;
 
@@ -165,7 +302,6 @@ document.addEventListener('DOMContentLoaded', function() {
       container.appendChild(card);
     });
 
-    // Show/hide the toggle button if there are more than 2 projects
     const toggleBtn = document.getElementById('toggle-projects');
     if (toggleBtn) {
       if (projects.length > 2) {
@@ -177,7 +313,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Add event listener for the toggle button after DOMContentLoaded
   const onProjectsToggleReady = () => {
     const toggleBtn = document.getElementById('toggle-projects');
     if (toggleBtn) {
@@ -220,7 +355,6 @@ document.addEventListener('DOMContentLoaded', function() {
       container.appendChild(card);
     });
 
-    // Show/hide the toggle button if there are more than 2 contributions
     const toggleBtn = document.getElementById('toggle-contributions');
     if (toggleBtn) {
       if (contributions.length > 2) {
@@ -232,7 +366,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Add event listener for the toggle button after DOMContentLoaded
   const onContributionsToggleReady = () => {
     const toggleBtn = document.getElementById('toggle-contributions');
     if (toggleBtn) {
@@ -263,12 +396,11 @@ document.addEventListener('DOMContentLoaded', function() {
       card.className = 'video-card';
       card.innerHTML = `
         <iframe src="https://www.youtube.com/embed/${video.embedId}" allowfullscreen title="${video.title}"></iframe>
-        <div style="margin-top:0.7em; color:var(--muted-text); font-size:1rem;">${video.description}</div>
+          <div style="margin-top:0.7em; color:var(--muted-text); font-size:1rem;">${video.description}</div>
       `;
       container.appendChild(card);
     });
 
-    // Show/hide the toggle button if there are more than 2 videos
     const toggleBtn = document.getElementById('toggle-videos');
     if (toggleBtn) {
       if (videos.length > 2) {
@@ -280,7 +412,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
-  // Add event listener for the toggle button after DOMContentLoaded
   const onVideosToggleReady = () => {
     const toggleBtn = document.getElementById('toggle-videos');
     if (toggleBtn) {
@@ -297,4 +428,21 @@ document.addEventListener('DOMContentLoaded', function() {
   } else {
     onVideosToggleReady();
   }
+
+  document.getElementById('copy-invoice').addEventListener('click', function() {
+    const invoiceText = document.getElementById('invoice-string').textContent;
+    navigator.clipboard.writeText(invoiceText).then(() => {
+      const copyBtn = document.getElementById('copy-invoice');
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = 'Copied!';
+      copyBtn.style.background = '#22c55e';
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+        copyBtn.style.background = 'var(--accent)';
+      }, 2000);
+    }).catch(err => {
+      console.error('Failed to copy: ', err);
+      alert('Failed to copy invoice. Please copy it manually.');
+    });
+  });
 }); 
