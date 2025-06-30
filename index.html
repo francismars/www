@@ -107,10 +107,10 @@
     </ul>
   </div>
   <div class="section" id="contact">
-    <h2>Contact Me (with Lightning)</h2>
-    <form id="lnurl-contact-form" onsubmit="return handleLNURLContact(event)">
+    <h2>Contact Me (via Nostr Zap)</h2>
+    <form id="nostr-zap-form" onsubmit="return handleNostrZap(event)">
       <textarea id="contact-message" maxlength="200" placeholder="Your message (max 200 chars)" required></textarea>
-      <button type="submit">Send & Pay 3,000 sats</button>
+      <button type="submit">Send a 2,000 sat zap</button>
     </form>
     <div id="invoice-section" style="display:none; margin-top:2em; text-align:center;">
       <div style="position:relative;">
@@ -132,7 +132,8 @@
   <script src="projects.js"></script>
   <script src="videos.js"></script>
   <script src="contributions.js"></script>
-  <script src="main.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
+  <script src="main.js"></script>
 </body>
 </html>
