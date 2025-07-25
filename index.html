@@ -10,54 +10,59 @@
   <meta property="og:url" content="https://www.francismars.com/">
   <meta property="og:title" content="Francis Mars - Senior FullStack Engineer">
   <meta property="og:description" content="Portfolio of Francis Mars, Senior FullStack Engineer specializing in Bitcoin, Lightning, and open-source projects. See projects, contributions, and contact info.">
-  <meta property="og:image" content="https://www.francismars.com/images/profile.jpg">
+  <meta property="og:image" content="https://www.francismars.com/images/socials.png">
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://www.francismars.com/">
   <meta name="twitter:title" content="Francis Mars - Senior FullStack Engineer">
   <meta name="twitter:description" content="Portfolio of Francis Mars, Senior FullStack Engineer specializing in Bitcoin, Lightning, and open-source projects. See projects, contributions, and contact info.">
-  <meta name="twitter:image" content="https://www.francismars.com/images/profile.jpg">
+  <meta name="twitter:image" content="https://www.francismars.com/images/socials.png">
   <link rel="icon" type="image/jpeg" href="images/profile.jpg">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <a id="top"></a>
-  <nav class="navbar" aria-label="Main Navigation">
-    <a href="#top" class="navbar-profile" aria-label="Back to top">
-      <img src="images/profile.jpg" alt="Francis Mars" class="navbar-profile-pic" />
-      <span class="navbar-profile-name">Francis Mars</span>
-    </a>
-    <button class="navbar-burger" aria-label="Open navigation" aria-controls="navbar-links" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-    <div class="navbar-links" id="navbar-links">
-      <a href="#about">About</a>
-      <a href="#projects">Projects</a>
-      <a href="#contributions">Contributions</a>
-      <a href="#videos">Appearances</a>
-      <a href="#education">Education</a>
-      <a href="#skills">Skills</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </nav>
-  <header>
+  <div id="loader-overlay">
     <img src="images/profile.jpg" alt="Francis Mars" class="profile-pic" />
     <h1 class="glow">Francis Mars</h1>
     <div id="typed" style="font-size:1.2rem; margin-top:0.5em; min-height:1.5em; font-family: 'Fira Code', monospace; color:var(--muted-text);"></div>
-    <div class="socials" style="margin-top:1.5em;">
-      <a href="https://github.com/francismars" target="_blank" title="GitHub">
-        <img src="images/github.jpg" alt="GitHub logo" />
+  </div>
+  <div id="main-content" style="display:none;">
+    <a id="top"></a>
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="#top" class="navbar-profile" aria-label="Back to top">
+        <img src="images/profile.jpg" alt="Francis Mars" class="navbar-profile-pic" />
+        <span class="navbar-profile-name">Francis Mars</span>
       </a>
-      <a href="https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl" target="_blank" title="Social">
-        <img src="images/nostr.png" alt="Social logo" />
-      </a>
-      <a href="https://x.com/btcfrancis" target="_blank" title="X (Twitter)">
-        <img src="images/x.png" alt="X logo" /> 
-      </a>
-
-    </div>
-  </header>
+      <button class="navbar-burger" aria-label="Open navigation" aria-controls="navbar-links" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navbar-links">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contributions">Contributions</a>
+        <a href="#videos">Appearances</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+    <header>
+      <img src="images/profile.jpg" alt="Francis Mars" class="profile-pic" />
+      <h1 class="glow">Francis Mars</h1>
+      <div id="typed-main" style="font-size:1.2rem; margin-top:0.5em; min-height:1.5em; font-family: 'Fira Code', monospace; color:var(--muted-text);"></div>
+      <div class="socials" style="margin-top:1.5em;">
+        <a href="https://github.com/francismars" target="_blank" title="GitHub">
+          <img src="images/github.jpg" alt="GitHub logo" />
+        </a>
+        <a href="https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl" target="_blank" title="Social">
+          <img src="images/nostr.png" alt="Social logo" />
+        </a>
+        <a href="https://x.com/btcfrancis" target="_blank" title="X (Twitter)">
+          <img src="images/x.png" alt="X logo" /> 
+        </a>
+      </div>
+    </header>
   <div class="section" id="about">
     <h2>About Me</h2>
     <p class="about-justified" style="color:var(--muted-text); font-size:1.15rem; line-height:1.7;">
