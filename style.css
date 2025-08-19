@@ -562,6 +562,15 @@ link[rel="icon"] {
   text-align: justify;
 }
 
+/* Mobile-specific about section styling */
+@media (max-width: 600px) {
+  .about-justified {
+    font-size: 1rem !important;
+    line-height: 1.6 !important;
+    text-align: justify;
+  }
+}
+
 .contact-input {
   margin-bottom: 0.7em;
   width: 100%;
