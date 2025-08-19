@@ -271,7 +271,7 @@ li {
 .navbar {
   position: sticky;
   top: 0;
-  width: 100%;
+  max-width: 100%;
   background: #181818ee;
   display: flex;
   justify-content: space-between;
@@ -401,8 +401,6 @@ html {
   }
   .navbar-burger {
     display: flex;
-    margin-right: 1em;
-    padding-right: 2.5em;
   }
   .navbar-profile-name {
     display: none;
