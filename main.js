@@ -1,3 +1,16 @@
+// Function to populate the about section
+function populateAboutSection() {
+  const aboutSection = document.getElementById('about');
+  if (aboutSection) {
+    aboutSection.innerHTML = `
+      <h2>${aboutContent.title}</h2>
+      <p class="about-justified" style="color:var(--muted-text); font-size:1.15rem; line-height:1.7;">
+        ${aboutContent.content}
+      </p>
+    `;
+  }
+}
+
 // Decode Lightning Address to LNURL-pay endpoint
 function lightningAddressToLnurlpEndpoint(address) {
   const [name, domain] = address.split("@");
@@ -271,8 +284,11 @@ async function handleNostrZap(event) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
+  // Populate about section
+  populateAboutSection();
+  
   // Loader typing effect
-  const text = "Software Engineer | Bitcoin | Lightning";
+  const text = "Bitcoin | Lightning | Nostr";
   let i = 0;
   function typeLoader() {
     if (i <= text.length) {
