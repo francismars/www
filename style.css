@@ -560,6 +560,10 @@ link[rel="icon"] {
 
 .about-justified {
   text-align: justify;
+  text-justify: inter-word;
+  hyphens: auto;
+  word-spacing: normal;
+  letter-spacing: 0.01em;
 }
 
 /* Mobile-specific about section styling */
@@ -568,6 +572,10 @@ link[rel="icon"] {
     font-size: 1rem !important;
     line-height: 1.6 !important;
     text-align: justify;
+    text-justify: inter-word;
+    hyphens: auto;
+    word-spacing: 0.02em;
+    letter-spacing: 0.005em;
   }
 }
 
