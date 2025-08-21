@@ -363,6 +363,24 @@
   gap: 0.5rem;
   color: var(--muted-text);
   font-size: 0.9rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+.legend-item:hover {
+  background: var(--border-color);
+  color: var(--text-color);
+}
+
+.legend-item.disabled {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+.legend-item.disabled .legend-marker {
+  opacity: 0.4;
 }
 
 .legend-marker {

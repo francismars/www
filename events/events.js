@@ -244,13 +244,69 @@ function initializeMap() {
     maxZoom: 18
   }).addTo(map);
   
+  // Store markers by type for toggling visibility
+  window.mapMarkers = {
+    map: map,
+    upcoming: [],
+    past: [],
+    featured: []
+  };
+  
   // Add event markers
   eventsData.forEach(event => {
     const marker = createEventMarker(event, map);
     if (marker) {
       marker.addTo(map);
+      
+      // Categorize marker by type
+      const currentDate = getCurrentDate();
+      const isUpcoming = event.date >= currentDate;
+      const isFeatured = event.featured;
+      
+      if (isFeatured) {
+        window.mapMarkers.featured.push(marker);
+      } else if (isUpcoming) {
+        window.mapMarkers.upcoming.push(marker);
+      } else {
+        window.mapMarkers.past.push(marker);
+      }
     }
   });
+  
+  // Initialize legend click handlers
+  initializeMapLegend();
+}
+
+function initializeMapLegend() {
+  const legendItems = document.querySelectorAll('.legend-item');
+  
+  legendItems.forEach(item => {
+    item.addEventListener('click', function() {
+      const eventType = this.getAttribute('data-event-type');
+      toggleMapLayer(eventType, this);
+    });
+  });
+}
+
+function toggleMapLayer(eventType, legendItem) {
+  const markers = window.mapMarkers[eventType];
+  if (!markers) return;
+  
+  const isVisible = !legendItem.classList.contains('disabled');
+  
+  if (isVisible) {
+    // Hide markers
+    markers.forEach(marker => {
+      marker.remove();
+    });
+    legendItem.classList.add('disabled');
+  } else {
+    // Show markers
+    markers.forEach(marker => {
+      marker.addTo(window.mapMarkers.map);
+    });
+    legendItem.classList.remove('disabled');
+  }
 }
 
 function createEventMarker(event, map) {
