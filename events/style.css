@@ -4,6 +4,13 @@
 .section {
   max-width: 1200px;
 }
+
+/* Responsive section width */
+@media (max-width: 1299px) {
+  .section {
+    max-width: 800px;
+  }
+}
 /* Events Grid */
 .events-grid {
   display: grid;
