@@ -312,6 +312,8 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .events-map {
@@ -322,11 +324,48 @@
   background: var(--bg-color);
   border: 1px solid var(--border-color);
   position: relative;
+  z-index: 1;
 }
 
 /* Leaflet map customizations */
 .leaflet-container {
   background: var(--bg-color) !important;
+  z-index: 1 !important;
+}
+
+/* Ensure map doesn't overlap navbar */
+.leaflet-container,
+.leaflet-container * {
+  z-index: 1 !important;
+}
+
+/* Force navbar to stay on top */
+.navbar {
+  z-index: 9999 !important;
+}
+
+.leaflet-map-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-tile-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-overlay-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-marker-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-tooltip-pane {
+  z-index: 1 !important;
+}
+
+.leaflet-popup-pane {
+  z-index: 1 !important;
 }
 
 .leaflet-popup-content-wrapper {
