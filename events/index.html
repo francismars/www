@@ -89,6 +89,7 @@
           <a href="#calendar">Calendar</a>
           <a href="#map">Map</a>
           <a href="#submit">Submit Event</a>
+          <a href="#donate">Donate</a>
         </div>
     </nav>
     
@@ -236,12 +237,72 @@
         </div>
     </div>
 
+    <div class="section" id="donate">
+      <div class="section-header">
+        <h2>Support Bitcoin Events</h2>
+        <button class="collapse-btn" data-section="donate" aria-label="Collapse section">
+          <span class="collapse-icon">−</span>
+        </button>
+      </div>
+      <div class="section-content">
+        <p style="color:var(--muted-text); margin-bottom:2em; text-align:center;">
+          Help us keep this Bitcoin events directory free and up-to-date. 
+          Your donation supports the maintenance and expansion of this resource.
+        </p>
+        <form id="donation-form" onsubmit="return handleDonation(event)">
+          <div class="form-group">
+            <label for="donation-name">Your Name (optional)</label>
+            <input type="text" id="donation-name" placeholder="Anonymous" maxlength="40" class="donation-input" />
+          </div>
+          <div class="form-group">
+            <label for="donation-email">Your Email (optional)</label>
+            <input type="email" id="donation-email" placeholder="your@email.com" maxlength="60" class="donation-input" />
+          </div>
+          <div class="form-group">
+            <label for="donation-message">Message (optional)</label>
+            <textarea id="donation-message" maxlength="200" placeholder="Share your thoughts or why you're donating..." rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="donation-amount">Donation Amount</label>
+            <div class="amount-options">
+              <button type="button" class="amount-btn" data-amount="1000">1,000 sats</button>
+              <button type="button" class="amount-btn" data-amount="5000">5,000 sats</button>
+              <button type="button" class="amount-btn" data-amount="10000">10,000 sats</button>
+              <button type="button" class="amount-btn" data-amount="25000">25,000 sats</button>
+              <button type="button" class="amount-btn" data-amount="50000">50,000 sats</button>
+              <button type="button" class="amount-btn" data-amount="100000">100,000 sats</button>
+            </div>
+            <div class="custom-amount">
+              <label for="custom-amount-input">Custom Amount (sats)</label>
+              <input type="number" id="custom-amount-input" placeholder="Enter amount in sats" min="100" step="100" class="donation-input" />
+            </div>
+          </div>
+          <button type="submit" id="donation-submit-btn" class="submit-btn">Zap <span id="selected-amount">1,000</span> sats</button>
+        </form>
+        <div id="donation-invoice-section" style="display:none; margin-top:2em; text-align:center;">
+          <div style="position:relative;">
+            <button id="close-donation-invoice" style="position:absolute; top:5px; right:5px; background:var(--accent); border:none; color:#111; border-radius:4px; padding:0.3em 0.6em; cursor:pointer; font-size:12px; font-weight:600; font-family:'Inter',sans-serif;">X</button>
+            <h3>⚡ Pay with Lightning</h3>
+            <p>Scan this QR code with your Lightning wallet app:</p>
+            <div id="donation-invoice-qr" style="display:inline-block; padding:1em; background:white; border-radius:8px; margin:1em 0;"></div>
+            <p style="font-size:0.9em; color:var(--muted-text);">If QR code doesn't work, copy the invoice below:</p>
+            <div style="position:relative;">
+              <div id="donation-invoice-string" style="word-break:break-all; background:#222; padding:1em; border-radius:6px; font-family:monospace; font-size:0.8em; margin:1em 0; max-width:100%; overflow-x:auto;"></div>
+              <button id="copy-donation-invoice" style="position:absolute; top:5px; right:5px; background:var(--accent); border:none; color:#111; border-radius:4px; padding:0.3em 0.6em; font-size:0.7em; cursor:pointer; font-weight:600;">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <footer style="text-align:center; padding:2em 1em; color:var(--muted-text); font-size:1.1rem;">
       <p>&copy; 2025 <a href="../" style="color:var(--accent); text-decoration:none;">Francis Mars</a>.</p>
     </footer>
   </div>
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js"></script>
   <script src="events-data.js"></script>
   <script src="events.js"></script>
 </body>
