@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bitcoin Events - Francis Mars</title>
+  <meta name="description" content="Upcoming and past Bitcoin events, conferences, and meetups. Stay updated with the latest Bitcoin community gatherings around the world.">
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://events.francismars.com/">
+  <meta property="og:title" content="Bitcoin Events - Francis Mars">
+  <meta property="og:description" content="Upcoming and past Bitcoin events, conferences, and meetups. Stay updated with the latest Bitcoin community gatherings around the world.">
+  <meta property="og:image" content="https://www.francismars.com/images/socials.png">
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://events.francismars.com/">
+  <meta name="twitter:title" content="Bitcoin Events - Francis Mars">
+  <meta name="twitter:description" content="Upcoming and past Bitcoin events, conferences, and meetups. Stay updated with the latest Bitcoin community gatherings around the world.">
+  <meta name="twitter:image" content="https://www.francismars.com/images/socials.png">
+  <link rel="icon" type="image/jpeg" href="../images/profile.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="main-content">
+    <a id="top"></a>
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="../" class="navbar-profile" aria-label="Back to main site">
+        <img src="../images/profile.jpg" alt="Francis Mars" class="navbar-profile-pic" />
+        <span class="navbar-profile-name">Francis Mars</span>
+      </a>
+      <button class="navbar-burger" aria-label="Open navigation" aria-controls="navbar-links" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <div class="navbar-links" id="navbar-links">
+                 <a href="#upcoming">Upcoming</a>
+         <a href="#past">Past Events</a>
+         <a href="#calendar">Calendar</a>
+         <a href="#submit">Submit Event</a>
+      </div>
+    </nav>
+    
+         <header>
+       <img src="../images/bitcoin-logo.png" alt="Bitcoin Logo" class="profile-pic" />
+       <h1 class="glow">Events 2025</h1>
+      <div id="typed-main" style="font-size:1.2rem; margin-top:0.5em; min-height:1.5em; font-family: 'Fira Code', monospace; color:var(--muted-text);"></div>
+      <p style="margin-top:1.5em; color:var(--muted-text); font-size:1.1rem; max-width:600px; margin-left:auto; margin-right:auto;">
+        Stay connected with the Bitcoin community through conferences, meetups, and educational events around the world.
+      </p>
+    </header>
+
+    <div class="section" id="upcoming">
+      <h2>Upcoming Events</h2>
+      <div class="events-filter">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="conference">Conferences</button>
+        <button class="filter-btn" data-filter="meetup">Meetups</button>
+        <button class="filter-btn" data-filter="workshop">Workshops</button>
+        <button class="filter-btn" data-filter="hackathon">Hackathons</button>
+      </div>
+      <div id="upcoming-events-list" class="events-grid"></div>
+    </div>
+
+    <div class="section" id="past">
+      <h2>Past Events</h2>
+      <div id="past-events-list" class="events-grid"></div>
+    </div>
+
+    <div class="section" id="calendar">
+      <h2>Events Calendar</h2>
+      <div class="calendar-container">
+        <div class="calendar-header">
+          <button id="prev-month" class="calendar-nav-btn">&lt;</button>
+          <h3 id="current-month">January 2025</h3>
+          <button id="next-month" class="calendar-nav-btn">&gt;</button>
+        </div>
+        <div id="calendar-grid" class="calendar-grid"></div>
+      </div>
+    </div>
+
+    <div class="section" id="submit">
+      <h2>Submit an Event</h2>
+      <p style="color:var(--muted-text); margin-bottom:2em;">
+        Know about a Bitcoin event that should be listed here? Let us know about it!
+      </p>
+      <form id="event-submit-form" class="event-form">
+        <div class="form-group">
+          <label for="event-name">Event Name *</label>
+          <input type="text" id="event-name" name="event-name" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="event-date">Date *</label>
+            <input type="date" id="event-date" name="event-date" required>
+          </div>
+          <div class="form-group">
+            <label for="event-type">Event Type *</label>
+            <select id="event-type" name="event-type" required>
+              <option value="">Select type</option>
+              <option value="conference">Conference</option>
+              <option value="meetup">Meetup</option>
+              <option value="workshop">Workshop</option>
+              <option value="hackathon">Hackathon</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="event-location">Location *</label>
+          <input type="text" id="event-location" name="event-location" placeholder="City, Country" required>
+        </div>
+        <div class="form-group">
+          <label for="event-description">Description *</label>
+          <textarea id="event-description" name="event-description" rows="4" placeholder="Brief description of the event..." required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="event-website">Website</label>
+          <input type="url" id="event-website" name="event-website" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label for="event-contact">Contact Email</label>
+          <input type="email" id="event-contact" name="event-contact" placeholder="organizer@event.com">
+        </div>
+        <button type="submit" class="submit-btn">Submit Event</button>
+      </form>
+    </div>
+
+    <footer style="text-align:center; padding:2em 1em; color:var(--muted-text); font-size:1.1rem;">
+      <p>&copy; 2025 Francis Mars. <a href="../" style="color:var(--accent); text-decoration:none;">Back to main site</a></p>
+    </footer>
+  </div>
+
+  <script src="events-data.js"></script>
+  <script src="events.js"></script>
+</body>
+</html>
