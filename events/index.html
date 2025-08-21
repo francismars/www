@@ -102,103 +102,138 @@
     </header>
 
     <div class="section" id="upcoming">
-      <h2>Upcoming Events</h2>
-      <div class="events-filter">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="conference">Conferences</button>
-        <button class="filter-btn" data-filter="meetup">Meetups</button>
-        <button class="filter-btn" data-filter="workshop">Workshops</button>
-        <button class="filter-btn" data-filter="hackathon">Hackathons</button>
+      <div class="section-header">
+        <h2>Upcoming Events</h2>
+        <button class="collapse-btn" data-section="upcoming" aria-label="Collapse section">
+          <span class="collapse-icon">−</span>
+        </button>
       </div>
-      <div id="upcoming-events-list" class="events-grid"></div>
+      <div class="section-content">
+        <div class="events-filter">
+          <button class="filter-btn active" data-filter="all">All</button>
+          <button class="filter-btn" data-filter="conference">Conferences</button>
+          <button class="filter-btn" data-filter="meetup">Meetups</button>
+          <button class="filter-btn" data-filter="workshop">Workshops</button>
+          <button class="filter-btn" data-filter="hackathon">Hackathons</button>
+        </div>
+        <div id="upcoming-events-list" class="events-grid"></div>
+      </div>
     </div>
 
     <div class="section" id="past">
-      <h2>Past Events</h2>
-      <div id="past-events-list" class="events-grid"></div>
+      <div class="section-header">
+        <h2>Past Events</h2>
+        <button class="collapse-btn" data-section="past" aria-label="Collapse section">
+          <span class="collapse-icon">−</span>
+        </button>
+      </div>
+              <div class="section-content">
+          <div id="past-events-list" class="events-grid"></div>
+        </div>
     </div>
 
     <div class="section" id="calendar">
-      <h2>Events Calendar</h2>
-      <div class="calendar-container">
-        <div class="calendar-header">
-          <button id="prev-month" class="calendar-nav-btn">&lt;</button>
-          <h3 id="current-month">January 2025</h3>
-          <button id="next-month" class="calendar-nav-btn">&gt;</button>
-        </div>
-        <div id="calendar-grid" class="calendar-grid"></div>
+      <div class="section-header">
+        <h2>Events Calendar</h2>
+        <button class="collapse-btn" data-section="calendar" aria-label="Collapse section">
+          <span class="collapse-icon">−</span>
+        </button>
       </div>
+              <div class="section-content">
+          <div class="calendar-container">
+            <div class="calendar-header">
+              <button id="prev-month" class="calendar-nav-btn">&lt;</button>
+              <h3 id="current-month">January 2025</h3>
+              <button id="next-month" class="calendar-nav-btn">&gt;</button>
+            </div>
+            <div id="calendar-grid" class="calendar-grid"></div>
+          </div>
+        </div>
     </div>
 
     <div class="section" id="map">
-      <h2>Events Map</h2>
-      <p style="color:var(--muted-text); margin-bottom:2em; text-align:center;">
-        Explore Bitcoin events around the world. Click on markers to see event details.
-      </p>
-      <div class="map-container">
-        <div id="events-map" class="events-map"></div>
-        <div class="map-legend">
-          <div class="legend-item">
-            <span class="legend-marker upcoming"></span>
-            <span>Upcoming Events</span>
-          </div>
-          <div class="legend-item">
-            <span class="legend-marker past"></span>
-            <span>Past Events</span>
-          </div>
-          <div class="legend-item">
-            <span class="legend-marker featured"></span>
-            <span>Featured Events</span>
+      <div class="section-header">
+        <h2>Events Map</h2>
+        <button class="collapse-btn" data-section="map" aria-label="Collapse section">
+          <span class="collapse-icon">−</span>
+        </button>
+      </div>
+              <div class="section-content">
+          <p style="color:var(--muted-text); margin-bottom:2em; text-align:center;">
+            Explore Bitcoin events around the world. Click on markers to see event details.
+          </p>
+          <div class="map-container">
+            <div id="events-map" class="events-map"></div>
+            <div class="map-legend">
+              <div class="legend-item">
+                <span class="legend-marker upcoming"></span>
+                <span>Upcoming Events</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-marker past"></span>
+                <span>Past Events</span>
+              </div>
+              <div class="legend-item">
+                <span class="legend-marker featured"></span>
+                <span>Featured Events</span>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
     </div>
 
     <div class="section" id="submit">
-      <h2>Submit an Event</h2>
-      <p style="color:var(--muted-text); margin-bottom:2em;">
-        Know about a Bitcoin event that should be listed here? Let us know about it!
-      </p>
-      <form id="event-submit-form" class="event-form">
-        <div class="form-group">
-          <label for="event-name">Event Name *</label>
-          <input type="text" id="event-name" name="event-name" required>
+      <div class="section-header">
+        <h2>Submit an Event</h2>
+        <button class="collapse-btn" data-section="submit" aria-label="Collapse section">
+          <span class="collapse-icon">−</span>
+        </button>
+      </div>
+              <div class="section-content">
+          <p style="color:var(--muted-text); margin-bottom:2em;">
+            Know about a Bitcoin event that should be listed here? Let us know about it!
+          </p>
+          <form id="event-submit-form" class="event-form">
+            <div class="form-group">
+              <label for="event-name">Event Name *</label>
+              <input type="text" id="event-name" name="event-name" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="event-date">Date *</label>
+                <input type="date" id="event-date" name="event-date" required>
+              </div>
+              <div class="form-group">
+                <label for="event-type">Event Type *</label>
+                <select id="event-type" name="event-type" required>
+                  <option value="">Select type</option>
+                  <option value="conference">Conference</option>
+                  <option value="meetup">Meetup</option>
+                  <option value="workshop">Workshop</option>
+                  <option value="hackathon">Hackathon</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="event-location">Location *</label>
+              <input type="text" id="event-location" name="event-location" placeholder="City, Country" required>
+            </div>
+            <div class="form-group">
+              <label for="event-description">Description *</label>
+              <textarea id="event-description" name="event-description" rows="4" placeholder="Brief description of the event..." required></textarea>
+            </div>
+            <div class="form-group">
+              <label for="event-website">Website</label>
+              <input type="url" id="event-website" name="event-website" placeholder="https://...">
+            </div>
+            <div class="form-group">
+              <label for="event-contact">Contact Email</label>
+              <input type="email" id="event-contact" name="event-contact" placeholder="organizer@event.com">
+            </div>
+            <button type="submit" class="submit-btn">Submit Event</button>
+          </form>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label for="event-date">Date *</label>
-            <input type="date" id="event-date" name="event-date" required>
-          </div>
-          <div class="form-group">
-            <label for="event-type">Event Type *</label>
-            <select id="event-type" name="event-type" required>
-              <option value="">Select type</option>
-              <option value="conference">Conference</option>
-              <option value="meetup">Meetup</option>
-              <option value="workshop">Workshop</option>
-              <option value="hackathon">Hackathon</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label for="event-location">Location *</label>
-          <input type="text" id="event-location" name="event-location" placeholder="City, Country" required>
-        </div>
-        <div class="form-group">
-          <label for="event-description">Description *</label>
-          <textarea id="event-description" name="event-description" rows="4" placeholder="Brief description of the event..." required></textarea>
-        </div>
-        <div class="form-group">
-          <label for="event-website">Website</label>
-          <input type="url" id="event-website" name="event-website" placeholder="https://...">
-        </div>
-        <div class="form-group">
-          <label for="event-contact">Contact Email</label>
-          <input type="email" id="event-contact" name="event-contact" placeholder="organizer@event.com">
-        </div>
-        <button type="submit" class="submit-btn">Submit Event</button>
-      </form>
     </div>
 
     <footer style="text-align:center; padding:2em 1em; color:var(--muted-text); font-size:1.1rem;">

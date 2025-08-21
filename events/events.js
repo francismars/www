@@ -530,6 +530,9 @@ function initializeNavigation() {
     profileName.style.cursor = 'pointer';
   }
   
+  // Initialize collapsible sections
+  initializeCollapsibleSections();
+  
   function onScroll() {
     let scrollPos = window.scrollY + 120;
     let active = null;
@@ -573,4 +576,60 @@ function initializeNavigation() {
       }
     });
   });
+}
+
+function initializeCollapsibleSections() {
+  // Add click events to section headers
+  document.querySelectorAll('.section-header').forEach(header => {
+    const section = header.closest('.section');
+    const collapseBtn = header.querySelector('.collapse-btn');
+    const sectionId = section.id;
+    
+    // Check if section was previously collapsed or should start collapsed by default
+    const wasCollapsed = localStorage.getItem(`section_${sectionId}_collapsed`);
+    const shouldStartCollapsed = wasCollapsed === 'true' || 
+                                (wasCollapsed === null && (sectionId === 'past' || sectionId === 'submit'));
+    
+    if (shouldStartCollapsed) {
+      section.classList.add('collapsed');
+      const icon = collapseBtn.querySelector('.collapse-icon');
+      icon.textContent = '+';
+      // Save the collapsed state for sections that start collapsed by default
+      if (wasCollapsed === null) {
+        localStorage.setItem(`section_${sectionId}_collapsed`, 'true');
+      }
+    }
+    
+    // Header click toggles section
+    header.addEventListener('click', (e) => {
+      // Don't toggle if clicking the collapse button directly
+      if (e.target.closest('.collapse-btn')) return;
+      
+      toggleSection(section, collapseBtn);
+    });
+    
+    // Collapse button click
+    collapseBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleSection(section, collapseBtn);
+    });
+  });
+}
+
+function toggleSection(section, collapseBtn) {
+  const sectionId = section.id;
+  const icon = collapseBtn.querySelector('.collapse-icon');
+  const isCollapsed = section.classList.contains('collapsed');
+  
+  if (isCollapsed) {
+    // Expand section
+    section.classList.remove('collapsed');
+    icon.textContent = '−';
+    localStorage.setItem(`section_${sectionId}_collapsed`, 'false');
+  } else {
+    // Collapse section
+    section.classList.add('collapsed');
+    icon.textContent = '+';
+    localStorage.setItem(`section_${sectionId}_collapsed`, 'true');
+  }
 }

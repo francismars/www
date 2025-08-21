@@ -11,6 +11,67 @@
     max-width: 800px;
   }
 }
+
+/* Collapsible Section Headers */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  transition: margin-bottom 0.3s ease;
+}
+
+.section.collapsed .section-header {
+  margin-bottom: 0;
+}
+
+.section-header h2 {
+  margin: 0;
+  cursor: pointer;
+}
+
+.collapse-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted-text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 40px;
+}
+
+.collapse-btn:hover {
+  background: var(--border-color);
+  color: var(--text-color);
+}
+
+.collapse-icon {
+  transition: transform 0.3s ease;
+  font-weight: bold;
+}
+
+.section.collapsed .collapse-icon {
+  transform: rotate(180deg);
+}
+
+/* Section content animation */
+.section-content {
+  overflow: hidden;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+
+.section.collapsed .section-content {
+  max-height: 0;
+  opacity: 0;
+  pointer-events: none;
+}
 /* Events Grid */
 .events-grid {
   display: grid;
