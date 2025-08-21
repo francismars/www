@@ -1,6 +1,9 @@
 /* Events Page Styles */
 @import url('../style.css');
 
+.section {
+  max-width: 1200px;
+}
 /* Events Grid */
 .events-grid {
   display: grid;
