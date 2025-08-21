@@ -97,6 +97,53 @@ const eventsData = {
       website: "https://sv25.adoptingbitcoin.org/",
       contact: "sv25@adoptingbitcoin.org",
       featured: true
+    },
+    {
+      id: 32,
+      name: "Noderunners Conference",
+      date: "2025-11-01",
+      type: "conference",
+      location: "Amsterdam, Netherlands",
+      description: "Bitcoin node operation and infrastructure conference in Amsterdam, focusing on running Bitcoin nodes and network security.",
+      website: "https://noderunners.network/en/",
+      contact: "",
+      featured: false
+    },
+    {
+      id: 33,
+      name: "BitFest",
+      date: "2025-11-21",
+      endDate: "2025-11-23",
+      type: "conference",
+      location: "Manchester, UK",
+      description: "Bitcoin festival and conference in Manchester, bringing together the UK Bitcoin community for education, networking, and celebration.",
+      website: "https://bitfest.uk/",
+      contact: "",
+      featured: false
+    },
+    {
+      id: 34,
+      name: "La Bitconf",
+      date: "2025-11-07",
+      endDate: "2025-11-08",
+      type: "conference",
+      location: "Buenos Aires, Argentina",
+      description: "Bitcoin conference in Buenos Aires, bringing together the Latin American Bitcoin community for education, networking, and adoption discussions.",
+      website: "https://labitconf.com/",
+      contact: "",
+      featured: false
+    },
+    {
+      id: 35,
+      name: "Watchout Bitcoin",
+      date: "2025-10-03",
+      endDate: "2025-10-05",
+      type: "conference",
+      location: "Madrid, Spain",
+      description: "Bitcoin conference in Madrid, focusing on European adoption, regulation, and the future of Bitcoin in Spain and the Iberian Peninsula.",
+      website: "https://wobitcoin.org/",
+      contact: "",
+      featured: false
     }
   ],
   past: [
