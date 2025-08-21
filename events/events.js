@@ -19,6 +19,9 @@ function initializeEventsPage() {
   // Initialize calendar
   initializeCalendar();
   
+  // Initialize map
+  initializeMap();
+  
   // Initialize filters
   initializeFilters();
   
@@ -35,8 +38,10 @@ function renderUpcomingEvents() {
   
   container.innerHTML = "";
   
-  // Sort upcoming events by date (earliest first)
-  const sortedEvents = [...eventsData.upcoming].sort((a, b) => new Date(a.date) - new Date(b.date));
+  // Filter upcoming events and sort by date (earliest first)
+  const currentDate = getCurrentDate();
+  const upcomingEvents = eventsData.filter(event => event.date >= currentDate);
+  const sortedEvents = upcomingEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
   
   sortedEvents.forEach(event => {
     const eventCard = createEventCard(event);
@@ -50,8 +55,10 @@ function renderPastEvents() {
   
   container.innerHTML = "";
   
-  // Sort past events by date (most recent first)
-  const sortedEvents = [...eventsData.past].sort((a, b) => new Date(b.date) - new Date(a.date));
+  // Filter past events and sort by date (most recent first)
+  const currentDate = getCurrentDate();
+  const pastEvents = eventsData.filter(event => event.date < currentDate);
+  const sortedEvents = pastEvents.sort((a, b) => new Date(b.date) - new Date(a.date));
   
   sortedEvents.forEach(event => {
     const eventCard = createEventCard(event, true);
@@ -212,20 +219,8 @@ function getEventsOnDay(year, month, day) {
   const events = [];
   const eventIds = new Set(); // Track event IDs to prevent duplicates
   
-  // Check upcoming events
-  eventsData.upcoming.forEach(event => {
-    // Check if date falls within range (including start and end dates)
-    if (event.date <= dateString && (!event.endDate || event.endDate >= dateString)) {
-      // Only add if we haven't seen this event before
-      if (!eventIds.has(event.id)) {
-        events.push(event);
-        eventIds.add(event.id);
-      }
-    }
-  });
-  
-  // Check past events
-  eventsData.past.forEach(event => {
+  // Check all events
+  eventsData.forEach(event => {
     // Check if date falls within range (including start and end dates)
     if (event.date <= dateString && (!event.endDate || event.endDate >= dateString)) {
       // Only add if we haven't seen this event before
@@ -237,6 +232,146 @@ function getEventsOnDay(year, month, day) {
   });
   
   return events;
+}
+
+function initializeMap() {
+  // Initialize Leaflet map
+  const map = L.map('events-map').setView([20, 0], 2);
+  
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 18
+  }).addTo(map);
+  
+  // Add event markers
+  eventsData.forEach(event => {
+    const marker = createEventMarker(event, map);
+    if (marker) {
+      marker.addTo(map);
+    }
+  });
+}
+
+function createEventMarker(event, map) {
+  // Get coordinates based on location
+  const coords = getLocationCoordinates(event.location);
+  if (!coords) return null;
+  
+  const currentDate = getCurrentDate();
+  const isUpcoming = event.date >= currentDate;
+  const isFeatured = event.featured;
+  
+  // Determine marker color
+  let markerColor = '#6b7280'; // past events
+  if (isFeatured) {
+    markerColor = '#f59e0b'; // featured events
+  } else if (isUpcoming) {
+    markerColor = '#2563eb'; // upcoming events (using a blue that works well on maps)
+  }
+  
+  // Create custom icon for the marker
+  const customIcon = L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="
+      width: 16px; 
+      height: 16px; 
+      background: ${markerColor}; 
+      border: 2px solid white; 
+      border-radius: 50%; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      cursor: pointer;
+    "></div>`,
+    iconSize: [16, 16],
+    iconAnchor: [8, 8]
+  });
+  
+  // Create Leaflet marker
+  const marker = L.marker([coords.lat, coords.lng], { icon: customIcon });
+  
+  // Create popup content
+  const popupContent = `
+    <div style="min-width: 200px;">
+      <h4 style="margin: 0 0 8px 0; color: var(--text-color);">${event.name}</h4>
+      <p style="margin: 0 0 8px 0; color: var(--muted-text); font-size: 0.9rem;">
+        📅 ${event.date}${event.endDate ? ` - ${event.endDate}` : ''}
+      </p>
+      <p style="margin: 0 0 8px 0; color: var(--muted-text); font-size: 0.9rem;">
+        📍 ${event.location}
+      </p>
+      <p style="margin: 0 0 12px 0; color: var(--muted-text); font-size: 0.9rem; line-height: 1.4;">
+        ${event.description.substring(0, 100)}${event.description.length > 100 ? '...' : ''}
+      </p>
+      <div style="display: flex; gap: 8px;">
+        ${event.website ? `<a href="${event.website}" target="_blank" style="
+          background: var(--accent); 
+          color: white; 
+          padding: 6px 12px; 
+          border-radius: 6px; 
+          text-decoration: none; 
+          font-size: 0.8rem;
+          font-weight: 500;
+        ">Website</a>` : ''}
+        <button onclick="showEventDetails(${JSON.stringify(event).replace(/"/g, '&quot;')})" style="
+          background: transparent; 
+          color: var(--accent); 
+          border: 1px solid var(--accent); 
+          padding: 6px 12px; 
+          border-radius: 6px; 
+          cursor: pointer; 
+          font-size: 0.8rem;
+          font-weight: 500;
+        ">Details</button>
+      </div>
+    </div>
+  `;
+  
+  marker.bindPopup(popupContent);
+  
+  // Remove the duplicate click event - now only the popup will show
+  // Users can click the "Details" button in the popup to see full event details
+  
+  return marker;
+}
+
+function getLocationCoordinates(location) {
+  // Real latitude/longitude coordinates for major cities
+  const coordinates = {
+    'Medellin, Colombia': { lat: 6.2476, lng: -75.5658 },
+    'Cape Town, South Africa': { lat: -33.9249, lng: 18.4241 },
+    'San Salvador, El Salvador': { lat: 13.7942, lng: -88.8965 },
+    'Florianopolis, Brasil': { lat: -27.5969, lng: -48.5495 },
+    'Uvita, Costa Rica': { lat: 9.1499, lng: -83.7534 },
+    'Dubai, UAE': { lat: 25.2048, lng: 55.2708 },
+    'Dallas, Texas, USA': { lat: 32.7767, lng: -96.7970 },
+    'Bedford, UK': { lat: 52.1354, lng: -0.4666 },
+    'Switzerland': { lat: 46.8182, lng: 8.2275 },
+    'Viareggio, Italy': { lat: 43.8731, lng: 10.2338 },
+    'Austin, Texas, USA': { lat: 30.2672, lng: -97.7431 },
+    'Warsaw, Poland': { lat: 52.2297, lng: 21.0122 },
+    'Oslo, Norway': { lat: 59.9139, lng: 10.7522 },
+    'Las Vegas, Nevada, USA': { lat: 36.1699, lng: -115.1398 },
+    'Barcelona, Spain': { lat: 41.3851, lng: 2.1734 },
+    'Prague, Czech Republic': { lat: 50.0755, lng: 14.4378 },
+    'Calgary, Alberta, Canada': { lat: 51.0447, lng: -114.0719 },
+    'Juneau, Alaska, USA': { lat: 58.3019, lng: -134.4197 },
+    'Mallorca, Spain': { lat: 39.6953, lng: 3.0176 },
+    'Riga, Latvia': { lat: 56.9496, lng: 24.1052 },
+    'Helsinki, Finland': { lat: 60.1699, lng: 24.9384 },
+    'Istanbul, Turkey': { lat: 41.0082, lng: 28.9784 },
+    'Berlin, Germany': { lat: 52.5200, lng: 13.4050 },
+    'Bayern, Germany': { lat: 48.7904, lng: 11.4979 },
+    'Sofia, Bulgaria': { lat: 42.6977, lng: 23.3219 },
+    'Lugano, Switzerland': { lat: 46.0037, lng: 8.9511 },
+    'Sao Paulo, Brazil': { lat: -23.5505, lng: -46.6333 },
+    'Amsterdam, Netherlands': { lat: 52.3676, lng: 4.9041 },
+    'El Salvador': { lat: 13.7942, lng: -88.8965 },
+    'Manchester, UK': { lat: 53.4808, lng: -2.2426 },
+    'Buenos Aires, Argentina': { lat: -34.6118, lng: -58.3960 },
+    'Madrid, Spain': { lat: 40.4168, lng: -3.7038 }
+  };
+  
+  return coordinates[location] || null;
 }
 
 function showEventDetails(event) {
@@ -382,8 +517,18 @@ function showFormSuccess() {
 }
 
 function initializeNavigation() {
-  const sections = ['upcoming', 'past', 'calendar', 'submit'];
+  const sections = ['upcoming', 'past', 'calendar', 'map', 'submit'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
+  
+  // Add click event to navbar profile name to scroll to top
+  const profileName = document.getElementById('navbar-profile-name');
+  if (profileName) {
+    profileName.addEventListener('click', (e) => {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    profileName.style.cursor = 'pointer';
+  }
   
   function onScroll() {
     let scrollPos = window.scrollY + 120;

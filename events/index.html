@@ -29,8 +29,9 @@
         <link rel="canonical" href="https://events.francismars.com/">
         
         <link rel="icon" type="image/jpeg" href="../images/profile.jpg">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
-          <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Code:wght@500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="style.css">
         
         <!-- Schema.org Structured Data -->
         <script type="application/ld+json">
@@ -76,18 +77,19 @@
     <a id="top"></a>
     <nav class="navbar" aria-label="Main Navigation">
       <a href="../" class="navbar-profile" aria-label="Back to main site">
-        <img src="../images/profile.jpg" alt="Francis Mars" class="navbar-profile-pic" />
-        <span class="navbar-profile-name">Francis Mars</span>
+        <img src="../images/bitcoin-logo.png" alt="Bitcoin Logo" class="navbar-profile-pic" />
+        <span class="navbar-profile-name" id="navbar-profile-name">Events 2025</span>
       </a>
       <button class="navbar-burger" aria-label="Open navigation" aria-controls="navbar-links" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
-      <div class="navbar-links" id="navbar-links">
-                 <a href="#upcoming">Upcoming</a>
-         <a href="#past">Past Events</a>
-         <a href="#calendar">Calendar</a>
-         <a href="#submit">Submit Event</a>
-      </div>
+              <div class="navbar-links" id="navbar-links">
+                  <a href="#upcoming">Upcoming</a>
+          <a href="#past">Past Events</a>
+          <a href="#calendar">Calendar</a>
+          <a href="#map">Map</a>
+          <a href="#submit">Submit Event</a>
+        </div>
     </nav>
     
          <header>
@@ -125,6 +127,30 @@
           <button id="next-month" class="calendar-nav-btn">&gt;</button>
         </div>
         <div id="calendar-grid" class="calendar-grid"></div>
+      </div>
+    </div>
+
+    <div class="section" id="map">
+      <h2>Events Map</h2>
+      <p style="color:var(--muted-text); margin-bottom:2em; text-align:center;">
+        Explore Bitcoin events around the world. Click on markers to see event details.
+      </p>
+      <div class="map-container">
+        <div id="events-map" class="events-map"></div>
+        <div class="map-legend">
+          <div class="legend-item">
+            <span class="legend-marker upcoming"></span>
+            <span>Upcoming Events</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker past"></span>
+            <span>Past Events</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-marker featured"></span>
+            <span>Featured Events</span>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -180,6 +206,7 @@
     </footer>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="events-data.js"></script>
   <script src="events.js"></script>
 </body>
