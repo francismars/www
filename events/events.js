@@ -275,6 +275,10 @@ function initializeMap() {
   
   // Initialize legend click handlers
   initializeMapLegend();
+  
+  // Initialize donation form
+  initializeDonationForm();
+
 }
 
 function initializeMapLegend() {
@@ -307,6 +311,375 @@ function toggleMapLayer(eventType, legendItem) {
     });
     legendItem.classList.remove('disabled');
   }
+}
+
+// Donation form functionality
+function initializeDonationForm() {
+  const amountButtons = document.querySelectorAll('.amount-btn');
+  const customAmountInput = document.getElementById('custom-amount-input');
+  const selectedAmountSpan = document.getElementById('selected-amount');
+  const submitBtn = document.getElementById('donation-submit-btn');
+  
+  let selectedAmount = 1000; // Default amount
+  
+  // Amount button click handlers
+  amountButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Remove active class from all buttons
+      amountButtons.forEach(b => b.classList.remove('active'));
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      selectedAmount = parseInt(this.getAttribute('data-amount'));
+      selectedAmountSpan.textContent = selectedAmount.toLocaleString();
+      
+      // Clear custom amount input
+      customAmountInput.value = '';
+    });
+  });
+  
+  // Custom amount input handler
+  customAmountInput.addEventListener('input', function() {
+    const customAmount = parseInt(this.value);
+    if (customAmount >= 100) {
+      selectedAmount = customAmount;
+      selectedAmountSpan.textContent = customAmount.toLocaleString();
+      
+      // Remove active class from all buttons
+      amountButtons.forEach(b => b.classList.remove('active'));
+    }
+  });
+  
+  // Set first button as active by default
+  if (amountButtons.length > 0) {
+    amountButtons[0].classList.add('active');
+  }
+}
+
+// Handle donation form submission
+async function handleDonation(event) {
+  event.preventDefault();
+  
+  const name = document.getElementById('donation-name').value.trim();
+  const email = document.getElementById('donation-email').value.trim();
+  const message = document.getElementById('donation-message').value.trim();
+  const selectedAmountSpan = document.getElementById('selected-amount');
+  const amount = parseInt(selectedAmountSpan.textContent.replace(/,/g, ''));
+  
+  if (amount < 100) {
+    alert('Please select a valid donation amount (minimum 100 sats)');
+    return false;
+  }
+  
+  const submitButton = event.target.querySelector('button');
+  const originalButtonText = submitButton.textContent;
+  
+  submitButton.textContent = 'Preparing Zap...';
+  submitButton.disabled = true;
+  
+  // Prepare message for zap
+  let fullMessage = message;
+  if (email) fullMessage = `email: ${email}\n` + fullMessage;
+  if (name) fullMessage = `name: ${name}\n` + fullMessage;
+  
+  if (fullMessage.length > 200) {
+    alert("Message too long! (including name/email)");
+    submitButton.textContent = originalButtonText;
+    submitButton.disabled = false;
+    return false;
+  }
+  
+  const relays = [
+    "wss://relay.damus.io",
+    "wss://relay.primal.net",
+    "wss://relay.nostr.band/",
+    "wss://relay.nostr.nu/",
+  ];
+  const recipientNpub = "npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl";
+  const zapAmountMilliSats = amount * 1000;
+  
+  try {
+    const pool = new NostrTools.SimplePool();
+    const { type, data: recipientHexPubkey } = NostrTools.nip19.decode(recipientNpub);
+    if (type !== "npub") throw new Error("Invalid recipient npub.");
+    
+    console.log("Fetching recipient profile...");
+    const userEvent = await pool.get(relays, {
+      kinds: [0],
+      authors: [recipientHexPubkey],
+    });
+    if (!userEvent)
+      throw new Error("Recipient profile not found on specified relays.");
+    
+    const metadata = JSON.parse(userEvent.content);
+    const lud16 = metadata.lud16 || metadata.lud06;
+    if (!lud16)
+      throw new Error("Lightning address not found in recipient profile.");
+    
+    console.log(`Found Lightning Address: ${lud16}`);
+    let zapEndpoint;
+    if (lud16) {
+      const [name, domain] = lud16.split("@");
+      zapEndpoint = `https://${domain}/.well-known/lnurlp/${name}`;
+    } else {
+      throw new Error("No lud16 found in profile (lud06 not supported in this demo).");
+    }
+    
+         console.log("Zap endpoint:", zapEndpoint);
+    console.log("recipientHexPubkey:", recipientHexPubkey)
+     // Create the zap request event manually since makeZapRequest has different parameters
+     const unsignedZapRequest = NostrTools.nip57.makeZapRequest({
+      pubkey: recipientHexPubkey,
+      amount: zapAmountMilliSats,
+      relays,
+    });
+     
+     console.log("Zap request event:", unsignedZapRequest);
+     
+     // Generate a random keypair and sign the zap request
+     const randomPrivKey = NostrTools.generateSecretKey();
+     const randomPubKey = NostrTools.getPublicKey(randomPrivKey);
+     
+     console.log("Random pubkey:", randomPubKey);
+     console.log("Recipient hex pubkey:", recipientHexPubkey);
+     
+     const signedZapRequest = NostrTools.finalizeEvent(
+       { ...unsignedZapRequest, pubkey: randomPubKey },
+       randomPrivKey
+     );
+     
+     console.log("Signed zap request:", signedZapRequest);
+     
+     // Use signedZapRequest.id in your subscription filter
+     const zapRequestString = encodeURIComponent(JSON.stringify(signedZapRequest));
+     
+     // Create the callback URL with the zap request
+     const callbackUrl = `${zapEndpoint}?amount=${zapAmountMilliSats}&comment=${encodeURIComponent(fullMessage)}&nostr=${zapRequestString}`;
+     
+     console.log("Callback URL:", callbackUrl);
+    
+    // Fetch the invoice
+    const invoiceRes = await fetch(callbackUrl);
+    if (!invoiceRes.ok) {
+      throw new Error(`HTTP error! status: ${invoiceRes.status}`);
+    }
+    
+    const invoiceData = await invoiceRes.json();
+    console.log("Invoice response:", invoiceData);
+    
+    if (invoiceData.pr) {
+      // Show donation invoice section
+      document.getElementById('donation-invoice-section').style.display = 'block';
+      document.getElementById('donation-invoice-string').textContent = invoiceData.pr;
+      
+      // Generate QR code if QRCode library is available
+      if (window.QRCode) {
+        document.getElementById('donation-invoice-qr').innerHTML = '';
+        new QRCode(document.getElementById('donation-invoice-qr'), {
+          text: invoiceData.pr,
+          width: 250,
+          height: 250,
+          colorDark: "#000000",
+          colorLight: "#FFFFFF",
+          correctLevel: QRCode.CorrectLevel.H,
+        });
+      }
+      
+      // Add event listeners for close and copy buttons
+      document.getElementById('close-donation-invoice').addEventListener('click', function() {
+        document.getElementById('donation-invoice-section').style.display = 'none';
+        // Reset form
+        document.getElementById('donation-form').reset();
+        // Reset button states
+        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+        if (document.querySelectorAll('.amount-btn').length > 0) {
+          document.querySelectorAll('.amount-btn')[0].classList.add('active');
+        }
+        document.getElementById('selected-amount').textContent = '1,000';
+      });
+      
+      document.getElementById('copy-donation-invoice').addEventListener('click', function() {
+        const invoiceText = document.getElementById('donation-invoice-string').textContent;
+        navigator.clipboard.writeText(invoiceText)
+          .then(function() {
+            const copyBtn = document.getElementById('copy-donation-invoice');
+            const originalText = copyBtn.textContent;
+            copyBtn.textContent = 'Copied!';
+            copyBtn.style.background = '#22c55e';
+            setTimeout(function() {
+              copyBtn.textContent = originalText;
+              copyBtn.style.background = 'var(--accent)';
+            }, 2000);
+          })
+          .catch(function(err) {
+            console.error('Failed to copy: ', err);
+            alert('Failed to copy invoice. Please copy it manually.');
+          });
+      });
+      
+      console.log("Donation zap request created successfully");
+      
+      // Start monitoring for zap completion
+      monitorZapCompletion(signedZapRequest.id);
+    } else {
+      alert("Failed to generate invoice. Please try again.");
+      console.error("No invoice in response:", invoiceData);
+    }
+  } catch (err) {
+    alert("Error creating zap request: " + err.message);
+    console.error("Error details:", err);
+  } finally {
+    // Reset button
+    submitButton.textContent = originalButtonText;
+    submitButton.disabled = false;
+  }
+  
+  return false;
+}
+
+// Monitor zap completion and automatically close the invoice section
+function monitorZapCompletion(zapRequestId) {
+  console.log("Starting zap monitoring for request ID:", zapRequestId);
+  const recipientNpub = "npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl";
+
+  const { type, data: recipientHexPubkey } = NostrTools.nip19.decode(recipientNpub);
+  console.log("Monitoring for zaps to hex pubkey:", recipientHexPubkey);
+
+  // Create a new pool for monitoring
+  const monitorPool = new NostrTools.SimplePool();
+  
+  // Test the subscription by also listening for any kind 9735 events
+  console.log("Setting up subscription for zap events...");
+
+  // Now listen for zap events specifically to our pubkey
+  const unsubscribe = monitorPool.subscribe(
+    [
+      "wss://relay.damus.io",
+      "wss://relay.primal.net", 
+      "wss://relay.nostr.band/",
+      "wss://relay.nostr.nu/",
+    ],
+    [
+      {
+        kinds: [9735], // Zap event kind
+        //"#p": [recipientHexPubkey], // Our profile
+      },
+    ],
+    {
+    onevent(zapEvent) {
+      console.log("=== ZAP EVENT RECEIVED ===");
+      console.log("Full zap event:", zapEvent);
+      console.log("Event ID:", zapEvent.id);
+      console.log("Created at:", new Date(zapEvent.created_at * 1000).toISOString());
+      console.log("Tags:", zapEvent.tags);
+      console.log("Content:", zapEvent.content);
+      console.log("==========================");
+      
+      try {
+        // Check if this zap event references our zap request
+        const eventTags = zapEvent.tags;
+        const eventTag = eventTags.find(tag => tag[0] === 'e');
+        
+        console.log("Looking for event tag 'e' with value:", zapRequestId);
+        console.log("Found event tag:", eventTag);
+        
+        if (eventTag && eventTag[1] === zapRequestId) {
+          console.log("✅ MATCH FOUND! This zap event references our zap request!");
+          
+          // Parse the zap event content to get the preimage
+          const zapData = JSON.parse(zapEvent.content);
+          console.log("Parsed zap data:", zapData);
+          
+          if (zapData.preimage) {
+            console.log("🎉 Zap completed! Preimage:", zapData.preimage);
+            
+            // Automatically close the invoice section
+            document.getElementById('donation-invoice-section').style.display = 'none';
+            
+            // Reset the form
+            document.getElementById('donation-form').reset();
+            
+            // Reset button states
+            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
+            if (document.querySelectorAll('.amount-btn').length > 0) {
+              document.querySelectorAll('.amount-btn')[0].classList.add('active');
+            }
+            document.getElementById('selected-amount').textContent = '1,000';
+            
+            // Show success message
+            showZapSuccess();
+            
+            // Unsubscribe from further zap events
+            unsubscribe();
+            testUnsubscribe();
+          } else {
+            console.log("❌ No preimage found in zap data");
+          }
+        } else {
+          console.log("❌ No match - this zap event doesn't reference our zap request");
+          console.log("Expected zapRequestId:", zapRequestId);
+          console.log("Found event tag value:", eventTag ? eventTag[1] : "none");
+        }
+      } catch (error) {
+        console.error("Error parsing zap event:", error);
+      }
+    }
+  }
+  );
+}
+
+
+
+// Show zap success message
+function showZapSuccess() {
+  // Create a temporary success message
+  const successMsg = document.createElement('div');
+  successMsg.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #22c55e;
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    z-index: 10000;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    animation: slideInRight 0.3s ease;
+  `;
+  successMsg.textContent = '🎉 Zap received! Thank you for your donation.';
+  
+  // Add CSS animation
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  document.body.appendChild(successMsg);
+  
+  // Remove after 5 seconds
+  setTimeout(() => {
+    successMsg.style.animation = 'slideOutRight 0.3s ease';
+    setTimeout(() => {
+      if (successMsg.parentNode) {
+        successMsg.parentNode.removeChild(successMsg);
+      }
+    }, 300);
+  }, 5000);
+  
+  // Add slide out animation
+  const slideOutStyle = document.createElement('style');
+  slideOutStyle.textContent = `
+    @keyframes slideOutRight {
+      from { transform: translateX(0); opacity: 1; }
+      to { transform: translateX(100%); opacity: 0; }
+    }
+  `;
+  document.head.appendChild(slideOutStyle);
 }
 
 function createEventMarker(event, map) {
@@ -604,7 +977,7 @@ function showFormSuccess() {
 }
 
 function initializeNavigation() {
-  const sections = ['upcoming', 'past', 'calendar', 'map', 'submit'];
+  const sections = ['upcoming', 'past', 'calendar', 'map', 'submit', 'donate'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
   
   // Add click event to navbar profile name to scroll to top
@@ -675,7 +1048,7 @@ function initializeCollapsibleSections() {
     // Check if section was previously collapsed or should start collapsed by default
     const wasCollapsed = localStorage.getItem(`section_${sectionId}_collapsed`);
     const shouldStartCollapsed = wasCollapsed === 'true' || 
-                                (wasCollapsed === null && (sectionId === 'past' || sectionId === 'submit'));
+                                (wasCollapsed === null && (sectionId === 'past' || sectionId === 'submit' || sectionId === 'donate'));
     
     if (shouldStartCollapsed) {
       section.classList.add('collapsed');

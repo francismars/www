@@ -183,7 +183,7 @@ async function handleNostrZap(event) {
 
     // 2. Create the unsigned zap request event
     const unsignedZapRequest = NostrTools.nip57.makeZapRequest({
-      profile: recipientHexPubkey,
+      pubkey: recipientHexPubkey,
       amount: zapAmountMilliSats,
       relays,
     });

@@ -874,3 +874,126 @@
 .event-card:nth-child(8) { animation-delay: 0.8s; }
 .event-card:nth-child(9) { animation-delay: 0.9s; }
 .event-card:nth-child(10) { animation-delay: 1s; }
+
+/* Donation Form Styles */
+.donation-input {
+  margin-bottom: 0.7em;
+  width: 100%;
+  padding: 0.8em 1em;
+  border-radius: 6px;
+  border: 1px solid var(--border-color);
+  background: var(--card-bg);
+  color: var(--text-color);
+  font-size: 1em;
+  transition: border 0.2s, box-shadow 0.2s;
+  box-sizing: border-box;
+}
+
+.donation-input:focus {
+  outline: none;
+  border: 1.5px solid var(--accent);
+  box-shadow: 0 0 0 2px var(--accent) 22;
+  background: var(--card-bg);
+}
+
+.donation-input::placeholder {
+  color: var(--muted-text);
+  opacity: 1;
+}
+
+.amount-options {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.8rem;
+  margin-bottom: 1.5rem;
+}
+
+.amount-btn {
+  background: var(--card-bg);
+  color: var(--text-color);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.8em 1em;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.amount-btn:hover {
+  border-color: var(--accent);
+  background: var(--accent);
+  color: #111;
+  transform: translateY(-2px);
+}
+
+.amount-btn.active {
+  background: var(--accent);
+  color: #111;
+  border-color: var(--accent);
+  box-shadow: 0 4px 12px var(--accent) 40;
+}
+
+.custom-amount {
+  margin-top: 1rem;
+}
+
+.custom-amount label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: var(--text-color);
+  font-weight: 600;
+}
+
+#donation-invoice-section {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 18px;
+  padding: 2rem;
+  margin-top: 2rem;
+  animation: fadeInUp 0.6s cubic-bezier(0.77, 0, 0.18, 1);
+}
+
+#donation-invoice-section h3 {
+  color: var(--accent);
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+#donation-invoice-qr {
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+#donation-invoice-string {
+  background: #0a0a0a !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--accent) !important;
+  font-family: "Fira Code", monospace !important;
+  font-size: 0.75rem !important;
+  line-height: 1.4 !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  margin: 1rem 0 !important;
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  white-space: pre-wrap !important;
+  word-break: break-all !important;
+}
+
+/* Responsive adjustments for donation form */
+@media (max-width: 768px) {
+  .amount-options {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+  
+  .amount-btn {
+    padding: 0.6em 0.8em;
+    font-size: 0.8rem;
+  }
+}
