@@ -62,6 +62,7 @@ function renderPastEvents() {
 function createEventCard(event, isPast = false) {
   const card = document.createElement("div");
   card.className = `event-card ${event.type} ${event.featured ? 'featured' : ''} ${isPast ? 'past' : ''}`;
+  card.style.cursor = 'pointer';
   
   const dateRange = event.endDate 
     ? `${formatDate(event.date)} - ${formatDate(event.endDate)}`
@@ -76,12 +77,18 @@ function createEventCard(event, isPast = false) {
     <h3 class="event-title">${event.name}</h3>
     <div class="event-date">${dateRange}</div>
     <div class="event-location">📍 ${event.location}</div>
-    <p class="event-description">${event.description}</p>
-    <div class="event-links">
-      ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Website</a>` : ''}
-      ${event.contact ? `<a href="mailto:${event.contact}" class="event-link contact">Contact</a>` : ''}
+    <div class="event-preview">
+      <p class="event-description-preview">${event.description.substring(0, 100)}${event.description.length > 100 ? '...' : ''}</p>
+    </div>
+    <div class="event-actions">
+      <span class="click-hint">Click for details</span>
     </div>
   `;
+  
+  // Add click event to show full event details
+  card.addEventListener('click', () => {
+    showEventDetails(event);
+  });
   
   return card;
 }
@@ -230,6 +237,62 @@ function getEventsOnDay(year, month, day) {
   });
   
   return events;
+}
+
+function showEventDetails(event) {
+  // Prevent multiple modals from opening
+  if (document.querySelector('.event-details-modal')) {
+    return;
+  }
+  
+  const dateRange = event.endDate 
+    ? `${formatDate(event.date)} - ${formatDate(event.endDate)}`
+    : formatDate(event.date);
+  
+  // Create modal for event details
+  const modal = document.createElement('div');
+  modal.className = 'event-details-modal';
+  modal.innerHTML = `
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="event-header-info">
+          <div class="event-type-badge ${event.type}">${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</div>
+          ${event.featured ? '<div class="featured-badge">Featured</div>' : ''}
+        </div>
+        <button class="modal-close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <h2 class="event-title">${event.name}</h2>
+        <div class="event-meta">
+          <div class="event-date">📅 ${dateRange}</div>
+          <div class="event-location">📍 ${event.location}</div>
+        </div>
+        <div class="event-description-full">
+          <p>${event.description}</p>
+        </div>
+        <div class="event-links">
+          ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Visit Website</a>` : ''}
+          ${event.contact ? `<a href="mailto:${event.contact}" class="event-link contact">Contact Organizer</a>` : ''}
+        </div>
+      </div>
+    </div>
+  `;
+  
+  // Add close functionality
+  const closeBtn = modal.querySelector('.modal-close');
+  closeBtn.addEventListener('click', () => {
+    document.body.removeChild(modal);
+  });
+  
+  // Close when clicking outside modal
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      document.body.removeChild(modal);
+    }
+  });
+  
+  // Add to page
+  document.body.appendChild(modal);
 }
 
 function showEventsForDay(events, year, month, day) {
