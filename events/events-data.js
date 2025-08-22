@@ -986,41 +986,14 @@ const eventsData = [
   }
 ];
 
-// Helper function to get current date
-function getCurrentDate() {
-  return new Date().toISOString().split('T')[0];
-}
 
-// Helper function to check if event is upcoming
-function isUpcoming(eventDate) {
-  return eventDate >= getCurrentDate();
-}
 
-// Helper function to format date
-function formatDate(dateString) {
-  const date = new Date(dateString);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
-}
 
-// Helper function to get month name
-function getMonthName(monthIndex) {
-  const months = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
-  ];
-  return months[monthIndex];
-}
 
-// Helper function to get days in month
-function getDaysInMonth(year, month) {
-  return new Date(year, month + 1, 0).getDate();
-}
 
-// Helper function to get first day of month
-function getFirstDayOfMonth(year, month) {
-  return new Date(year, month, 1).getDay();
-}
+
+
+
+
+
+
