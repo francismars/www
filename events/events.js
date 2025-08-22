@@ -28,6 +28,11 @@ function initializeEventsPage() {
   // Initialize form submission
   initializeEventForm();
   
+  // Initialize donation form with a small delay to ensure DOM is ready
+  setTimeout(() => {
+    initializeDonationForm();
+  }, 100);
+  
   // Initialize navigation
   initializeNavigation();
 }
@@ -276,8 +281,11 @@ function initializeMap() {
   // Initialize legend click handlers
   initializeMapLegend();
   
-  // Initialize donation form
-  initializeDonationForm();
+  // Initialize donation form with a small delay to ensure DOM is ready
+  setTimeout(() => {
+    initializeDonationForm();
+  }, 100);
+  
 
 }
 
@@ -315,10 +323,26 @@ function toggleMapLayer(eventType, legendItem) {
 
 // Donation form functionality
 function initializeDonationForm() {
+  console.log('🔧 Initializing donation form...');
+  
+  // Get form elements
   const amountButtons = document.querySelectorAll('.amount-btn');
   const customAmountInput = document.getElementById('custom-amount-input');
   const selectedAmountSpan = document.getElementById('selected-amount');
   const submitBtn = document.getElementById('donation-submit-btn');
+  
+  console.log('🔍 Found elements:', {
+    amountButtons: amountButtons.length,
+    customAmountInput: !!customAmountInput,
+    selectedAmountSpan: !!selectedAmountSpan,
+    submitBtn: !!submitBtn
+  });
+  
+  // Check if elements exist
+  if (!amountButtons.length || !selectedAmountSpan || !submitBtn) {
+    console.error('❌ Required donation form elements not found');
+    return;
+  }
   
   let selectedAmount = 1000; // Default amount
   
@@ -331,39 +355,71 @@ function initializeDonationForm() {
       this.classList.add('active');
       
       selectedAmount = parseInt(this.getAttribute('data-amount'));
-      selectedAmountSpan.textContent = selectedAmount.toLocaleString();
+      if (selectedAmountSpan) {
+        selectedAmountSpan.textContent = selectedAmount.toLocaleString();
+      }
       
       // Clear custom amount input
-      customAmountInput.value = '';
+      if (customAmountInput) {
+        customAmountInput.value = '';
+      }
     });
   });
   
   // Custom amount input handler
-  customAmountInput.addEventListener('input', function() {
-    const customAmount = parseInt(this.value);
-    if (customAmount >= 100) {
-      selectedAmount = customAmount;
-      selectedAmountSpan.textContent = customAmount.toLocaleString();
-      
-      // Remove active class from all buttons
-      amountButtons.forEach(b => b.classList.remove('active'));
-    }
-  });
+  if (customAmountInput) {
+    customAmountInput.addEventListener('input', function() {
+      const customAmount = parseInt(this.value);
+      if (customAmount >= 100) {
+        selectedAmount = customAmount;
+        if (selectedAmountSpan) {
+          selectedAmountSpan.textContent = customAmount.toLocaleString();
+        }
+        
+        // Remove active class from all buttons
+        amountButtons.forEach(b => b.classList.remove('active'));
+      }
+    });
+  }
   
   // Set first button as active by default
   if (amountButtons.length > 0) {
     amountButtons[0].classList.add('active');
+  }
+  
+  // Add form submit event listener
+  const donationForm = document.getElementById('donation-form');
+  if (donationForm) {
+    donationForm.addEventListener('submit', handleDonation);
   }
 }
 
 // Handle donation form submission
 async function handleDonation(event) {
   event.preventDefault();
+  console.log('🎯 Donation form submitted');
   
-  const name = document.getElementById('donation-name').value.trim();
-  const email = document.getElementById('donation-email').value.trim();
-  const message = document.getElementById('donation-message').value.trim();
+  // Check if all required elements exist
+  const nameInput = document.getElementById('donation-name');
+  const emailInput = document.getElementById('donation-email');
+  const messageInput = document.getElementById('donation-message');
   const selectedAmountSpan = document.getElementById('selected-amount');
+  
+  console.log('🔍 Form elements found:', {
+    nameInput: !!nameInput,
+    emailInput: !!emailInput,
+    messageInput: !!messageInput,
+    selectedAmountSpan: !!selectedAmountSpan
+  });
+  
+  if (!nameInput || !emailInput || !messageInput || !selectedAmountSpan) {
+    console.error('❌ Required donation form elements not found');
+    return false;
+  }
+  
+  const name = nameInput.value.trim();
+  const email = emailInput.value.trim();
+  const message = messageInput.value.trim();
   const amount = parseInt(selectedAmountSpan.textContent.replace(/,/g, ''));
   
   if (amount < 100) {
@@ -371,10 +427,14 @@ async function handleDonation(event) {
     return false;
   }
   
-  const submitButton = event.target.querySelector('button');
-  const originalButtonText = submitButton.textContent;
+  const submitButton = event.target.querySelector('#donation-submit-btn');
+  if (!submitButton) {
+    console.error('Submit button not found');
+    return false;
+  }
   
-  submitButton.textContent = 'Preparing Zap...';
+  const originalButtonText = submitButton.textContent;
+  submitButton.textContent = 'Processing Donation...';
   submitButton.disabled = true;
   
   // Prepare message for zap
@@ -434,21 +494,21 @@ async function handleDonation(event) {
       relays,
     });
      
-     console.log("Zap request event:", unsignedZapRequest);
+     //console.log("Zap request event:", unsignedZapRequest);
      
      // Generate a random keypair and sign the zap request
      const randomPrivKey = NostrTools.generateSecretKey();
      const randomPubKey = NostrTools.getPublicKey(randomPrivKey);
      
-     console.log("Random pubkey:", randomPubKey);
-     console.log("Recipient hex pubkey:", recipientHexPubkey);
+     //console.log("Random pubkey:", randomPubKey);
+     //console.log("Recipient hex pubkey:", recipientHexPubkey);
      
      const signedZapRequest = NostrTools.finalizeEvent(
        { ...unsignedZapRequest, pubkey: randomPubKey },
        randomPrivKey
      );
      
-     console.log("Signed zap request:", signedZapRequest);
+     //console.log("Signed zap request:", signedZapRequest);
      
      // Use signedZapRequest.id in your subscription filter
      const zapRequestString = encodeURIComponent(JSON.stringify(signedZapRequest));
@@ -456,7 +516,7 @@ async function handleDonation(event) {
      // Create the callback URL with the zap request
      const callbackUrl = `${zapEndpoint}?amount=${zapAmountMilliSats}&comment=${encodeURIComponent(fullMessage)}&nostr=${zapRequestString}`;
      
-     console.log("Callback URL:", callbackUrl);
+     //console.log("Callback URL:", callbackUrl);
     
     // Fetch the invoice
     const invoiceRes = await fetch(callbackUrl);
@@ -465,7 +525,7 @@ async function handleDonation(event) {
     }
     
     const invoiceData = await invoiceRes.json();
-    console.log("Invoice response:", invoiceData);
+    //console.log("Invoice response:", invoiceData);
     
     if (invoiceData.pr) {
       // Show donation invoice section
@@ -487,15 +547,31 @@ async function handleDonation(event) {
       
       // Add event listeners for close and copy buttons
       document.getElementById('close-donation-invoice').addEventListener('click', function() {
-        document.getElementById('donation-invoice-section').style.display = 'none';
-        // Reset form
-        document.getElementById('donation-form').reset();
-        // Reset button states
-        document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-        if (document.querySelectorAll('.amount-btn').length > 0) {
-          document.querySelectorAll('.amount-btn')[0].classList.add('active');
+        const invoiceSection = document.getElementById('donation-invoice-section');
+        if (invoiceSection) {
+          invoiceSection.style.display = 'none';
         }
-        document.getElementById('selected-amount').textContent = '1,000';
+        
+        // Reset button states
+        const amountButtons = document.querySelectorAll('.amount-btn');
+        if (amountButtons.length > 0) {
+          amountButtons.forEach(b => b.classList.remove('active'));
+          amountButtons[0].classList.add('active');
+        }
+        
+        // Reset selected amount display
+        const selectedAmountSpan = document.getElementById('selected-amount');
+        if (selectedAmountSpan) {
+          selectedAmountSpan.textContent = '1,000';
+        }
+        
+        // Clear form inputs but keep the form structure
+        const nameInput = document.getElementById('donation-name');
+        const emailInput = document.getElementById('donation-email');
+        const messageInput = document.getElementById('donation-message');
+        if (nameInput) nameInput.value = '';
+        if (emailInput) emailInput.value = '';
+        if (messageInput) messageInput.value = '';
       });
       
       document.getElementById('copy-donation-invoice').addEventListener('click', function() {
@@ -529,109 +605,20 @@ async function handleDonation(event) {
     alert("Error creating zap request: " + err.message);
     console.error("Error details:", err);
   } finally {
-    // Reset button
-    submitButton.textContent = originalButtonText;
-    submitButton.disabled = false;
+    // Reset button if it still exists
+    if (submitButton) {
+      submitButton.textContent = originalButtonText;
+      submitButton.disabled = false;
+    }
   }
   
   return false;
 }
 
-// Monitor zap completion and automatically close the invoice section
-function monitorZapCompletion(zapRequestId) {
-  console.log("Starting zap monitoring for request ID:", zapRequestId);
-  const recipientNpub = "npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl";
-
-  const { type, data: recipientHexPubkey } = NostrTools.nip19.decode(recipientNpub);
-  console.log("Monitoring for zaps to hex pubkey:", recipientHexPubkey);
-
-  // Create a new pool for monitoring
-  const monitorPool = new NostrTools.SimplePool();
-  
-  // Test the subscription by also listening for any kind 9735 events
-  console.log("Setting up subscription for zap events...");
-
-  // Now listen for zap events specifically to our pubkey
-  const unsubscribe = monitorPool.subscribe(
-    [
-      "wss://relay.damus.io",
-      "wss://relay.primal.net", 
-      "wss://relay.nostr.band/",
-      "wss://relay.nostr.nu/",
-    ],
-    [
-      {
-        kinds: [9735], // Zap event kind
-        //"#p": [recipientHexPubkey], // Our profile
-      },
-    ],
-    {
-    onevent(zapEvent) {
-      console.log("=== ZAP EVENT RECEIVED ===");
-      console.log("Full zap event:", zapEvent);
-      console.log("Event ID:", zapEvent.id);
-      console.log("Created at:", new Date(zapEvent.created_at * 1000).toISOString());
-      console.log("Tags:", zapEvent.tags);
-      console.log("Content:", zapEvent.content);
-      console.log("==========================");
-      
-      try {
-        // Check if this zap event references our zap request
-        const eventTags = zapEvent.tags;
-        const eventTag = eventTags.find(tag => tag[0] === 'e');
-        
-        console.log("Looking for event tag 'e' with value:", zapRequestId);
-        console.log("Found event tag:", eventTag);
-        
-        if (eventTag && eventTag[1] === zapRequestId) {
-          console.log("✅ MATCH FOUND! This zap event references our zap request!");
-          
-          // Parse the zap event content to get the preimage
-          const zapData = JSON.parse(zapEvent.content);
-          console.log("Parsed zap data:", zapData);
-          
-          if (zapData.preimage) {
-            console.log("🎉 Zap completed! Preimage:", zapData.preimage);
-            
-            // Automatically close the invoice section
-            document.getElementById('donation-invoice-section').style.display = 'none';
-            
-            // Reset the form
-            document.getElementById('donation-form').reset();
-            
-            // Reset button states
-            document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('active'));
-            if (document.querySelectorAll('.amount-btn').length > 0) {
-              document.querySelectorAll('.amount-btn')[0].classList.add('active');
-            }
-            document.getElementById('selected-amount').textContent = '1,000';
-            
-            // Show success message
-            showZapSuccess();
-            
-            // Unsubscribe from further zap events
-            unsubscribe();
-            testUnsubscribe();
-          } else {
-            console.log("❌ No preimage found in zap data");
-          }
-        } else {
-          console.log("❌ No match - this zap event doesn't reference our zap request");
-          console.log("Expected zapRequestId:", zapRequestId);
-          console.log("Found event tag value:", eventTag ? eventTag[1] : "none");
-        }
-      } catch (error) {
-        console.error("Error parsing zap event:", error);
-      }
-    }
-  }
-  );
-}
-
-
-
 // Show zap success message
 function showZapSuccess() {
+  console.log("🚀 showZapSuccess function started");
+  
   // Create a temporary success message
   const successMsg = document.createElement('div');
   successMsg.style.cssText = `
@@ -647,7 +634,7 @@ function showZapSuccess() {
     box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     animation: slideInRight 0.3s ease;
   `;
-  successMsg.textContent = '🎉 Zap received! Thank you for your donation.';
+  successMsg.textContent = '🎉 Donation received! Thank you for your support.';
   
   // Add CSS animation
   const style = document.createElement('style');
@@ -660,6 +647,7 @@ function showZapSuccess() {
   document.head.appendChild(style);
   
   document.body.appendChild(successMsg);
+  console.log("✅ Success message added to DOM");
   
   // Remove after 5 seconds
   setTimeout(() => {
@@ -680,6 +668,144 @@ function showZapSuccess() {
     }
   `;
   document.head.appendChild(slideOutStyle);
+}
+
+// Monitor zap completion and automatically close the invoice section
+function monitorZapCompletion(zapRequestId) {
+  console.log("Starting zap monitoring for request ID:", zapRequestId);
+  const recipientNpub = "npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl";
+
+  const { type, data: recipientHexPubkey } = NostrTools.nip19.decode(recipientNpub);
+  //console.log("Monitoring for zaps to hex pubkey:", recipientHexPubkey);
+
+  // Create a new pool for monitoring
+  const monitorPool = new NostrTools.SimplePool();
+  
+  // Test the subscription by also listening for any kind 9735 events
+  //console.log("Setting up subscription for zap events...");
+
+    // Now listen for zap events specifically to our zap request
+  const subscription = monitorPool.subscribeMany(
+    [
+      "wss://relay.damus.io",
+      "wss://relay.primal.net", 
+      "wss://relay.nostr.band/",
+      "wss://relay.nostr.nu/",
+    ],
+    [
+      {
+        kinds: [9735], // Zap event kind
+        "#p": [recipientHexPubkey], // Filter for events to our pubkey
+      },
+    ],
+    {
+      onevent(zapEvent) {
+        try {
+          // Check if this zap event references our zap request
+          const eventTags = zapEvent.tags;
+          const descriptionTag = eventTags.find(tag => tag[0] === 'description');
+          
+          //console.log("Looking for description tag with zap request ID:", zapRequestId);
+          //console.log("Found description tag:", descriptionTag);
+          
+          if (descriptionTag && descriptionTag[1]) {
+            // Parse the description tag which contains the kind 9734 zap request
+            const zapRequestData = JSON.parse(descriptionTag[1]);
+            //console.log("Parsed zap request data:", zapRequestData);
+            
+            // Check if the zap request ID matches our expected ID
+                         if (zapRequestData.id === zapRequestId) {
+               console.log("✅ MATCH FOUND! This zap event references our zap request!");
+               
+               // Check for bolt11 tag which contains the invoice
+               const bolt11Tag = eventTags.find(tag => tag[0] === 'bolt11');
+               console.log("Bolt11 tag:", bolt11Tag);
+               
+               if (bolt11Tag && bolt11Tag[1]) {
+                 console.log("🎉 Zap completed! Invoice:", bolt11Tag[1]);
+                 
+                                   // Automatically close the invoice section
+                  const invoiceSection = document.getElementById('donation-invoice-section');
+                  if (invoiceSection) {
+                    invoiceSection.style.display = 'none';
+                  }
+                  
+
+                  
+                  // Reset button states
+                  const amountButtons = document.querySelectorAll('.amount-btn');
+                  if (amountButtons.length > 0) {
+                    amountButtons.forEach(b => b.classList.remove('active'));
+                    amountButtons[0].classList.add('active');
+                  }
+                  
+                  // Reset selected amount display
+                  const selectedAmountSpan = document.getElementById('selected-amount');
+                  if (selectedAmountSpan) {
+                    selectedAmountSpan.textContent = '1,000';
+                  }
+                  
+                  // Clear form inputs but keep the form structure
+                  const nameInput = document.getElementById('donation-name');
+                  const emailInput = document.getElementById('donation-email');
+                  const messageInput = document.getElementById('donation-message');
+                  if (nameInput) nameInput.value = '';
+                  if (emailInput) emailInput.value = '';
+                  if (messageInput) messageInput.value = '';
+                  
+
+                  
+                  // Show success message
+                  console.log("🎯 About to call showZapSuccess()...");
+                  showZapSuccess();
+                  console.log("🎯 showZapSuccess() called!");
+                  
+                  // Close the subscription if it has a close method
+                  if (subscription && typeof subscription.close === 'function') {
+                    console.log("📡 Closing Subscription with close()");
+                    subscription.close();
+                  } else if (subscription && typeof subscription.unsubscribe === 'function') {
+                   console.log("📡 Closing Subscription with unsubscribe()");
+                    subscription.unsubscribe();
+                  } else {
+                    console.log("📡 Subscription object:", subscription);
+                    console.log("📡 No close/unsubscribe method found, subscription will remain active");
+                  }
+               } else {
+                 console.log("❌ No bolt11 tag found in zap event");
+                 console.log("Available tags:", eventTags.map(tag => `${tag[0]}: ${tag[1]}`));
+               }
+            } else {
+               //console.log("❌ No match - zap request ID doesn't match");
+            }
+          } else {
+            console.log("❌ No description tag found in zap event");
+          }
+        } catch (error) {
+          console.error("Error parsing zap event:", error);
+        }
+      },
+      oneose() {
+        console.log("📡 EOS for zap monitoring subscription");
+      },
+      onclosed() {
+        console.log("📡 Zap monitoring subscription closed");
+      }
+    }
+  );
+    
+  // Set a timeout to stop monitoring after 10 minutes
+  setTimeout(() => {
+    console.log("Zap monitoring timeout reached");
+    // Close the subscription if it has a close method
+    if (subscription && typeof subscription.close === 'function') {
+      subscription.close();
+    } else if (subscription && typeof subscription.unsubscribe === 'function') {
+      subscription.unsubscribe();
+    } else {
+      console.log("📡 Timeout reached but no close/unsubscribe method found");
+    }
+  }, 10 * 60 * 1000);
 }
 
 function createEventMarker(event, map) {
@@ -977,7 +1103,7 @@ function showFormSuccess() {
 }
 
 function initializeNavigation() {
-  const sections = ['upcoming', 'past', 'calendar', 'map', 'submit', 'donate'];
+  const sections = ['upcoming', 'past', 'calendar', 'map', 'submit', 'support'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
   
   // Add click event to navbar profile name to scroll to top
@@ -1048,7 +1174,7 @@ function initializeCollapsibleSections() {
     // Check if section was previously collapsed or should start collapsed by default
     const wasCollapsed = localStorage.getItem(`section_${sectionId}_collapsed`);
     const shouldStartCollapsed = wasCollapsed === 'true' || 
-                                (wasCollapsed === null && (sectionId === 'past' || sectionId === 'submit' || sectionId === 'donate'));
+                                                                 (wasCollapsed === null && (sectionId === 'past' || sectionId === 'submit' || sectionId === 'support'));
     
     if (shouldStartCollapsed) {
       section.classList.add('collapsed');
@@ -1093,3 +1219,36 @@ function toggleSection(section, collapseBtn) {
     localStorage.setItem(`section_${sectionId}_collapsed`, 'true');
   }
 }
+
+// Helper functions for date handling
+function getCurrentDate() {
+  const now = new Date();
+  return now.toISOString().split('T')[0];
+}
+
+function formatDate(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function getMonthName(monthIndex) {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+  return months[monthIndex];
+}
+
+function getFirstDayOfMonth(year, month) {
+  return new Date(year, month, 1).getDay();
+}
+
+function getDaysInMonth(year, month) {
+  return new Date(year, month + 1, 0).getDate();
+}
+
+

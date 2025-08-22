@@ -89,7 +89,7 @@
           <a href="#calendar">Calendar</a>
           <a href="#map">Map</a>
           <a href="#submit">Submit Event</a>
-          <a href="#donate">Donate</a>
+          <a href="#support">Support</a>
         </div>
     </nav>
     
@@ -237,10 +237,10 @@
         </div>
     </div>
 
-    <div class="section" id="donate">
-      <div class="section-header">
-        <h2>Support Bitcoin Events</h2>
-        <button class="collapse-btn" data-section="donate" aria-label="Collapse section">
+            <div class="section" id="support">
+          <div class="section-header">
+            <h2>Support Bitcoin Events</h2>
+            <button class="collapse-btn" data-section="support" aria-label="Collapse section">
           <span class="collapse-icon">−</span>
         </button>
       </div>
@@ -249,7 +249,7 @@
           Help us keep this Bitcoin events directory free and up-to-date. 
           Your donation supports the maintenance and expansion of this resource.
         </p>
-        <form id="donation-form" onsubmit="return handleDonation(event)">
+        <form id="donation-form">
           <div class="form-group">
             <label for="donation-name">Your Name (optional)</label>
             <input type="text" id="donation-name" placeholder="Anonymous" maxlength="40" class="donation-input" />
@@ -277,7 +277,7 @@
               <input type="number" id="custom-amount-input" placeholder="Enter amount in sats" min="100" step="100" class="donation-input" />
             </div>
           </div>
-          <button type="submit" id="donation-submit-btn" class="submit-btn">Zap <span id="selected-amount">1,000</span> sats</button>
+          <button type="submit" id="donation-submit-btn" class="submit-btn">Donate <span id="selected-amount">1,000</span> sats</button>
         </form>
         <div id="donation-invoice-section" style="display:none; margin-top:2em; text-align:center;">
           <div style="position:relative;">
