@@ -287,30 +287,19 @@ document.addEventListener("DOMContentLoaded", function () {
   // Populate about section
   populateAboutSection();
   
-  // Loader typing effect
+  // Typing effect for main header - starts after DOM is ready
   const text = "Bitcoin | Lightning | Nostr";
   let i = 0;
-  function typeLoader() {
+  function typeMain() {
     if (i <= text.length) {
-      document.getElementById("typed").textContent = text.slice(0, i);
+      document.getElementById("typed-main").textContent = text.slice(0, i);
       i++;
-      setTimeout(typeLoader, 60);
-    } else {
-      // Fade out loader and show main content
-      const loader = document.getElementById("loader-overlay");
-      const mainContent = document.getElementById("main-content");
-      if (loader && mainContent) {
-        loader.classList.add("fade-out");
-        setTimeout(() => {
-          loader.style.display = "none";
-          mainContent.style.display = "";
-          // Instantly set main header text after loader
-          document.getElementById("typed-main").textContent = text;
-        }, 700);
-      }
+      setTimeout(typeMain, 60);
     }
   }
-  typeLoader();
+  
+  // Start typing effect after a small delay to ensure smooth animation
+  setTimeout(typeMain, 100);
 
   const sections = [
     "about",
