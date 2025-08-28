@@ -938,6 +938,18 @@ const eventsData = [
   },
   {
     id: 79,
+    name: "Economía Bitcoin 2025",
+    date: "2025-11-22",
+    endDate: "2025-11-23",
+    type: "conference",
+    location: "Berlin, El Salvador",
+    description: "Economía Bitcoin 2025 conference in Berlin, El Salvador focusing on Bitcoin economics, adoption, and the future of Bitcoin in El Salvador.",
+    website: "https://www.bitcoinberlinsv.com/economia-bitcoin-2025",
+    contact: "",
+    featured: false
+  },
+  {
+    id: 80,
     name: "Africa Bitcoin Conference",
     date: "2025-12-03",
     endDate: "2025-12-05",
@@ -949,7 +961,7 @@ const eventsData = [
     featured: false
   },
   {
-    id: 80,
+    id: 81,
     name: "Mayan Bitcoin Conference",
     date: "2025-12-05",
     endDate: "2025-12-06",
@@ -961,7 +973,7 @@ const eventsData = [
     featured: false
   },
   {
-    id: 81,
+    id: 82,
     name: "Bitcoin MENA",
     date: "2025-12-08",
     endDate: "2025-12-09",
@@ -973,7 +985,7 @@ const eventsData = [
     featured: false
   },
   {
-    id: 82,
+    id: 83,
     name: "bitcoin++ stands sovereign",
     date: "2025-12-15",
     endDate: "2025-12-17",
