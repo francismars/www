@@ -921,6 +921,7 @@ function getLocationCoordinates(location) {
     'Sao Paulo, Brazil': { lat: -23.5505, lng: -46.6333 },
     'Amsterdam, Netherlands': { lat: 52.3676, lng: 4.9041 },
     'El Salvador': { lat: 13.7942, lng: -88.8965 },
+    'Berlin, El Salvador': { lat: 13.7942, lng: -88.8965 },
     'Manchester, UK': { lat: 53.4808, lng: -2.2426 },
     'Buenos Aires, Argentina': { lat: -34.6118, lng: -58.3960 },
     'Madrid, Spain': { lat: 40.4168, lng: -3.7038 },
