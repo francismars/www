@@ -809,8 +809,8 @@ function monitorZapCompletion(zapRequestId) {
 }
 
 function createEventMarker(event, map) {
-  // Get coordinates based on location
-  const coords = getLocationCoordinates(event.location);
+  // Get coordinates from event data
+  const coords = event.coordinates;
   if (!coords) return null;
   
   const currentDate = getCurrentDate();
@@ -889,77 +889,7 @@ function createEventMarker(event, map) {
   return marker;
 }
 
-function getLocationCoordinates(location) {
-  // Real latitude/longitude coordinates for major cities
-  const coordinates = {
-    'Medellin, Colombia': { lat: 6.2476, lng: -75.5658 },
-    'Cape Town, South Africa': { lat: -33.9249, lng: 18.4241 },
-    'San Salvador, El Salvador': { lat: 13.7942, lng: -88.8965 },
-    'Florianopolis, Brasil': { lat: -27.5969, lng: -48.5495 },
-    'Uvita, Costa Rica': { lat: 9.1499, lng: -83.7534 },
-    'Dubai, UAE': { lat: 25.2048, lng: 55.2708 },
-    'Dallas, Texas, USA': { lat: 32.7767, lng: -96.7970 },
-    'Bedford, UK': { lat: 52.1354, lng: -0.4666 },
-    'Switzerland': { lat: 46.8182, lng: 8.2275 },
-    'Viareggio, Italy': { lat: 43.8731, lng: 10.2338 },
-    'Austin, Texas, USA': { lat: 30.2672, lng: -97.7431 },
-    'Warsaw, Poland': { lat: 52.2297, lng: 21.0122 },
-    'Oslo, Norway': { lat: 59.9139, lng: 10.7522 },
-    'Las Vegas, Nevada, USA': { lat: 36.1699, lng: -115.1398 },
-    'Barcelona, Spain': { lat: 41.3851, lng: 2.1734 },
-    'Prague, Czech Republic': { lat: 50.0755, lng: 14.4378 },
-    'Calgary, Alberta, Canada': { lat: 51.0447, lng: -114.0719 },
-    'Juneau, Alaska, USA': { lat: 58.3019, lng: -134.4197 },
-    'Mallorca, Spain': { lat: 39.6953, lng: 3.0176 },
-    'Riga, Latvia': { lat: 56.9496, lng: 24.1052 },
-    'Helsinki, Finland': { lat: 60.1699, lng: 24.9384 },
-    'Istanbul, Turkey': { lat: 41.0082, lng: 28.9784 },
-    'Berlin, Germany': { lat: 52.5200, lng: 13.4050 },
-    'Bayern, Germany': { lat: 48.7904, lng: 11.4979 },
-    'Sofia, Bulgaria': { lat: 42.6977, lng: 23.3219 },
-    'Lugano, Switzerland': { lat: 46.0037, lng: 8.9511 },
-    'Sao Paulo, Brazil': { lat: -23.5505, lng: -46.6333 },
-    'Amsterdam, Netherlands': { lat: 52.3676, lng: 4.9041 },
-    'El Salvador': { lat: 13.7942, lng: -88.8965 },
-    'Berlin, El Salvador': { lat: 13.7942, lng: -88.8965 },
-    'Manchester, UK': { lat: 53.4808, lng: -2.2426 },
-    'Buenos Aires, Argentina': { lat: -34.6118, lng: -58.3960 },
-    'Madrid, Spain': { lat: 40.4168, lng: -3.7038 },
-    // New event locations
-    'Naples, Florida, USA': { lat: 26.1420, lng: -81.7948 },
-    'Nashville, Tennessee, USA': { lat: 36.1627, lng: -86.7816 },
-    'New York City, New York, USA': { lat: 40.7128, lng: -74.0060 },
-    'Denver, Colorado, USA': { lat: 39.7392, lng: -104.9903 },
-    'Teton Village, Wyoming, USA': { lat: 43.5876, lng: -110.8278 },
-    'Sydney, Australia': { lat: -33.8688, lng: 151.2093 },
-    'Miami, Florida, USA': { lat: 25.7617, lng: -80.1918 },
-    'Beechworth, Australia': { lat: -36.3583, lng: 146.6869 },
-    'Cambridge, Massachusetts, USA': { lat: 42.3736, lng: -71.1097 },
-    'Tysons, Virginia, USA': { lat: 38.9185, lng: -77.2311 },
-    'Brescia, Italy': { lat: 45.5416, lng: 10.2118 },
-    'Seoul, South Korea': { lat: 37.5665, lng: 126.9780 },
-    'Tampa, Florida, USA': { lat: 27.9506, lng: -82.4572 },
-    'Washington DC, USA': { lat: 38.9072, lng: -77.0369 },
-    'Portland, Oregon, USA': { lat: 45.5152, lng: -122.6784 },
-    'Lansing, Michigan, USA': { lat: 42.7325, lng: -84.5555 },
-    'Budapest, Hungary': { lat: 47.4979, lng: 19.0402 },
-    'Vancouver, Canada': { lat: 49.2827, lng: -123.1207 },
-    'Hong Kong, China': { lat: 22.3193, lng: 114.1694 },
-    'Bali, Indonesia': { lat: -8.3405, lng: 115.0920 },
-    'Asuncion, Paraguay': { lat: -25.2637, lng: -57.5759 },
-    'New Hampshire, USA': { lat: 43.1939, lng: -71.5724 },
-    'Atlanta, Georgia, USA': { lat: 33.7490, lng: -84.3880 },
-    'Santa Monica, California, USA': { lat: 34.0195, lng: -118.4912 },
-    'Montreal, Canada': { lat: 45.5017, lng: -73.5673 },
-    'Roatan, Honduras': { lat: 16.3000, lng: -86.5500 },
-    'Tokyo, Japan': { lat: 35.6762, lng: 139.6503 },
-    'Mauritius': { lat: -20.3484, lng: 57.5522 },
-    'Merida, Mexico': { lat: 20.9674, lng: -89.5926 },
-    'Taipei, Taiwan': { lat: 25.0330, lng: 121.5654 }
-  };
-  
-  return coordinates[location] || null;
-}
+// Coordinates are now stored directly in each event object
 
 function showEventDetails(event) {
   // Prevent multiple modals from opening
