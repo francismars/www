@@ -1079,6 +1079,19 @@ const eventsData = [
     website: "https://btcplusplus.dev/conf/taipei",
     contact: "",
     featured: false
+  },
+  {
+    id: 84,
+    name: "Bitcoin Histórico",
+    date: "2025-11-12",
+    endDate: "2025-11-13",
+    type: "conference",
+    location: "San Salvador, El Salvador",
+    coordinates: { lat: 13.6929, lng: -89.2182 },
+    description: "A conference by the National Bitcoin Office of El Salvador celebrating financial freedom in the heart of San Salvador. Features keynote speeches, panels, workshops, and freedom-tech demos across historic landmarks including the National Palace, National Theater, and BINAES.",
+    website: "https://bitcoinhistorico.com/",
+    contact: "",
+    featured: true
   }
 ];
 
