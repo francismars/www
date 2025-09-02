@@ -262,6 +262,28 @@
   color: white;
 }
 
+.event-link.social.x {
+  background: transparent;
+  color: #1da1f2;
+  border-color: #1da1f2;
+}
+
+.event-link.social.x:hover {
+  background: #1da1f2;
+  color: white;
+}
+
+.event-link.social.nostr {
+  background: transparent;
+  color: #8b5cf6;
+  border-color: #8b5cf6;
+}
+
+.event-link.social.nostr:hover {
+  background: #8b5cf6;
+  color: white;
+}
+
 /* Events Filter */
 .events-filter {
   display: flex;
@@ -553,9 +575,16 @@
   margin: 0.5rem 0;
 }
 
+.modal-event-links {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
 .modal-event-item .event-link {
   display: inline-block;
-  margin-top: 0.5rem;
+  margin-top: 0;
 }
 
 /* Event Details Modal Specific Styles */
