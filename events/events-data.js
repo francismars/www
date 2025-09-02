@@ -10,8 +10,9 @@ const eventsData = [
     location: "Medellin, Colombia",
     coordinates: { lat: 6.2476, lng: -75.5658 },
     description: "Bitcoin conference in Medellin bringing together the Latin American Bitcoin community for education, networking, and adoption discussions.",
-    website: "https://bitcoinmedellin.com/",
-    contact: "info@bitcoinmedellin.com",
+    website: "https://btcmedellin.com/",
+    x: "https://x.com/BTCMedellinConf",
+    nostr: "https://njump.me/npub18g7v9pk2xzmynmu0up65fvejxqz552q5h5l46h2x3vwgjkfn8qnsfq4m9p",
     featured: false
   },
   {
@@ -24,7 +25,8 @@ const eventsData = [
     coordinates: { lat: -33.9249, lng: 18.4241 },
     description: "African Bitcoin conference focused on adoption, education, and building the Bitcoin ecosystem across the continent.",
     website: "https://za25.adoptingbitcoin.org/",
-    contact: "za25@adoptingbitcoin.org",
+    x: "https://x.com/adoptingbtc",
+    nostr: "",
     featured: false
   },
   {
@@ -37,7 +39,8 @@ const eventsData = [
     coordinates: { lat: 13.6929, lng: -89.2182 },
     description: "Bitcoin conference in El Salvador, the first country to adopt Bitcoin as legal tender. Focus on adoption, regulation, and innovation.",
     website: "https://planb.sv/",
-    contact: "info@planb.sv",
+    x: "https://x.com/LuganoPlanB",
+    nostr: "",
     featured: false
   },
   {
@@ -50,7 +53,8 @@ const eventsData = [
     coordinates: { lat: -27.5969, lng: -48.5495 },
     description: "Technical Bitcoin conference focused on development, innovation, and advancing the Bitcoin protocol. Brings together developers and researchers.",
     website: "https://btcplusplus.dev/conf/floripa",
-    contact: "hello@btcplusplus.dev",
+    x: "https://x.com/btcplusplus",
+    nostr: "",
     featured: false
   },
   {
@@ -63,7 +67,8 @@ const eventsData = [
     coordinates: { lat: 9.1499, lng: -83.7534 },
     description: "Bitcoin conference in the beautiful coastal town of Uvita, focusing on freedom, adoption, and the Bitcoin lifestyle.",
     website: "https://www.bitcoinfreedomfestival.com/",
-    contact: "info@bitcoinfreedomfestival.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -76,7 +81,8 @@ const eventsData = [
     coordinates: { lat: 25.2048, lng: 55.2708 },
     description: "Global Bitcoin mining conference covering mining operations, hardware, energy, and the future of Bitcoin mining.",
     website: "https://miningconf.com/",
-    contact: "info@miningconf.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -89,7 +95,8 @@ const eventsData = [
     coordinates: { lat: 32.7767, lng: -96.7970 },
     description: "Bitcoin conference in Dallas focusing on business adoption, investment, and the economic impact of Bitcoin.",
     website: "https://bitblockboom.com/",
-    contact: "info@bitblockboom.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -102,7 +109,8 @@ const eventsData = [
     coordinates: { lat: 52.1354, lng: -0.4666 },
     description: "Bitcoin conference in the UK focusing on education, adoption, and building the Bitcoin community across Britain.",
     website: "https://www.cheatcode.co.uk/",
-    contact: "hello@cheatcode.co.uk",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -115,7 +123,8 @@ const eventsData = [
     coordinates: { lat: 25.2048, lng: 55.2708 },
     description: "Bitcoin conference in Dubai focusing on Middle Eastern adoption, regulation, and the intersection of traditional finance with Bitcoin.",
     website: "https://bitcoin-oasis.com/",
-    contact: "info@bitcoin-oasis.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -128,7 +137,8 @@ const eventsData = [
     coordinates: { lat: 47.3769, lng: 8.5417 },
     description: "Major Bitcoin conference in Switzerland, bringing together European Bitcoin enthusiasts, developers, and businesses.",
     website: "https://swiss-bitcoin-conference.com/",
-    contact: "info@swiss-bitcoin-conference.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -141,7 +151,8 @@ const eventsData = [
     coordinates: { lat: 43.8731, lng: 10.2338 },
     description: "Bitcoin conference in the beautiful Tuscany region of Italy, focusing on European adoption and community building.",
     website: "",
-    contact: "info@tuscanybitcoin.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -154,7 +165,8 @@ const eventsData = [
     coordinates: { lat: 30.2672, lng: -97.7431 },
     description: "Technical Bitcoin conference in Austin, bringing together developers, researchers, and innovators to advance Bitcoin technology.",
     website: "https://btcplusplus.dev/",
-    contact: "hello@btcplusplus.dev",
+    x: "https://x.com/btcplusplus",
+    nostr: "",
     featured: false
   },
   {
@@ -167,7 +179,8 @@ const eventsData = [
     coordinates: { lat: 52.2297, lng: 21.0122 },
     description: "Bitcoin conference combined with film festival, showcasing Bitcoin documentaries and educational content in Poland.",
     website: "",
-    contact: "info@bitcoinfilmfest.pl",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -180,7 +193,8 @@ const eventsData = [
     coordinates: { lat: 59.9139, lng: 10.7522 },
     description: "Human rights and freedom conference that includes Bitcoin as a tool for financial freedom and human rights.",
     website: "https://oslofreedomforum.com/",
-    contact: "info@oslofreedomforum.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -193,7 +207,8 @@ const eventsData = [
     coordinates: { lat: 36.1699, lng: -115.1398 },
     description: "The world's largest Bitcoin conference, featuring over 15,000 attendees, industry leaders, and comprehensive Bitcoin education.",
     website: "https://b.tc/conference/2025",
-    contact: "info@bitcoin2025.com",
+    x: "https://x.com/TheBitcoinConf",
+    nostr: "",
     featured: true
   },
   {
@@ -206,7 +221,8 @@ const eventsData = [
     coordinates: { lat: 41.3851, lng: 2.1734 },
     description: "Bitcoin conference in Barcelona focusing on European adoption, development, and community building.",
     website: "https://tickets.bcc8333.com/",
-    contact: "info@bcc8333.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -219,7 +235,8 @@ const eventsData = [
     coordinates: { lat: 50.0755, lng: 14.4378 },
     description: "Bitcoin conference in Prague, bringing together the Central European Bitcoin community for education and networking.",
     website: "https://btcprague.com/",
-    contact: "info@btcprague.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -232,7 +249,8 @@ const eventsData = [
     coordinates: { lat: 51.0447, lng: -114.0719 },
     description: "Bitcoin conference in Calgary with a Western theme, focusing on Canadian adoption and the Bitcoin community.",
     website: "https://bitcoinrodeo.com/",
-    contact: "info@bitcoinrodeo.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -245,7 +263,8 @@ const eventsData = [
     coordinates: { lat: 58.3019, lng: -134.4197 },
     description: "Week-long Bitcoin conference in Alaska, combining Bitcoin education with the natural beauty of the Last Frontier.",
     website: "https://bitcoinalaska.org/",
-    contact: "info@bitcoinalaska.org",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -258,7 +277,8 @@ const eventsData = [
     coordinates: { lat: 39.6953, lng: 3.0176 },
     description: "Blockchain and Bitcoin conference on the beautiful island of Mallorca, focusing on European adoption and innovation.",
     website: "",
-    contact: "info@mallorcablockchain.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -271,7 +291,8 @@ const eventsData = [
     coordinates: { lat: 56.9496, lng: 24.1052 },
     description: "Private Bitcoin conference in Riga, focusing on technical discussions and development in an intimate setting.",
     website: "https://btcplusplus.dev/",
-    contact: "hello@btcplusplus.dev",
+    x: "https://x.com/btcplusplus",
+    nostr: "",
     featured: false
   },
   {
@@ -284,7 +305,8 @@ const eventsData = [
     coordinates: { lat: 56.9496, lng: 24.1052 },
     description: "Bitcoin conference in the Baltic region, bringing together Eastern European Bitcoin enthusiasts and developers.",
     website: "https://baltichoneybadger.com/",
-    contact: "info@baltichoneybadger.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -297,7 +319,8 @@ const eventsData = [
     coordinates: { lat: 60.1699, lng: 24.9384 },
     description: "Bitcoin conference in Helsinki, focusing on Nordic adoption and the intersection of technology and Bitcoin.",
     website: "https://btchel.com",
-    contact: "info@btchel.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -310,7 +333,8 @@ const eventsData = [
     coordinates: { lat: 41.0082, lng: 28.9784 },
     description: "Bitcoin scaling conference in Istanbul, focusing on Layer 2 solutions, Lightning Network, and Bitcoin scalability.",
     website: "https://btcplusplus.dev/",
-    contact: "hello@btcplusplus.dev",
+    x: "https://x.com/btcplusplus",
+    nostr: "",
     featured: false
   },
   {
@@ -323,7 +347,8 @@ const eventsData = [
     coordinates: { lat: 52.5200, lng: 13.4050 },
     description: "Lightning Network focused conference in Berlin, bringing together developers and enthusiasts of Bitcoin's Layer 2 solution.",
     website: "https://btcplusplus.dev/",
-    contact: "hello@btcplusplus.dev",
+    x: "https://x.com/btcplusplus",
+    nostr: "",
     featured: false
   },
   {
@@ -336,7 +361,8 @@ const eventsData = [
     coordinates: { lat: 48.7904, lng: 11.4979 },
     description: "Regional Bitcoin conference in Bavaria, Germany, focusing on local adoption and community building.",
     website: "https://bitcoinforum.bayern",
-    contact: "info@bitcoinforum.bayern",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -349,7 +375,8 @@ const eventsData = [
     coordinates: { lat: 42.6977, lng: 23.3219 },
     description: "Bitcoin conference in the Balkans region, bringing together Southeastern European Bitcoin communities.",
     website: "https://www.btcbalkans.com/",
-    contact: "info@btcbalkans.com",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -362,7 +389,8 @@ const eventsData = [
     coordinates: { lat: 46.0037, lng: 8.9511 },
     description: "Bitcoin conference in Lugano, Switzerland, focusing on adoption, regulation, and the future of Bitcoin in Europe.",
     website: "https://planb.lugano.ch/planb-forum/",
-    contact: "info@planbforum.ch",
+    x: "https://x.com/LuganoPlanB",
+    nostr: "",
     featured: false
   },
   {
@@ -375,7 +403,8 @@ const eventsData = [
     coordinates: { lat: -23.5505, lng: -46.6333 },
     description: "Bitcoin conference in Sao Paulo, focusing on Brazilian adoption and the Latin American Bitcoin ecosystem.",
     website: "https://satsconf.com.br/",
-    contact: "info@satsconf.com.br",
+    x: "https://x.com/satsconf",
+    nostr: "",
     featured: false
   },
   {
@@ -388,7 +417,8 @@ const eventsData = [
     coordinates: { lat: 52.3676, lng: 4.9041 },
     description: "European Bitcoin conference in Amsterdam, bringing together the continental Bitcoin community for education and networking.",
     website: "https://www.bitcoin.amsterdam/",
-    contact: "info@bitcoin.amsterdam",
+    x: "https://x.com/TheBitcoinConf",
+    nostr: "",
     featured: false
   },
   {
@@ -401,7 +431,8 @@ const eventsData = [
     coordinates: { lat: 13.6929, lng: -89.2182 },
     description: "Bitcoin adoption conference in El Salvador, focusing on the country's experience as the first Bitcoin nation.",
     website: "https://sv25.adoptingbitcoin.org/",
-    contact: "sv25@adoptingbitcoin.org",
+    x: "https://x.com/adoptingbtc",
+    nostr: "",
     featured: true
   },
   {
@@ -414,7 +445,8 @@ const eventsData = [
     coordinates: { lat: 52.3676, lng: 4.9041 },
     description: "Bitcoin node operation and infrastructure conference in Amsterdam, focusing on running Bitcoin nodes and network security.",
     website: "https://noderunners.network/en/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -427,7 +459,8 @@ const eventsData = [
     coordinates: { lat: 53.4808, lng: -2.2426 },
     description: "Bitcoin festival and conference in Manchester, bringing together the UK Bitcoin community for education, networking, and celebration.",
     website: "https://bitfest.uk/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -440,7 +473,8 @@ const eventsData = [
     coordinates: { lat: -34.6118, lng: -58.3960 },
     description: "Bitcoin conference in Buenos Aires, bringing together the Latin American Bitcoin community for education, networking, and adoption discussions.",
     website: "https://labitconf.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -453,7 +487,8 @@ const eventsData = [
     coordinates: { lat: 40.4168, lng: -3.7038 },
     description: "Bitcoin conference in Madrid, focusing on European adoption, regulation, and the future of Bitcoin in Spain and the Iberian Peninsula.",
     website: "https://wobitcoin.org/",
-    contact: "",
+    x: "https://x.com/wobitcoin",
+    nostr: "",
     featured: false
   },
   {
@@ -466,7 +501,8 @@ const eventsData = [
     coordinates: { lat: 26.1420, lng: -81.7948 },
     description: "Bitcoin meetup in Naples, Florida bringing together local Bitcoin enthusiasts for education, networking, and community building.",
     website: "https://bitcoinday.io",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -479,7 +515,8 @@ const eventsData = [
     coordinates: { lat: 36.1627, lng: -86.7816 },
     description: "Energy and mining conference in Nashville focusing on Bitcoin mining operations, renewable energy integration, and sustainable mining practices.",
     website: "https://www.meetup.com/bitcoinpark/events/304092624/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -492,7 +529,8 @@ const eventsData = [
     coordinates: { lat: 40.7128, lng: -74.0060 },
     description: "Week-long Bitcoin investment conference in NYC bringing together investors, analysts, and financial professionals to discuss Bitcoin investment strategies.",
     website: "https://lu.ma/bitcoininvestorweek",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -505,7 +543,8 @@ const eventsData = [
     coordinates: { lat: 39.7392, lng: -104.9903 },
     description: "Bitcoin Renaissance conference in Denver focusing on the rebirth and evolution of Bitcoin, bringing together innovators and thought leaders.",
     website: "https://bitcoin-renaissance.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -518,7 +557,8 @@ const eventsData = [
     coordinates: { lat: 43.5876, lng: -110.8278 },
     description: "Unique Bitcoin conference in the mountains combining Bitcoin education with outdoor activities in the beautiful Teton Village ski resort.",
     website: "https://www.apres.tech/bitcoin-ski-summit-2024",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -531,7 +571,8 @@ const eventsData = [
     coordinates: { lat: -33.8688, lng: 151.2093 },
     description: "Bitcoin Alive conference in Sydney bringing the Bitcoin ecosystem to life through education, networking, and community engagement.",
     website: "https://bitcoinalive.io/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -544,7 +585,8 @@ const eventsData = [
     coordinates: { lat: 25.7617, lng: -80.1918 },
     description: "Extended Bitcoin conference in Miami creating a vortex of Bitcoin knowledge, innovation, and community building over a full week.",
     website: "https://btcvortex.com",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -557,7 +599,8 @@ const eventsData = [
     coordinates: { lat: 30.2672, lng: -97.7431 },
     description: "Bitcoin Takeover conference in Austin focusing on how Bitcoin is taking over traditional financial systems and creating new opportunities.",
     website: "https://bitcoin-takeover.org/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -570,7 +613,8 @@ const eventsData = [
     coordinates: { lat: -36.3583, lng: 146.6869 },
     description: "Bush Bash Bitcoin conference in the Australian bush bringing together Bitcoin enthusiasts for a unique outdoor conference experience.",
     website: "https://bitcoinbushbash.info/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -583,7 +627,8 @@ const eventsData = [
     coordinates: { lat: -34.6118, lng: -58.3960 },
     description: "Opt Out Conf in Buenos Aires focusing on opting out of traditional financial systems and embracing Bitcoin alternatives.",
     website: "https://optoutconf.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -596,7 +641,8 @@ const eventsData = [
     coordinates: { lat: 42.3736, lng: -71.1097 },
     description: "MIT Bitcoin Expo at the prestigious Massachusetts Institute of Technology, bringing together academic research and Bitcoin innovation.",
     website: "https://mitbtcexpo.org/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -609,7 +655,8 @@ const eventsData = [
     coordinates: null,
     description: "Online summit focusing on Bitcoin as a strategic reserve asset for nations, corporations, and institutional investors.",
     website: "https://bitcoinreservesummit.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -622,7 +669,8 @@ const eventsData = [
     coordinates: { lat: 38.9185, lng: -77.2311 },
     description: "OPNEXT conference focusing on the next generation of Bitcoin operations, development, and innovation.",
     website: "https://opnext.dev/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -635,7 +683,8 @@ const eventsData = [
     coordinates: { lat: 36.1699, lng: -115.1398 },
     description: "MicroStrategy World conference focusing on Bitcoin adoption for corporations, featuring insights from companies leading Bitcoin treasury adoption.",
     website: "https://www.microstrategy.com/en/events/world",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -648,7 +697,8 @@ const eventsData = [
     coordinates: { lat: 45.5416, lng: 10.2118 },
     description: "BitCare Forum in Brescia focusing on Bitcoin care, community support, and building sustainable Bitcoin ecosystems.",
     website: "https://bitcareforum.it/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -661,7 +711,8 @@ const eventsData = [
     coordinates: { lat: 50.0755, lng: 14.4378 },
     description: "Pizza Day celebration in Prague commemorating the famous Bitcoin pizza transaction, bringing together the local Bitcoin community.",
     website: "https://pizzaday.cz/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -674,7 +725,8 @@ const eventsData = [
     coordinates: { lat: 53.3498, lng: -6.2603 },
     description: "Bitcoin Ireland Conference bringing together the Irish Bitcoin community for education, networking, and adoption discussions.",
     website: "https://www.bitcoinireland.eu/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -687,7 +739,8 @@ const eventsData = [
     coordinates: { lat: 48.2020, lng: -2.9326 },
     description: "Bitcoin Economic Forum in Bretagne focusing on the economic implications of Bitcoin adoption and its impact on regional economies.",
     website: "https://www.breizhbitcoin.com/bitcoin-economic-forum/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -700,7 +753,8 @@ const eventsData = [
     coordinates: { lat: 37.5665, lng: 126.9780 },
     description: "Bitcoin Seoul Conference bringing together the Korean Bitcoin community for education, networking, and adoption discussions.",
     website: "http://bitcoinseoul.kr",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -713,7 +767,8 @@ const eventsData = [
     coordinates: { lat: 27.9506, lng: -82.4572 },
     description: "Bitcoin Day meetup in Tampa bringing together local Bitcoin enthusiasts for education and community building.",
     website: "https://bitcoinday.io",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -726,7 +781,8 @@ const eventsData = [
     coordinates: { lat: 27.9506, lng: -82.4572 },
     description: "Sound Money Soiree in Tampa celebrating sound money principles and Bitcoin adoption in the local community.",
     website: "https://www.bitcoinbay.live/sound-money-soiree",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -739,7 +795,8 @@ const eventsData = [
     coordinates: { lat: 50.0755, lng: 14.4378 },
     description: "Bitcoin Corporate Day in Prague focusing on corporate Bitcoin adoption, treasury management, and business integration.",
     website: "https://www.bitcoincorporateday.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -752,7 +809,8 @@ const eventsData = [
     coordinates: { lat: 38.9072, lng: -77.0369 },
     description: "Bitcoin Policy Institute Summit in Washington DC bringing together policymakers, researchers, and advocates to discuss Bitcoin policy.",
     website: "https://www.btcpolicysummit.org/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -765,7 +823,8 @@ const eventsData = [
     coordinates: { lat: 52.3759, lng: 9.7320 },
     description: "Bitcoin Zitadelle conference in Hannover, Germany, focusing on building strong Bitcoin fortresses through education and community.",
     website: "https://x.com/BTCZitadelle",
-    contact: "",
+    x: "https://x.com/BTCZitadelle",
+    nostr: "",
     featured: false
   },
   {
@@ -778,7 +837,8 @@ const eventsData = [
     coordinates: { lat: 45.5152, lng: -122.6784 },
     description: "Bitcoin is for Everyone meetup in Portland promoting Bitcoin accessibility and adoption across all demographics.",
     website: "http://www.bitcoinisforeveryone.com",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -791,7 +851,8 @@ const eventsData = [
     coordinates: { lat: 42.7325, lng: -84.5555 },
     description: "Lake Satoshi Campout in Lansing combining outdoor activities with Bitcoin education and community building.",
     website: "https://twitter.com/LakeSatoshi",
-    contact: "",
+    x: "https://twitter.com/LakeSatoshi",
+    nostr: "",
     featured: false
   },
   {
@@ -804,7 +865,8 @@ const eventsData = [
     coordinates: { lat: 47.4979, lng: 19.0402 },
     description: "Budapest Bitcoin conference bringing together the Hungarian Bitcoin community for education, networking, and adoption discussions.",
     website: "https://budapestbitcoin.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -817,7 +879,8 @@ const eventsData = [
     coordinates: null,
     description: "Digital conference focusing on Bitcoin treasuries, corporate adoption, and institutional investment strategies.",
     website: "https://lu.ma/qt9p5v1g",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -830,7 +893,8 @@ const eventsData = [
     coordinates: { lat: 49.2827, lng: -123.1207 },
     description: "Learning Bitcoin conference in Vancouver focusing on Bitcoin education, skill development, and knowledge sharing.",
     website: "https://www.learningbitcoin.ca/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -843,7 +907,8 @@ const eventsData = [
     coordinates: { lat: 22.3193, lng: 114.1694 },
     description: "Bitcoin Asia conference in Hong Kong bringing together the Asian Bitcoin community for education, networking, and adoption discussions.",
     website: "https://b.tc/conference/asia",
-    contact: "",
+    x: "https://x.com/TheBitcoinConf",
+    nostr: "",
     featured: false
   },
   {
@@ -856,7 +921,8 @@ const eventsData = [
     coordinates: { lat: -8.3405, lng: 115.0920 },
     description: "Bitcoin Indonesia Conference combined with Bitcoin Bali Week, bringing together the Indonesian Bitcoin community in beautiful Bali.",
     website: "http://bitcoinweekbali.xyz",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -869,7 +935,8 @@ const eventsData = [
     coordinates: { lat: -25.2637, lng: -57.5759 },
     description: "Accelerating Bitcoin conference in Asuncion focusing on speeding up Bitcoin adoption and development in Paraguay and Latin America.",
     website: "https://acelerandobitcoin.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -882,7 +949,8 @@ const eventsData = [
     coordinates: { lat: 40.7128, lng: -74.0060 },
     description: "Unconference format Bitcoin Treasuries event in NYC focusing on corporate Bitcoin adoption and treasury management.",
     website: "https://lu.ma/z176rgsb?tk=MPliHW",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -895,7 +963,8 @@ const eventsData = [
     coordinates: { lat: 38.9072, lng: -77.0369 },
     description: "BTCinDC conference in Washington DC bringing Bitcoin education and advocacy to the nation's capital.",
     website: "https://btcindc.com",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -908,7 +977,8 @@ const eventsData = [
     coordinates: { lat: 43.1939, lng: -71.5724 },
     description: "MassAdoption conference in New Hampshire focusing on mass Bitcoin adoption strategies and community building.",
     website: "https://www.campnakamoto.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -921,7 +991,8 @@ const eventsData = [
     coordinates: { lat: 33.7490, lng: -84.3880 },
     description: "TABConf in Atlanta focusing on Bitcoin development, innovation, and technical discussions.",
     website: "https://tabconf.com/",
-    contact: "",
+    x: "https://x.com/tabconf",
+    nostr: "",
     featured: false
   },
   {
@@ -934,7 +1005,8 @@ const eventsData = [
     coordinates: { lat: 34.0195, lng: -118.4912 },
     description: "Bitcoin Alpha conference in Santa Monica focusing on early-stage Bitcoin projects, innovation, and alpha opportunities.",
     website: "https://bitcoinalpha.org/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -947,7 +1019,8 @@ const eventsData = [
     coordinates: { lat: 45.5017, lng: -73.5673 },
     description: "Canadian Bitcoin Conference in Montreal bringing together the Canadian Bitcoin community for education, networking, and adoption discussions.",
     website: "https://canadianbitcoinconf.com/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -960,7 +1033,8 @@ const eventsData = [
     coordinates: null,
     description: "October edition of the Bitcoin Treasuries Digital Conference focusing on corporate Bitcoin adoption and treasury management.",
     website: "",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -973,7 +1047,8 @@ const eventsData = [
     coordinates: { lat: -23.5505, lng: -46.6333 },
     description: "Bitcoin Dev Summit by Vinteum in São Paulo focusing on Bitcoin development, innovation, and technical discussions.",
     website: "",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -986,7 +1061,8 @@ const eventsData = [
     coordinates: { lat: 16.3000, lng: -86.5500 },
     description: "Bitchill retreat in Roatan combining Bitcoin education with tropical island relaxation and community building.",
     website: "https://lu.ma/swx92134",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -999,7 +1075,8 @@ const eventsData = [
     coordinates: { lat: 35.6762, lng: 139.6503 },
     description: "BUIDL@Tokyo Bitcoin Base Dev Day focusing on Bitcoin development, building, and innovation in Tokyo.",
     website: "https://btc-jpn.com",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -1012,7 +1089,8 @@ const eventsData = [
     coordinates: { lat: 35.6762, lng: 139.6503 },
     description: "Bitcoin Japan conference in Tokyo bringing together the Japanese Bitcoin community for education, networking, and adoption discussions.",
     website: "https://btc-jpn.com",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -1025,7 +1103,8 @@ const eventsData = [
     coordinates: { lat: 13.4987, lng: -88.5308 },
     description: "Economía Bitcoin 2025 conference in Berlin, El Salvador focusing on Bitcoin economics, adoption, and the future of Bitcoin in El Salvador.",
     website: "https://www.bitcoinberlinsv.com/economia-bitcoin-2025",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -1038,7 +1117,8 @@ const eventsData = [
     coordinates: { lat: -20.1609, lng: 57.5012 },
     description: "Africa Bitcoin Conference in Mauritius bringing together the African Bitcoin community for education, networking, and adoption discussions.",
     website: "https://www.afrobitcoin.org/",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -1051,7 +1131,8 @@ const eventsData = [
     coordinates: { lat: 20.9674, lng: -89.5926 },
     description: "Mayan Bitcoin Conference in Merida combining ancient Mayan culture with modern Bitcoin technology and adoption.",
     website: "https://www.mayanbitcoinconference.com",
-    contact: "",
+    x: "",
+    nostr: "",
     featured: false
   },
   {
@@ -1064,7 +1145,8 @@ const eventsData = [
     coordinates: { lat: 24.4539, lng: 54.3773 },
     description: "Bitcoin MENA conference in Abu Dhabi bringing together the Middle East and North Africa Bitcoin community.",
     website: "https://b.tc/conference/mena",
-    contact: "",
+    x: "https://x.com/TheBitcoinConf",
+    nostr: "",
     featured: false
   },
   {
@@ -1077,7 +1159,8 @@ const eventsData = [
     coordinates: { lat: 25.0330, lng: 121.5654 },
     description: "bitcoin++ stands sovereign conference in Taipei focusing on Bitcoin sovereignty, independence, and self-determination.",
     website: "https://btcplusplus.dev/conf/taipei",
-    contact: "",
+    x: "https://x.com/btcplusplus",
+    nostr: "",
     featured: false
   },
   {
@@ -1090,19 +1173,8 @@ const eventsData = [
     coordinates: { lat: 13.6929, lng: -89.2182 },
     description: "A conference by the National Bitcoin Office of El Salvador celebrating financial freedom in the heart of San Salvador. Features keynote speeches, panels, workshops, and freedom-tech demos across historic landmarks including the National Palace, National Theater, and BINAES.",
     website: "https://bitcoinhistorico.com/",
-    contact: "",
-    featured: true
+    x: "",
+    nostr: "",
+    featured: false
   }
 ];
-
-
-
-
-
-
-
-
-
-
-
-

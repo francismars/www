@@ -857,7 +857,7 @@ function createEventMarker(event, map) {
       <p style="margin: 0 0 12px 0; color: var(--muted-text); font-size: 0.9rem; line-height: 1.4;">
         ${event.description.substring(0, 100)}${event.description.length > 100 ? '...' : ''}
       </p>
-      <div style="display: flex; gap: 8px;">
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
         ${event.website ? `<a href="${event.website}" target="_blank" style="
           background: var(--accent); 
           color: white; 
@@ -867,6 +867,24 @@ function createEventMarker(event, map) {
           font-size: 0.8rem;
           font-weight: 500;
         ">Website</a>` : ''}
+        ${event.x ? `<a href="${event.x}" target="_blank" style="
+          background: #1da1f2; 
+          color: white; 
+          padding: 6px 12px; 
+          border-radius: 6px; 
+          text-decoration: none; 
+          font-size: 0.8rem;
+          font-weight: 500;
+        ">X</a>` : ''}
+        ${event.nostr ? `<a href="${event.nostr}" target="_blank" style="
+          background: #8b5cf6; 
+          color: white; 
+          padding: 6px 12px; 
+          border-radius: 6px; 
+          text-decoration: none; 
+          font-size: 0.8rem;
+          font-weight: 500;
+        ">Nostr</a>` : ''}
         <button onclick="showEventDetails(${JSON.stringify(event).replace(/"/g, '&quot;')})" style="
           background: transparent; 
           color: var(--accent); 
@@ -924,7 +942,8 @@ function showEventDetails(event) {
         </div>
         <div class="event-links">
           ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Visit Website</a>` : ''}
-          ${event.contact ? `<a href="mailto:${event.contact}" class="event-link contact">Contact Organizer</a>` : ''}
+          ${event.x ? `<a href="${event.x}" target="_blank" class="event-link social x">Follow on X</a>` : ''}
+          ${event.nostr ? `<a href="${event.nostr}" target="_blank" class="event-link social nostr">Follow on Nostr</a>` : ''}
         </div>
       </div>
     </div>
@@ -970,7 +989,11 @@ function showEventsForDay(events, year, month, day) {
             <h4>${event.name}</h4>
             <p class="event-location">📍 ${event.location}</p>
             <p class="event-description">${event.description}</p>
-            ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Website</a>` : ''}
+            <div class="modal-event-links">
+              ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Website</a>` : ''}
+              ${event.x ? `<a href="${event.x}" target="_blank" class="event-link social x">X</a>` : ''}
+              ${event.nostr ? `<a href="${event.nostr}" target="_blank" class="event-link social nostr">Nostr</a>` : ''}
+            </div>
           </div>
         `).join('')}
       </div>
@@ -1008,8 +1031,7 @@ function initializeEventForm() {
       type: formData.get('event-type'),
       location: formData.get('event-location'),
       description: formData.get('event-description'),
-      website: formData.get('event-website'),
-      contact: formData.get('event-contact')
+      website: formData.get('event-website')
     };
     
     // Here you would typically send the data to a server
