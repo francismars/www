@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Bitcoin Events 2025 - Conferences, Meetups & Bitcoin Community Gatherings</title>
-        <meta name="description" content="Complete guide to Bitcoin events 2025. Find upcoming Bitcoin conferences, meetups, workshops, and community gatherings worldwide. Bitcoin 2025, bitcoin++, Lightning Conference, and more.">
+          <title>Bitcoin Events - Conferences, Meetups & Bitcoin Community Gatherings</title>
+        <meta name="description" content="Complete guide to Bitcoin events. Find upcoming Bitcoin conferences, meetups, workshops, and community gatherings worldwide. Bitcoin conferences, bitcoin++, Lightning Conference, and more.">
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://francismars.com/events/">
@@ -19,7 +19,7 @@
           <meta name="twitter:image" content="https://www.francismars.com/images/events.png">
         
         <!-- Additional SEO Meta Tags -->
-        <meta name="keywords" content="bitcoin events 2025, bitcoin conference 2025, bitcoin meetup 2025, bitcoin++ 2025, lightning conference 2025, bitcoin community events, cryptocurrency conferences, blockchain events">
+        <meta name="keywords" content="bitcoin events, bitcoin conference, bitcoin meetup, bitcoin++, lightning conference, bitcoin community events, cryptocurrency conferences, blockchain events">
         <meta name="author" content="Francis Mars">
         <meta name="robots" content="index, follow">
         <meta name="language" content="English">
@@ -38,8 +38,8 @@
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "Bitcoin Events 2025",
-          "description": "Complete guide to Bitcoin events, conferences, and meetups in 2025",
+          "name": "Bitcoin Events",
+          "description": "Complete guide to Bitcoin events, conferences, and meetups",
           "url": "https://francismars.com/events/",
           "potentialAction": {
             "@type": "SearchAction",
@@ -53,8 +53,8 @@
         {
           "@context": "https://schema.org",
           "@type": "Event",
-          "name": "Bitcoin Events 2025",
-          "description": "Comprehensive listing of Bitcoin conferences, meetups, and community events throughout 2025",
+          "name": "Bitcoin Events",
+          "description": "Comprehensive listing of Bitcoin conferences, meetups, and community events",
           "startDate": "2025-01-01",
           "endDate": "2025-12-31",
           "location": {
@@ -78,14 +78,13 @@
     <nav class="navbar" aria-label="Main Navigation">
       <a href="../" class="navbar-profile" aria-label="Back to main site">
         <img src="../images/bitcoin-logo.png" alt="Bitcoin Logo" class="navbar-profile-pic" />
-        <span class="navbar-profile-name" id="navbar-profile-name">Events 2025</span>
+        <span class="navbar-profile-name" id="navbar-profile-name">Events</span>
       </a>
       <button class="navbar-burger" aria-label="Open navigation" aria-controls="navbar-links" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
               <div class="navbar-links" id="navbar-links">
-                  <a href="#upcoming">Upcoming</a>
-          <a href="#past">Past Events</a>
+                  <a href="#events">Events</a>
           <a href="#calendar">Calendar</a>
           <a href="#map">Map</a>
           <a href="#submit">Submit Event</a>
@@ -95,42 +94,91 @@
     
          <header>
        <img src="../images/bitcoin-logo.png" alt="Bitcoin Logo" class="profile-pic" />
-       <h1 class="glow">Events 2025</h1>
+       <h1 class="glow">Events</h1>
       <div id="typed-main" style="font-size:1.2rem; margin-top:0.5em; min-height:1.5em; font-family: 'Fira Code', monospace; color:var(--muted-text);"></div>
       <p style="margin-top:1.5em; color:var(--muted-text); font-size:1.1rem; max-width:600px; margin-left:auto; margin-right:auto;">
         Stay connected with the Bitcoin community through conferences, meetups, and educational events around the world.
       </p>
     </header>
 
-    <div class="section" id="upcoming">
+    <div class="section" id="events">
       <div class="section-header">
-        <h2>Upcoming Events</h2>
-        <button class="collapse-btn" data-section="upcoming" aria-label="Collapse section">
+        <h2>Events</h2>
+        <button class="collapse-btn" data-section="events" aria-label="Collapse section">
           <span class="collapse-icon">−</span>
         </button>
       </div>
       <div class="section-content">
-        <div class="events-filter">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="conference">Conferences</button>
-          <button class="filter-btn" data-filter="meetup">Meetups</button>
-          <button class="filter-btn" data-filter="workshop">Workshops</button>
-          <button class="filter-btn" data-filter="hackathon">Hackathons</button>
+        <!-- Search and Filter Controls -->
+        <div class="search-filter-container">
+          <!-- Search Bar -->
+          <div class="search-container">
+            <div class="search-input-wrapper">
+              <input type="text" id="event-search" placeholder="Search events by name, location, or description..." class="search-input">
+              <button id="clear-search" class="clear-search-btn" title="Clear search">×</button>
+            </div>
+          </div>
+          
+          <!-- Filter Controls -->
+          <div class="filter-controls">
+            <div class="filter-group">
+              <label for="event-type-filter">Event Type:</label>
+              <select id="event-type-filter" class="filter-select">
+                <option value="all">All Types</option>
+                <option value="conference">Conferences</option>
+                <option value="meetup">Meetups</option>
+                <option value="workshop">Workshops</option>
+                <option value="hackathon">Hackathons</option>
+                <option value="retreat">Retreats</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            
+            <div class="filter-group">
+              <label for="date-filter">Time Period:</label>
+              <select id="date-filter" class="filter-select">
+                <option value="all">All Time</option>
+                <option value="upcoming" selected>Upcoming Only</option>
+                <option value="past">Past Only</option>
+                <option value="this-month">This Month</option>
+                <option value="next-month">Next Month</option>
+                <option value="this-quarter">This Quarter</option>
+                <option value="this-year">This Year</option>
+              </select>
+            </div>
+            
+            
+            <div class="filter-group">
+              <label for="sort-filter">Sort By:</label>
+              <select id="sort-filter" class="filter-select">
+                <option value="date-asc">Date (Earliest First)</option>
+                <option value="date-desc">Date (Latest First)</option>
+                <option value="name-asc">Name (A-Z)</option>
+                <option value="name-desc">Name (Z-A)</option>
+                <option value="location-asc">Location (A-Z)</option>
+                <option value="featured-first">Featured First</option>
+              </select>
+            </div>
+          </div>
+          
+          
+          <!-- Results Info -->
+          <div class="results-info">
+            <span id="results-count">Loading events...</span>
+            <div class="results-actions">
+              <label class="favorites-checkbox-label">
+                <input type="checkbox" id="favorites-checkbox" class="favorites-checkbox">
+                <span class="checkbox-text">Favorites only</span>
+              </label>
+              <button id="reset-filters" class="reset-btn">Reset All Filters</button>
+            </div>
+          </div>
         </div>
-        <div id="upcoming-events-list" class="events-grid"></div>
+        
+        <!-- Events List -->
+        <div id="events-list" class="events-grid"></div>
       </div>
-    </div>
-
-    <div class="section" id="past">
-      <div class="section-header">
-        <h2>Past Events</h2>
-        <button class="collapse-btn" data-section="past" aria-label="Collapse section">
-          <span class="collapse-icon">−</span>
-        </button>
-      </div>
-              <div class="section-content">
-          <div id="past-events-list" class="events-grid"></div>
-        </div>
     </div>
 
     <div class="section" id="calendar">

@@ -12,6 +12,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function initializeEventsPage() {
+  // Load favorites from localStorage
+  loadFavorites();
+  
+  // Initialize search and filtering system
+  initializeSearchAndFilters();
+  
   // Render events
   renderUpcomingEvents();
   renderPastEvents();
@@ -38,37 +44,15 @@ function initializeEventsPage() {
 }
 
 function renderUpcomingEvents() {
-  const container = document.getElementById("upcoming-events-list");
-  if (!container) return;
-  
-  container.innerHTML = "";
-  
-  // Filter upcoming events and sort by date (earliest first)
-  const currentDate = getCurrentDate();
-  const upcomingEvents = eventsData.filter(event => event.date >= currentDate);
-  const sortedEvents = upcomingEvents.sort((a, b) => new Date(a.date) - new Date(b.date));
-  
-  sortedEvents.forEach(event => {
-    const eventCard = createEventCard(event);
-    container.appendChild(eventCard);
-  });
+  // This function is now handled by the unified search and filter system
+  // The renderFilteredEvents function will handle all events
+  renderFilteredEvents();
 }
 
 function renderPastEvents() {
-  const container = document.getElementById("past-events-list");
-  if (!container) return;
-  
-  container.innerHTML = "";
-  
-  // Filter past events and sort by date (most recent first)
-  const currentDate = getCurrentDate();
-  const pastEvents = eventsData.filter(event => event.date < currentDate);
-  const sortedEvents = pastEvents.sort((a, b) => new Date(b.date) - new Date(a.date));
-  
-  sortedEvents.forEach(event => {
-    const eventCard = createEventCard(event, true);
-    container.appendChild(eventCard);
-  });
+  // This function is now handled by the unified search and filter system
+  // The renderFilteredEvents function will handle all events
+  renderFilteredEvents();
 }
 
 function createEventCard(event, isPast = false) {
@@ -123,16 +107,14 @@ function initializeFilters() {
 }
 
 function filterEvents(filter) {
-  const eventsList = document.getElementById('upcoming-events-list');
-  const events = eventsList.querySelectorAll('.event-card');
-  
-  events.forEach(event => {
-    if (filter === 'all' || event.classList.contains(filter)) {
-      event.style.display = 'block';
-    } else {
-      event.style.display = 'none';
-    }
-  });
+  // This function is now handled by the new search and filter system
+  // The applyFilters function will handle all filtering logic
+  if (filter === 'all') {
+    currentFilters.eventType = 'all';
+  } else {
+    currentFilters.eventType = filter;
+  }
+  applyFilters();
 }
 
 function initializeCalendar() {
@@ -1056,7 +1038,7 @@ function showFormSuccess() {
 }
 
 function initializeNavigation() {
-  const sections = ['upcoming', 'past', 'calendar', 'map', 'submit', 'support'];
+  const sections = ['events', 'calendar', 'map', 'submit', 'support'];
   const navLinks = Array.from(document.querySelectorAll('.navbar a'));
   
   // Add click event to navbar profile name to scroll to top
@@ -1127,7 +1109,7 @@ function initializeCollapsibleSections() {
     // Check if section was previously collapsed or should start collapsed by default
     const wasCollapsed = localStorage.getItem(`section_${sectionId}_collapsed`);
     const shouldStartCollapsed = wasCollapsed === 'true' || 
-                                                                 (wasCollapsed === null && (sectionId === 'past' || sectionId === 'submit' || sectionId === 'support'));
+                                                                 (wasCollapsed === null && (sectionId === 'submit' || sectionId === 'support'));
     
     if (shouldStartCollapsed) {
       section.classList.add('collapsed');
@@ -1202,6 +1184,542 @@ function getFirstDayOfMonth(year, month) {
 
 function getDaysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
+}
+
+// ===== SEARCH AND FILTERING SYSTEM =====
+
+// Global state for search and filters
+let currentFilters = {
+  search: '',
+  eventType: 'all',
+  dateFilter: 'upcoming',
+  favorites: 'all',
+  sortBy: 'date-asc'
+};
+
+let filteredEvents = [...eventsData];
+
+// Favorites system
+let favoriteEvents = new Set();
+
+// Load favorites from localStorage
+function loadFavorites() {
+  const saved = localStorage.getItem('bitcoin-events-favorites');
+  if (saved) {
+    try {
+      const favorites = JSON.parse(saved);
+      favoriteEvents = new Set(favorites);
+    } catch (e) {
+      console.warn('Failed to load favorites:', e);
+      favoriteEvents = new Set();
+    }
+  }
+}
+
+// Save favorites to localStorage
+function saveFavorites() {
+  try {
+    localStorage.setItem('bitcoin-events-favorites', JSON.stringify([...favoriteEvents]));
+  } catch (e) {
+    console.warn('Failed to save favorites:', e);
+  }
+}
+
+// Toggle favorite status
+function toggleFavorite(eventId) {
+  if (favoriteEvents.has(eventId)) {
+    favoriteEvents.delete(eventId);
+  } else {
+    favoriteEvents.add(eventId);
+  }
+  saveFavorites();
+  updateFavoriteButtons();
+  updateFavoritesCount();
+}
+
+// Check if event is favorited
+function isFavorited(eventId) {
+  return favoriteEvents.has(eventId);
+}
+
+// Update all favorite buttons
+function updateFavoriteButtons() {
+  document.querySelectorAll('.favorite-btn').forEach(btn => {
+    const eventId = parseInt(btn.dataset.eventId);
+    if (isFavorited(eventId)) {
+      btn.classList.add('favorited');
+      btn.innerHTML = '⭐';
+      btn.title = 'Remove from favorites';
+    } else {
+      btn.classList.remove('favorited');
+      btn.innerHTML = '☆';
+      btn.title = 'Add to favorites';
+    }
+  });
+}
+
+// Update favorites count display
+function updateFavoritesCount() {
+  const countElement = document.getElementById('favorites-count');
+  if (countElement) {
+    countElement.textContent = favoriteEvents.size;
+  }
+}
+
+function initializeSearchAndFilters() {
+  // Initialize search input
+  const searchInput = document.getElementById('event-search');
+  const clearSearchBtn = document.getElementById('clear-search');
+  
+  if (searchInput) {
+    searchInput.addEventListener('input', handleSearch);
+    searchInput.addEventListener('keyup', handleSearch);
+  }
+  
+  if (clearSearchBtn) {
+    clearSearchBtn.addEventListener('click', clearSearch);
+  }
+  
+  // Initialize filter controls
+  const eventTypeFilter = document.getElementById('event-type-filter');
+  const dateFilter = document.getElementById('date-filter');
+  const favoritesCheckbox = document.getElementById('favorites-checkbox');
+  const sortFilter = document.getElementById('sort-filter');
+  
+  if (eventTypeFilter) {
+    eventTypeFilter.addEventListener('change', handleFilterChange);
+  }
+  
+  if (dateFilter) {
+    dateFilter.addEventListener('change', handleFilterChange);
+  }
+  
+  if (favoritesCheckbox) {
+    favoritesCheckbox.addEventListener('change', handleFilterChange);
+  }
+  
+  if (sortFilter) {
+    sortFilter.addEventListener('change', handleSortChange);
+  }
+  
+  
+  // Initialize reset button
+  const resetBtn = document.getElementById('reset-filters');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetAllFilters);
+  }
+  
+  // Load filters from URL parameters
+  loadFiltersFromURL();
+  
+  // Apply initial filters
+  applyFilters();
+}
+
+function handleSearch(event) {
+  const searchTerm = event.target.value.trim();
+  currentFilters.search = searchTerm;
+  
+  // Show/hide clear button
+  const clearBtn = document.getElementById('clear-search');
+  if (clearBtn) {
+    clearBtn.classList.toggle('hidden', searchTerm === '');
+  }
+  
+  applyFilters();
+  updateURL();
+}
+
+function clearSearch() {
+  const searchInput = document.getElementById('event-search');
+  if (searchInput) {
+    searchInput.value = '';
+    currentFilters.search = '';
+    document.getElementById('clear-search').classList.add('hidden');
+    applyFilters();
+    updateURL();
+  }
+}
+
+function handleFilterChange(event) {
+  const filterId = event.target.id;
+  let filterProperty;
+  
+  // Map filter IDs to the correct property names
+  switch (filterId) {
+    case 'event-type-filter':
+      filterProperty = 'eventType';
+      break;
+    case 'date-filter':
+      filterProperty = 'dateFilter';
+      break;
+    case 'favorites-checkbox':
+      filterProperty = 'favorites';
+      break;
+    case 'sort-filter':
+      filterProperty = 'sortBy';
+      break;
+    default:
+      console.warn('Unknown filter ID:', filterId);
+      return;
+  }
+  
+  if (filterProperty === 'favorites') {
+    currentFilters[filterProperty] = event.target.checked ? 'favorites' : 'all';
+  } else {
+    currentFilters[filterProperty] = event.target.value;
+  }
+  applyFilters();
+  updateURL();
+}
+
+function handleSortChange(event) {
+  currentFilters.sortBy = event.target.value;
+  applyFilters();
+  updateURL();
+}
+
+
+function updateFilterControls() {
+  // Update select controls to match current filters
+  const eventTypeFilter = document.getElementById('event-type-filter');
+  const dateFilter = document.getElementById('date-filter');
+  const favoritesCheckbox = document.getElementById('favorites-checkbox');
+  const sortFilter = document.getElementById('sort-filter');
+  
+  if (eventTypeFilter) {
+    eventTypeFilter.value = currentFilters.eventType;
+  }
+  
+  if (dateFilter) {
+    dateFilter.value = currentFilters.dateFilter;
+  }
+  
+  if (favoritesCheckbox) {
+    favoritesCheckbox.checked = currentFilters.favorites === 'favorites';
+  }
+  
+  if (sortFilter) {
+    sortFilter.value = currentFilters.sortBy;
+  }
+}
+
+function applyFilters() {
+  let filtered = [...eventsData];
+  
+  // Apply search filter
+  if (currentFilters.search) {
+    const searchTerm = currentFilters.search.toLowerCase();
+    filtered = filtered.filter(event => 
+      event.name.toLowerCase().includes(searchTerm) ||
+      event.location.toLowerCase().includes(searchTerm) ||
+      event.description.toLowerCase().includes(searchTerm)
+    );
+  }
+  
+  // Apply event type filter
+  if (currentFilters.eventType !== 'all') {
+    filtered = filtered.filter(event => event.type === currentFilters.eventType);
+  }
+  
+  // Apply favorites filter
+  if (currentFilters.favorites === 'favorites') {
+    filtered = filtered.filter(event => isFavorited(event.id));
+  }
+  
+  // Apply date filter
+  const currentDate = getCurrentDate();
+  if (currentFilters.dateFilter !== 'all') {
+    filtered = filtered.filter(event => {
+      switch (currentFilters.dateFilter) {
+        case 'upcoming':
+          return event.date >= currentDate;
+        case 'past':
+          return event.date < currentDate;
+        case 'this-month':
+          const thisMonth = new Date().getMonth();
+          const thisYear = new Date().getFullYear();
+          const eventDate = new Date(event.date);
+          return eventDate.getMonth() === thisMonth && eventDate.getFullYear() === thisYear;
+        case 'next-month':
+          const nextMonth = (new Date().getMonth() + 1) % 12;
+          const nextYear = nextMonth === 0 ? new Date().getFullYear() + 1 : new Date().getFullYear();
+          const eventDateNext = new Date(event.date);
+          return eventDateNext.getMonth() === nextMonth && eventDateNext.getFullYear() === nextYear;
+        case 'this-quarter':
+          const quarter = Math.floor(new Date().getMonth() / 3);
+          const eventDateQuarter = new Date(event.date);
+          const eventQuarter = Math.floor(eventDateQuarter.getMonth() / 3);
+          return eventQuarter === quarter && eventDateQuarter.getFullYear() === new Date().getFullYear();
+        case 'this-year':
+          return new Date(event.date).getFullYear() === new Date().getFullYear();
+        default:
+          return true;
+      }
+    });
+  }
+  
+  
+  // Apply sorting
+  filtered = sortEvents(filtered, currentFilters.sortBy);
+  
+  // Update global filtered events
+  filteredEvents = filtered;
+  
+  // Render filtered events
+  renderFilteredEvents();
+  
+  // Update results count
+  updateResultsCount();
+  
+  // Update favorite buttons
+  updateFavoriteButtons();
+}
+
+function sortEvents(events, sortBy) {
+  return events.sort((a, b) => {
+    switch (sortBy) {
+      case 'date-asc':
+        return new Date(a.date) - new Date(b.date);
+      case 'date-desc':
+        return new Date(b.date) - new Date(a.date);
+      case 'name-asc':
+        return a.name.localeCompare(b.name);
+      case 'name-desc':
+        return b.name.localeCompare(a.name);
+      case 'location-asc':
+        return a.location.localeCompare(b.location);
+      case 'featured-first':
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return new Date(a.date) - new Date(b.date);
+      default:
+        return new Date(a.date) - new Date(b.date);
+    }
+  });
+}
+
+function renderFilteredEvents() {
+  const eventsContainer = document.getElementById("events-list");
+  
+  if (!eventsContainer) return;
+  
+  // Clear container
+  eventsContainer.innerHTML = "";
+  
+  if (filteredEvents.length === 0) {
+    renderNoResults();
+    return;
+  }
+  
+  // Render all events in a unified list
+  filteredEvents.forEach(event => {
+    const eventCard = createEventCard(event);
+    eventsContainer.appendChild(eventCard);
+  });
+}
+
+function renderNoResults() {
+  const eventsContainer = document.getElementById("events-list");
+  
+  if (!eventsContainer) return;
+  
+  const noResultsHTML = `
+    <div class="no-results">
+      <h3>No events found</h3>
+      <p>Try adjusting your search criteria or filters.</p>
+      <div class="suggestions">
+        <h4>Suggestions:</h4>
+        <ul>
+          <li>Check your spelling</li>
+          <li>Try different keywords</li>
+          <li>Remove some filters</li>
+          <li>Search for a broader location</li>
+        </ul>
+      </div>
+    </div>
+  `;
+  
+  eventsContainer.innerHTML = noResultsHTML;
+}
+
+function updateResultsCount() {
+  const resultsCount = document.getElementById('results-count');
+  if (!resultsCount) return;
+  
+  const total = eventsData.length;
+  const filtered = filteredEvents.length;
+  
+  if (filtered === total) {
+    resultsCount.textContent = `Showing all ${total} events`;
+  } else {
+    resultsCount.textContent = `Showing ${filtered} of ${total} events`;
+  }
+}
+
+function resetAllFilters() {
+  // Reset all filter values
+  currentFilters = {
+    search: '',
+    eventType: 'all',
+    dateFilter: 'upcoming',
+    favorites: 'all',
+    sortBy: 'date-asc'
+  };
+  
+  // Reset UI controls
+  const searchInput = document.getElementById('event-search');
+  if (searchInput) {
+    searchInput.value = '';
+  }
+  
+  document.getElementById('clear-search').classList.add('hidden');
+  updateFilterControls();
+  
+  
+  // Apply filters
+  applyFilters();
+  updateURL();
+}
+
+function loadFiltersFromURL() {
+  const urlParams = new URLSearchParams(window.location.search);
+  
+  if (urlParams.has('search')) {
+    currentFilters.search = urlParams.get('search');
+    const searchInput = document.getElementById('event-search');
+    if (searchInput) {
+      searchInput.value = currentFilters.search;
+      if (currentFilters.search) {
+        document.getElementById('clear-search').classList.remove('hidden');
+      }
+    }
+  }
+  
+  if (urlParams.has('type')) {
+    currentFilters.eventType = urlParams.get('type');
+  }
+  
+  
+  if (urlParams.has('date')) {
+    currentFilters.dateFilter = urlParams.get('date');
+  } else {
+    // Keep the default 'upcoming' if no date parameter in URL
+    currentFilters.dateFilter = 'upcoming';
+  }
+  
+  if (urlParams.has('favorites')) {
+    currentFilters.favorites = urlParams.get('favorites');
+  }
+  
+  if (urlParams.has('sort')) {
+    currentFilters.sortBy = urlParams.get('sort');
+  }
+  
+  // Update UI to match URL parameters
+  updateFilterControls();
+}
+
+function updateURL() {
+  const url = new URL(window.location);
+  
+  // Clear existing parameters
+  url.search = '';
+  
+  // Add non-default parameters
+  if (currentFilters.search) {
+    url.searchParams.set('search', currentFilters.search);
+  }
+  
+  if (currentFilters.eventType !== 'all') {
+    url.searchParams.set('type', currentFilters.eventType);
+  }
+  
+  
+  if (currentFilters.dateFilter !== 'upcoming') {
+    url.searchParams.set('date', currentFilters.dateFilter);
+  }
+  
+  if (currentFilters.favorites !== 'all') {
+    url.searchParams.set('favorites', currentFilters.favorites);
+  }
+  
+  if (currentFilters.sortBy !== 'date-asc') {
+    url.searchParams.set('sort', currentFilters.sortBy);
+  }
+  
+  // Update URL without page reload
+  window.history.replaceState({}, '', url);
+}
+
+// Enhanced createEventCard function with search highlighting and time status
+function createEventCard(event) {
+  const card = document.createElement("div");
+  
+  // Determine if event is upcoming or past
+  const currentDate = getCurrentDate();
+  const isPast = event.date < currentDate;
+  
+  card.className = `event-card ${event.type} ${event.featured ? 'featured' : ''} ${isPast ? 'past' : ''}`;
+  card.style.cursor = 'pointer';
+  
+  const dateRange = event.endDate 
+    ? `${formatDate(event.date)} - ${formatDate(event.endDate)}`
+    : formatDate(event.date);
+  
+  // Apply search highlighting
+  const highlightedName = highlightSearchTerm(event.name, currentFilters.search);
+  const highlightedLocation = highlightSearchTerm(event.location, currentFilters.search);
+  const highlightedDescription = highlightSearchTerm(
+    event.description.substring(0, 100) + (event.description.length > 100 ? '...' : ''), 
+    currentFilters.search
+  );
+  
+  
+  card.innerHTML = `
+    <div class="event-header">
+      <div class="event-type-badge ${event.type}">${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</div>
+      ${event.featured ? '<div class="featured-badge">Featured</div>' : ''}
+      <button class="favorite-btn" data-event-id="${event.id}" title="Add to favorites">
+        ${isFavorited(event.id) ? '⭐' : '☆'}
+      </button>
+    </div>
+
+    <h3 class="event-title">${highlightedName}</h3>
+    <div class="event-date">${dateRange}</div>
+    <div class="event-location">📍 ${highlightedLocation}</div>
+    <div class="event-preview">
+      <p class="event-description-preview">${highlightedDescription}</p>
+    </div>
+    <div class="event-actions">
+      <span class="click-hint">Click for details</span>
+    </div>
+  `;
+  
+  // Add click event to show full event details
+  card.addEventListener('click', () => {
+    showEventDetails(event);
+  });
+  
+  // Add click event for favorite button (prevent event propagation)
+  const favoriteBtn = card.querySelector('.favorite-btn');
+  favoriteBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // Prevent triggering the card click
+    toggleFavorite(event.id);
+  });
+  
+  return card;
+}
+
+function highlightSearchTerm(text, searchTerm) {
+  if (!searchTerm || !text) return text;
+  
+  const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
+  return text.replace(regex, '<span class="search-highlight">$1</span>');
+}
+
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
 
