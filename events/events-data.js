@@ -1,5 +1,7 @@
 // Bitcoin Events Data - Real Events for 2025
 // Each event now includes coordinates for map display
+// Last updated: January 2025
+
 const eventsData = [
   {
     id: 1,

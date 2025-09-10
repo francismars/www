@@ -15,6 +15,12 @@ function initializeEventsPage() {
   // Load favorites from localStorage
   loadFavorites();
   
+  // Display last modified info
+  displayLastModifiedInfo();
+  
+  // Fetch actual last modified date
+  fetchLastModifiedDate();
+  
   // Initialize search and filtering system
   initializeSearchAndFilters();
   
@@ -1202,6 +1208,9 @@ let filteredEvents = [...eventsData];
 // Favorites system
 let favoriteEvents = new Set();
 
+// Last modified date for events data (will be fetched dynamically)
+let EVENTS_LAST_MODIFIED = "Loading...";
+
 // Load favorites from localStorage
 function loadFavorites() {
   const saved = localStorage.getItem('bitcoin-events-favorites');
@@ -1264,6 +1273,69 @@ function updateFavoritesCount() {
   if (countElement) {
     countElement.textContent = favoriteEvents.size;
   }
+}
+
+// Fetch last modified date of events-data.js
+async function fetchLastModifiedDate() {
+  try {
+    const response = await fetch('events-data.js?' + Date.now());
+    const lastModified = response.headers.get('Last-Modified');
+    
+    if (lastModified) {
+      const date = new Date(lastModified);
+      const month = date.toLocaleString('default', { month: 'long' });
+      const year = date.getFullYear();
+      EVENTS_LAST_MODIFIED = `${month} ${year}`;
+    } else {
+      // Fallback to current date if Last-Modified header is not available
+      const now = new Date();
+      const month = now.toLocaleString('default', { month: 'long' });
+      const year = now.getFullYear();
+      EVENTS_LAST_MODIFIED = `${month} ${year}`;
+    }
+    
+    // Update the display if it already exists
+    updateLastModifiedDisplay();
+  } catch (error) {
+    console.warn('Could not fetch last modified date:', error);
+    // Fallback to current date
+    const now = new Date();
+    const month = now.toLocaleString('default', { month: 'long' });
+    const year = now.getFullYear();
+    EVENTS_LAST_MODIFIED = `${month} ${year}`;
+    updateLastModifiedDisplay();
+  }
+}
+
+// Update the last modified display
+function updateLastModifiedDisplay() {
+  const lastModifiedText = document.querySelector('.last-modified-text');
+  if (lastModifiedText) {
+    lastModifiedText.textContent = `Last updated: ${EVENTS_LAST_MODIFIED}`;
+  }
+}
+
+// Display last modified info
+function displayLastModifiedInfo() {
+  const eventsSection = document.getElementById('events');
+  if (!eventsSection) return;
+  
+  const sectionHeader = eventsSection.querySelector('.section-header');
+  if (!sectionHeader) return;
+  
+  const titleElement = sectionHeader.querySelector('h2');
+  if (!titleElement) return;
+  
+  // Check if info already exists
+  if (titleElement.querySelector('.last-modified-info')) return;
+  
+  const lastModifiedDiv = document.createElement('span');
+  lastModifiedDiv.className = 'last-modified-info';
+  lastModifiedDiv.innerHTML = `
+    <span class="last-modified-text">Last updated: ${EVENTS_LAST_MODIFIED}</span>
+  `;
+  
+  titleElement.appendChild(lastModifiedDiv);
 }
 
 function initializeSearchAndFilters() {
