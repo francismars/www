@@ -245,23 +245,33 @@ function initializeMap() {
     featured: []
   };
   
-  // Add event markers
+  // First, add non-featured markers
   eventsData.forEach(event => {
-    const marker = createEventMarker(event, map);
-    if (marker) {
-      marker.addTo(map);
-      
-      // Categorize marker by type
-      const currentDate = getCurrentDate();
-      const isUpcoming = event.date >= currentDate;
-      const isFeatured = event.featured;
-      
-      if (isFeatured) {
+    if (!event.featured) {
+      const marker = createEventMarker(event, map);
+      if (marker) {
+        marker.addTo(map);
+        
+        // Categorize marker by type
+        const currentDate = getCurrentDate();
+        const isUpcoming = event.date >= currentDate;
+        
+        if (isUpcoming) {
+          window.mapMarkers.upcoming.push(marker);
+        } else {
+          window.mapMarkers.past.push(marker);
+        }
+      }
+    }
+  });
+  
+  // Then, add featured markers on top
+  eventsData.forEach(event => {
+    if (event.featured) {
+      const marker = createEventMarker(event, map);
+      if (marker) {
+        marker.addTo(map);
         window.mapMarkers.featured.push(marker);
-      } else if (isUpcoming) {
-        window.mapMarkers.upcoming.push(marker);
-      } else {
-        window.mapMarkers.past.push(marker);
       }
     }
   });
@@ -301,10 +311,18 @@ function toggleMapLayer(eventType, legendItem) {
     });
     legendItem.classList.add('disabled');
   } else {
-    // Show markers
-    markers.forEach(marker => {
-      marker.addTo(window.mapMarkers.map);
-    });
+    // Show markers - ensure featured markers are always added last (on top)
+    if (eventType === 'featured') {
+      // Add featured markers last to ensure they appear on top
+      markers.forEach(marker => {
+        marker.addTo(window.mapMarkers.map);
+      });
+    } else {
+      // For non-featured markers, add them normally
+      markers.forEach(marker => {
+        marker.addTo(window.mapMarkers.map);
+      });
+    }
     legendItem.classList.remove('disabled');
   }
 }
@@ -824,6 +842,7 @@ function createEventMarker(event, map) {
       border-radius: 50%; 
       box-shadow: 0 2px 4px rgba(0,0,0,0.3);
       cursor: pointer;
+      z-index: ${isFeatured ? '1000' : '100'};
     "></div>`,
     iconSize: [16, 16],
     iconAnchor: [8, 8]
