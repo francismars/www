@@ -225,7 +225,7 @@ const eventsData = [
     website: "https://tickets.bcc8333.com/",
     x: "",
     nostr: "",
-    featured: false
+    featured: true
   },
   {
     id: 17,
@@ -323,7 +323,7 @@ const eventsData = [
     website: "https://btchel.com",
     x: "",
     nostr: "",
-    featured: false
+    featured: true
   },
   {
     id: 24,
