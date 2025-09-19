@@ -6,7 +6,15 @@ const contributions = [
     description: "Contributed to Satsigner, a powerful native mobile Bitcoin signer management application. Features UTXO control, message signing, visual chain analysis, and Bitcoin-specific UX patterns. Built with React Native and Bitcoin Development Kit (BDK).",
     github: "https://github.com/satsigner/satsigner",
     website: "https://satsigner.com",
-    tags: ["Bitcoin", "Mobile", "React Native", "TypeScript"]
+    tags: ["Bitcoin", "BDK","Mobile", "React Native", "TypeScript"]
+  },
+  {
+    name: "Stable Channels",
+    type: "Lightning Development",
+    description: "Contributed to Stable Channels, a p2p stable channels technology on the Bitcoin Lightning Network that lets users peg a portion of their bitcoin to a dollar balance. Features self-custodial stability through Lightning channels with automatic rebalancing based on price feeds.",
+    github: "https://github.com/toneloc/stable-channels",
+    website: "https://stablechannels.com",
+    tags: ["Bitcoin", "Lightning", "Rust", "BDK", "LDK","Stablecoin"]
   },
   {
     name: "lnurlp",
