@@ -245,29 +245,45 @@ function initializeMap() {
     featured: []
   };
   
-  // First, add non-featured markers
+  const currentDate = getCurrentDate();
+  
+  // Add markers in priority order (lowest to highest):
+  // 1. Past non-featured markers (lowest priority - added first)
   eventsData.forEach(event => {
-    if (!event.featured) {
+    if (!event.featured && event.date < currentDate) {
       const marker = createEventMarker(event, map);
       if (marker) {
         marker.addTo(map);
-        
-        // Categorize marker by type
-        const currentDate = getCurrentDate();
-        const isUpcoming = event.date >= currentDate;
-        
-        if (isUpcoming) {
-          window.mapMarkers.upcoming.push(marker);
-        } else {
-          window.mapMarkers.past.push(marker);
-        }
+        window.mapMarkers.past.push(marker);
       }
     }
   });
   
-  // Then, add featured markers on top
+  // 2. Past featured markers
   eventsData.forEach(event => {
-    if (event.featured) {
+    if (event.featured && event.date < currentDate) {
+      const marker = createEventMarker(event, map);
+      if (marker) {
+        marker.addTo(map);
+        window.mapMarkers.featured.push(marker);
+      }
+    }
+  });
+  
+  // 3. Upcoming non-featured markers
+  eventsData.forEach(event => {
+    if (!event.featured && event.date >= currentDate) {
+      const marker = createEventMarker(event, map);
+      if (marker) {
+        marker.addTo(map);
+        window.mapMarkers.upcoming.push(marker);
+      }
+    }
+  });
+  
+  // 4. Upcoming featured markers (highest priority - added last so they appear on top)
+  eventsData.forEach(event => {
+    if (event.featured && event.date >= currentDate) {
       const marker = createEventMarker(event, map);
       if (marker) {
         marker.addTo(map);
@@ -311,18 +327,35 @@ function toggleMapLayer(eventType, legendItem) {
     });
     legendItem.classList.add('disabled');
   } else {
-    // Show markers - ensure featured markers are always added last (on top)
+    // Show markers - maintain priority order: past first, then upcoming, with featured on top
     if (eventType === 'featured') {
-      // Add featured markers last to ensure they appear on top
+      // For featured markers, separate past and upcoming, add past first, then upcoming
+      const pastFeatured = [];
+      const upcomingFeatured = [];
+      
+      markers.forEach(marker => {
+        if (marker._isUpcoming) {
+          upcomingFeatured.push(marker);
+        } else {
+          pastFeatured.push(marker);
+        }
+      });
+      
+      // Add past featured first, then upcoming featured (highest priority)
+      pastFeatured.forEach(marker => marker.addTo(window.mapMarkers.map));
+      upcomingFeatured.forEach(marker => marker.addTo(window.mapMarkers.map));
+    } else if (eventType === 'past') {
+      // Past markers should be added first (lowest priority)
       markers.forEach(marker => {
         marker.addTo(window.mapMarkers.map);
       });
-    } else {
-      // For non-featured markers, add them normally
+    } else if (eventType === 'upcoming') {
+      // Upcoming markers should be added after past but before featured
       markers.forEach(marker => {
         marker.addTo(window.mapMarkers.map);
       });
     }
+    
     legendItem.classList.remove('disabled');
   }
 }
@@ -850,6 +883,11 @@ function createEventMarker(event, map) {
   
   // Create Leaflet marker
   const marker = L.marker([coords.lat, coords.lng], { icon: customIcon });
+  
+  // Store event metadata on marker for priority ordering
+  marker._eventDate = event.date;
+  marker._isUpcoming = isUpcoming;
+  marker._isFeatured = isFeatured;
   
   // Create popup content
   const popupContent = `
