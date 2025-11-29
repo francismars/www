@@ -1538,7 +1538,7 @@ const eventsData = [
     location: "Baden, Switzerland",
     coordinates: { lat: 47.4733, lng: 8.3059 },
     description: "Bitcoin conference in Baden, Switzerland focusing on Bitcoin adoption, education, and community building.",
-    website: "",
+    website: "https://bitcoinbaden.ch/",
     x: "",
     nostr: "",
     featured: false
