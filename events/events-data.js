@@ -211,7 +211,7 @@ const eventsData = [
     website: "https://b.tc/conference/2025",
     x: "https://x.com/TheBitcoinConf",
     nostr: "",
-    featured: true
+    featured: false
   },
   {
     id: 16,
@@ -225,7 +225,7 @@ const eventsData = [
     website: "https://tickets.bcc8333.com/",
     x: "",
     nostr: "",
-    featured: true
+    featured: false
   },
   {
     id: 17,
@@ -323,7 +323,7 @@ const eventsData = [
     website: "https://btchel.com",
     x: "",
     nostr: "",
-    featured: true
+    featured: false
   },
   {
     id: 24,
@@ -435,7 +435,7 @@ const eventsData = [
     website: "https://sv25.adoptingbitcoin.org/",
     x: "https://x.com/adoptingbtc",
     nostr: "",
-    featured: true
+    featured: false
   },
   {
     id: 32,
@@ -1124,20 +1124,6 @@ const eventsData = [
     featured: false
   },
   {
-    id: 81,
-    name: "Mayan Bitcoin Conference",
-    date: "2025-12-05",
-    endDate: "2025-12-06",
-    type: "conference",
-    location: "Merida, Mexico",
-    coordinates: { lat: 20.9674, lng: -89.5926 },
-    description: "Mayan Bitcoin Conference in Merida combining ancient Mayan culture with modern Bitcoin technology and adoption.",
-    website: "https://www.mayanbitcoinconference.com",
-    x: "",
-    nostr: "",
-    featured: false
-  },
-  {
     id: 82,
     name: "Bitcoin MENA",
     date: "2025-12-08",
@@ -1511,6 +1497,160 @@ const eventsData = [
     coordinates: { lat: 46.0037, lng: 8.9511 },
     description: "Bitcoin conference in Lugano, Switzerland, focusing on adoption, regulation, and the future of Bitcoin in Europe.",
     website: "https://planb.lugano.ch/planb-forum/",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 109,
+    name: "Bitcoin Mini Conference",
+    date: "2025-11-29",
+    endDate: "2025-11-30",
+    type: "conference",
+    location: "Seoul, South Korea",
+    coordinates: { lat: 37.5665, lng: 126.9780 },
+    description: "Bitcoin Mini Conference in Seoul bringing together the Korean Bitcoin community for education, networking, and adoption discussions.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 111,
+    name: "Mayan Bitcoin Conference 2025",
+    date: "2025-12-04",
+    endDate: "2025-12-07",
+    type: "conference",
+    location: "Merida, Mexico",
+    coordinates: { lat: 20.9674, lng: -89.5926 },
+    description: "Mayan Bitcoin Conference in Merida combining ancient Mayan culture with modern Bitcoin technology and adoption.",
+    website: "https://www.mayanbitcoinconference.com",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 112,
+    name: "Bitcoin Baden",
+    date: "2025-12-06",
+    endDate: "2025-12-06",
+    type: "conference",
+    location: "Baden, Switzerland",
+    coordinates: { lat: 47.4733, lng: 8.3059 },
+    description: "Bitcoin conference in Baden, Switzerland focusing on Bitcoin adoption, education, and community building.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 115,
+    name: "Bitcoin Conference India",
+    date: "2026-02-01",
+    endDate: "2026-02-01",
+    type: "conference",
+    location: "Hyderabad, India",
+    coordinates: { lat: 17.3850, lng: 78.4867 },
+    description: "Bitcoin Conference India in Hyderabad bringing together the Indian Bitcoin community for education, networking, and adoption discussions.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 116,
+    name: "Auckland Freedom Forum 2026",
+    date: "2026-02-06",
+    endDate: "2026-02-08",
+    type: "conference",
+    location: "Auckland, New Zealand",
+    coordinates: { lat: -36.8485, lng: 174.7633 },
+    description: "Auckland Freedom Forum focusing on freedom, human rights, and Bitcoin as a tool for financial freedom.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 117,
+    name: "Swiss Bitcoin Conference",
+    date: "2026-04-23",
+    endDate: "2026-04-26",
+    type: "conference",
+    location: "Kreuzlingen, Switzerland",
+    coordinates: { lat: 47.6506, lng: 9.1750 },
+    description: "Major Bitcoin conference in Switzerland, bringing together European Bitcoin enthusiasts, developers, and businesses.",
+    website: "https://swiss-bitcoin-conference.com/",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 118,
+    name: "BitCare Forum 2026",
+    date: "2026-05-23",
+    endDate: "2026-05-23",
+    type: "conference",
+    location: "Brescia, Italy",
+    coordinates: { lat: 45.5416, lng: 10.2118 },
+    description: "BitCare Forum in Brescia focusing on Bitcoin care, community support, and building sustainable Bitcoin ecosystems.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 120,
+    name: "Mallorca Blockchain days VII",
+    date: "2026-07-09",
+    endDate: "2026-07-12",
+    type: "conference",
+    location: "Mallorca, Spain",
+    coordinates: { lat: 39.6953, lng: 3.0176 },
+    description: "Blockchain and Bitcoin conference on the beautiful island of Mallorca, focusing on European adoption and innovation.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 121,
+    name: "bitcoin++ Toronto 2026",
+    date: "2026-07-22",
+    endDate: "2026-07-24",
+    type: "conference",
+    location: "Toronto, Ontario, Canada",
+    coordinates: { lat: 43.6532, lng: -79.3832 },
+    description: "Technical Bitcoin conference in Toronto, bringing together developers, researchers, and innovators to advance Bitcoin technology.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 122,
+    name: "bitcoin++ Berlin 2026",
+    date: "2026-10-01",
+    endDate: "2026-10-03",
+    type: "conference",
+    location: "Berlin, Germany",
+    coordinates: { lat: 52.5200, lng: 13.4050 },
+    description: "Technical Bitcoin conference in Berlin, bringing together developers, researchers, and innovators to advance Bitcoin technology.",
+    website: "",
+    x: "",
+    nostr: "",
+    featured: false
+  },
+  {
+    id: 123,
+    name: "Watch Out, Bitcoin! 2026",
+    date: "2026-10-02",
+    endDate: "2026-10-04",
+    type: "conference",
+    location: "Madrid, Spain",
+    coordinates: { lat: 40.4168, lng: -3.7038 },
+    description: "Bitcoin conference in Madrid, focusing on European adoption, regulation, and the future of Bitcoin in Spain and the Iberian Peninsula.",
+    website: "",
     x: "",
     nostr: "",
     featured: false
