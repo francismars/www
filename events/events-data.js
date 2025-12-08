@@ -1654,5 +1654,19 @@ const eventsData = [
     x: "",
     nostr: "",
     featured: false
+  },
+  {
+    id: 124,
+    name: "Bitchill 🏝️ S02",
+    date: "2026-01-18",
+    endDate: "2026-01-28",
+    type: "retreat",
+    location: "Roatán, Bay Islands Department, Honduras",
+    coordinates: { lat: 16.3000, lng: -86.5500 },
+    description: "Slow down. 10+ days of good time on Roatan. It's not a conference, but a short coliving with fellow Bitcoiners. Yoga, workshops, diving, boat tours, open mic, barbecue, local trips and experiencing Próspera - the most Bitcoin-friendly jurisdiction on this planet. Let yourself a bit off chill. Features open mic unconference, Bitcoin Educators Academy by Amity Age, Citadel workshops, Próspera intro tour, Bitcoin District & Infinita sessions, local business visits, investment opportunities, yoga sessions, golf classes, diving & snorkeling, poker tournament, board games, pool parties, barbecues & DJ nights, boat tours & other Roatan visits. Cost: 200,000 sats + accommodation (hostel 30,000 sat/night, studio 90,000 sat/night, villa 300,000 sat/night). You can join at any dates!",
+    website: "https://luma.com/yvwvj8zx",
+    x: "",
+    nostr: "",
+    featured: false
   }
 ];
