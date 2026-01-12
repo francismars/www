@@ -1,6 +1,21 @@
 // Video appearances data
 const videos = [
   {
+    title: "Bitcoin in Portugal, Beyond Madeira and Lisbon ⚡️ Podcast",
+    embedId: "npwQV-AXEGE",
+    description: "Ordermoon interview on my work with merchant adoption and community building"
+  },
+  {
+    title: "Living on Bitcoin in a Small Town. Is it even possible?",
+    embedId: "FelWKV6wVJU",
+    description: "Joe Nakamoto report on my work with merchant adoption and community building."
+  },
+  {
+    title: "Francis Mars - Chain Duel: Gamifying adoption - BTC Balkans 2025",
+    embedId: "J-3jpYUmMlQ",
+    description: "Keynote about Chainduel and PubPay at BTC Balkans 2025."
+  },
+  {
     title: "The Future of Lightning: Scaling, Stablecoins & UX | Roy Sheinfeld, Antoine Riard, Francis Mars",
     embedId: "MEmbtOxgWt4",
     description: "Panel at Bitcoin 2025 with Roy Sheinfeld and Antoine Riard."
