@@ -1668,5 +1668,19 @@ const eventsData = [
     x: "",
     nostr: "",
     featured: false
+  },
+  {
+    id: 125,
+    name: "Tuscany Lightning Summit",
+    date: "2026-05-12",
+    endDate: "2026-05-14",
+    type: "conference",
+    location: "Viareggio, Italy",
+    coordinates: { lat: 43.8731, lng: 10.2338 },
+    description: "An invite-only exclusive event that brings together the most innovative companies and individuals in the Bitcoin and Lightning Network ecosystem. Set against the stunning backdrop of Viareggio, this summit provides an intimate setting for meaningful discussions, collaboration, and networking among industry leaders. May 12-13 with structured sessions and participant-led sessions, plus an optional half day on May 14 for a cultural activity.",
+    website: "https://tuscanysummit.com/",
+    x: "https://x.com/tuscanysummit",
+    nostr: "",
+    featured: false
   }
 ];
