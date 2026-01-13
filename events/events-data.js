@@ -1682,5 +1682,19 @@ const eventsData = [
     x: "https://x.com/tuscanysummit",
     nostr: "",
     featured: false
+  },
+  {
+    id: 126,
+    name: "Bitcoin Locarno",
+    date: "2026-05-15",
+    endDate: "2026-05-17",
+    type: "conference",
+    location: "Locarno, Switzerland",
+    coordinates: { lat: 46.1700, lng: 8.8000 },
+    description: "The Bitcoin Locarno Conference is an opportunity to view the future of money from a new perspective. Experts, entrepreneurs and enthusiasts will discuss Bitcoin, economic freedom and the weaknesses of the current fiat money system. The event focuses on central topics such as the challenges of our money system, Bitcoin as a store of value and the principles of Austrian Economics. The event offers not only theoretical insights, but also the opportunity to exchange ideas in a relaxed atmosphere, with music and drinks.",
+    website: "https://www.bitcoin-locarno.ch/",
+    x: "",
+    nostr: "",
+    featured: false
   }
 ];
