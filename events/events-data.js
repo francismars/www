@@ -1292,6 +1292,20 @@ const eventsData = [
     featured: false
   },
   {
+    id: 151,
+    name: "The 3rd Annual Bitcoin Golf Championship & Bitcoin Kick Off Party",
+    date: "2026-04-26",
+    endDate: "2026-04-26",
+    type: "conference",
+    location: "Las Vegas, Nevada, USA",
+    coordinates: { lat: 36.1699, lng: -115.1398 },
+    description: "Experience the Ultimate Fusion of Golf, Music, and Bitcoin Education with fellow Bitcoiners! Just 10 min from the Bitcoin Conference! Kick off Bitcoin Week in true Vegas style at the Bitcoin Golf Championship & Kickoff Party! Tee off Sunday, April 26th, 2026 at 8:00 AM with a shotgun start at Bali Hai Golf Club, featuring two teams per foursome—sign up solo or with a teammate, and we'll pair you with fellow Bitcoiners for a high-energy round of competition and camaraderie. While the tournament is underway, the Bitcoin Kickoff Party begins at 11:00 AM on-site—open to all ticket holders and featuring free food, drinks, exclusive wine and whiskey tastings, giveaways, and 300+ plebs mingling under the Vegas sun. Golf tickets include full access to the party, and standalone party tickets are available for non-golfers ready to celebrate the start of Bitcoin Week.",
+    website: "https://bitcoingolfchampionship.com/",
+    x: "https://x.com/BSN_Events",
+    nostr: "",
+    featured: false
+  },
+  {
     id: 94,
     name: "Bitcoin 2026",
     date: "2026-04-27",
