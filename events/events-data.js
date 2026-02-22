@@ -2046,5 +2046,19 @@ const eventsData = [
     x: "",
     nostr: "",
     featured: false
+  },
+  {
+    id: 151,
+    name: "Barcelona Cyphers Conference",
+    date: "2026-05-29",
+    endDate: "2026-05-30",
+    type: "conference",
+    location: "Barcelona, Spain",
+    coordinates: { lat: 41.3874, lng: 2.1686 },
+    description: "An Unconference for Sovereignty, Bitcoin & Freedom. Join cypherpunks from around the world for two days of immersive learning, hands-on workshops, and community building in the heart of Barcelona's rebellious spirit.",
+    website: "https://www.bcc8333.xyz/",
+    x: "https://x.com/bcc8333",
+    nostr: "https://njump.me/npub1cc83337sj8jhma69a2hw6phgz57r6n4qm520lsssytcyrtpsqwfqltyz96",
+    featured: false
   }
 ];
