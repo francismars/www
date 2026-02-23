@@ -246,48 +246,35 @@ function initializeMap() {
   };
   
   const currentDate = getCurrentDate();
-  
-  // Add markers in priority order (lowest to highest):
-  // 1. Past non-featured markers (lowest priority - added first)
+
+  // Group events by coordinates so overlapping markers merge into one
+  const locationGroups = new Map();
   eventsData.forEach(event => {
-    if (!event.featured && event.date < currentDate) {
-      const marker = createEventMarker(event, map);
-      if (marker) {
-        marker.addTo(map);
-        window.mapMarkers.past.push(marker);
-      }
-    }
+    if (!event.coordinates) return;
+    const key = `${event.coordinates.lat},${event.coordinates.lng}`;
+    if (!locationGroups.has(key)) locationGroups.set(key, []);
+    locationGroups.get(key).push(event);
   });
-  
-  // 2. Past featured markers
-  eventsData.forEach(event => {
-    if (event.featured && event.date < currentDate) {
+
+  locationGroups.forEach(events => {
+    if (events.length === 1) {
+      const event = events[0];
       const marker = createEventMarker(event, map);
       if (marker) {
         marker.addTo(map);
-        window.mapMarkers.featured.push(marker);
+        if (event.featured) {
+          window.mapMarkers.featured.push(marker);
+        } else if (event.date >= currentDate) {
+          window.mapMarkers.upcoming.push(marker);
+        } else {
+          window.mapMarkers.past.push(marker);
+        }
       }
-    }
-  });
-  
-  // 3. Upcoming non-featured markers
-  eventsData.forEach(event => {
-    if (!event.featured && event.date >= currentDate) {
-      const marker = createEventMarker(event, map);
-      if (marker) {
-        marker.addTo(map);
-        window.mapMarkers.upcoming.push(marker);
-      }
-    }
-  });
-  
-  // 4. Upcoming featured markers (highest priority - added last so they appear on top)
-  eventsData.forEach(event => {
-    if (event.featured && event.date >= currentDate) {
-      const marker = createEventMarker(event, map);
-      if (marker) {
-        marker.addTo(map);
-        window.mapMarkers.featured.push(marker);
+    } else {
+      const result = createGroupMarker(events, map);
+      if (result) {
+        result.marker.addTo(map);
+        window.mapMarkers[result.category].push(result.marker);
       }
     }
   });
@@ -952,7 +939,90 @@ function createEventMarker(event, map) {
   return marker;
 }
 
-// Coordinates are now stored directly in each event object
+function createGroupMarker(events, map) {
+  const coords = events[0].coordinates;
+  if (!coords) return null;
+
+  const currentDate = getCurrentDate();
+  const hasFeatured = events.some(e => e.featured);
+  const hasUpcoming = events.some(e => e.date >= currentDate);
+  const hasUpcomingFeatured = events.some(e => e.featured && e.date >= currentDate);
+
+  let markerColor = '#6b7280';
+  let category = 'past';
+  if (hasUpcomingFeatured) {
+    markerColor = '#f59e0b';
+    category = 'featured';
+  } else if (hasFeatured) {
+    markerColor = '#f59e0b';
+    category = 'featured';
+  } else if (hasUpcoming) {
+    markerColor = '#2563eb';
+    category = 'upcoming';
+  }
+
+  const customIcon = L.divIcon({
+    className: 'custom-marker group-marker',
+    html: `<div class="group-marker-badge" style="
+      background: ${markerColor};
+      border: 2px solid white;
+      border-radius: 50%;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      cursor: pointer;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: 700;
+      font-family: Inter, sans-serif;
+    ">${events.length}</div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 14]
+  });
+
+  const marker = L.marker([coords.lat, coords.lng], { icon: customIcon });
+
+  marker._isUpcoming = hasUpcoming;
+  marker._isFeatured = hasFeatured;
+
+  const sortedEvents = [...events].sort((a, b) => {
+    const aUp = a.date >= currentDate ? 1 : 0;
+    const bUp = b.date >= currentDate ? 1 : 0;
+    if (aUp !== bUp) return bUp - aUp;
+    return a.date.localeCompare(b.date);
+  });
+
+  let popupHtml = `<div class="group-popup">
+    <div class="group-popup-header">${events.length} events at this location</div>
+    <div class="group-popup-list">`;
+
+  sortedEvents.forEach(event => {
+    const isUpcoming = event.date >= currentDate;
+    const dateStr = event.endDate && event.endDate !== event.date
+      ? `${event.date} — ${event.endDate}`
+      : event.date;
+
+    popupHtml += `
+      <div class="group-popup-item ${isUpcoming ? 'upcoming' : 'past'}">
+        <div class="group-popup-event-name">${event.name}</div>
+        <div class="group-popup-event-date">${dateStr}</div>
+        <div class="group-popup-event-location">${event.location}</div>
+        <div class="group-popup-event-actions">
+          ${event.website ? `<a href="${event.website}" target="_blank" class="group-popup-link website">Website</a>` : ''}
+          <button onclick="showEventDetails(${JSON.stringify(event).replace(/"/g, '&quot;')})" class="group-popup-link details">Details</button>
+        </div>
+      </div>`;
+  });
+
+  popupHtml += `</div></div>`;
+
+  marker.bindPopup(popupHtml, { maxWidth: 320, maxHeight: 380, className: 'group-popup-wrapper' });
+
+  return { marker, category };
+}
 
 function showEventDetails(event) {
   // Prevent multiple modals from opening
