@@ -330,21 +330,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const burger = document.querySelector(".navbar-burger");
   const links = document.getElementById("navbar-links");
+
+  function closeMobileMenu() {
+    links.classList.remove("open");
+    burger.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+    document.body.style.overflow = "";
+  }
+
+  function openMobileMenu() {
+    links.classList.add("open");
+    burger.classList.add("open");
+    burger.setAttribute("aria-expanded", "true");
+    document.body.style.overflow = "hidden";
+  }
+
   if (burger && links) {
     burger.addEventListener("click", function () {
-      const expanded = burger.getAttribute("aria-expanded") === "true";
-      burger.setAttribute("aria-expanded", !expanded);
-      links.classList.toggle("open");
-      burger.classList.toggle("open");
+      if (links.classList.contains("open")) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+
+    links.addEventListener("click", function (e) {
+      if (e.target === links) {
+        closeMobileMenu();
+      }
     });
   }
 
   document.querySelectorAll("#navbar-links a").forEach((link) => {
     link.addEventListener("click", () => {
       if (links.classList.contains("open")) {
-        links.classList.remove("open");
-        burger.classList.remove("open");
-        burger.setAttribute("aria-expanded", "false");
+        closeMobileMenu();
       }
     });
   });
