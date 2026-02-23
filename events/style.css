@@ -629,6 +629,121 @@
   color: var(--text-color) !important;
 }
 
+/* Group marker badge */
+.group-marker {
+  background: none !important;
+  border: none !important;
+}
+
+.group-marker-badge {
+  transition: transform 0.15s ease;
+}
+
+.group-marker:hover .group-marker-badge {
+  transform: scale(1.15);
+}
+
+/* Group popup styles */
+.group-popup-wrapper .leaflet-popup-content {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.group-popup {
+  min-width: 240px;
+}
+
+.group-popup-header {
+  padding: 10px 14px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--muted-text);
+  border-bottom: 1px solid var(--border-color);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.group-popup-list {
+  max-height: 280px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent) transparent;
+}
+
+.group-popup-item {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.15s ease;
+}
+
+.group-popup-item:last-child {
+  border-bottom: none;
+}
+
+.group-popup-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.group-popup-item.past {
+  opacity: 0.65;
+}
+
+.group-popup-item.past:hover {
+  opacity: 1;
+}
+
+.group-popup-event-name {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text-color);
+  margin-bottom: 4px;
+}
+
+.group-popup-event-date {
+  font-size: 0.8rem;
+  color: var(--muted-text);
+  margin-bottom: 2px;
+}
+
+.group-popup-event-location {
+  font-size: 0.8rem;
+  color: var(--muted-text);
+  margin-bottom: 8px;
+}
+
+.group-popup-event-actions {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.group-popup-link {
+  padding: 4px 10px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  border: none;
+  font-family: inherit;
+  line-height: 1.4;
+}
+
+.group-popup-link.website {
+  background: var(--accent);
+  color: white;
+}
+
+.group-popup-link.details {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.group-popup-link:hover {
+  filter: brightness(1.15);
+}
+
 .map-legend {
   display: flex;
   justify-content: center;
