@@ -232,6 +232,7 @@ function renderEventPage(event) {
   <meta name="twitter:description" content="${escapeHtml(description)}">
   <meta name="twitter:image" content="${imageUrl}">
   <link rel="stylesheet" href="../style.css">
+  <script data-goatcounter="https://events.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
   <style>
     .event-page-shell {
       max-width: 900px;
