@@ -4,6 +4,16 @@
 # Enable rewrite engine
 RewriteEngine On
 
+# Redirect legacy event detail URLs
+# /events/event/<slug>/ -> /events/<slug>/
+RewriteRule ^event/([^/]+)/?$ $1/ [R=301,L]
+
+# Serve clean event URLs from flat generated files
+# /events/<slug>/ -> /events/pages/<slug>.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^/]+)/?$ pages/$1.html [L]
+
 # Force HTTPS (uncomment if you have SSL)
 # RewriteCond %{HTTPS} off
 # RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]

@@ -1,6 +1,18 @@
 /* Events Page Styles */
 @import url('../style.css');
 
+.navbar {
+  margin-bottom: 0.75rem;
+}
+
+#main-content {
+  animation-duration: 0.25s;
+}
+
+#main-content > header {
+  padding-top: 5rem;
+}
+
 .section {
   max-width: 1200px;
 }
@@ -9,6 +21,12 @@
 @media (max-width: 1299px) {
   .section {
     max-width: 800px;
+  }
+}
+
+@media (max-width: 768px) {
+  #main-content > header {
+    padding-top: 4rem;
   }
 }
 
@@ -247,10 +265,20 @@
   font-weight: 500;
   opacity: 0.8;
   transition: opacity 0.3s ease;
+  text-decoration: none;
 }
 
 .event-card:hover .click-hint {
   opacity: 1;
+}
+
+.event-title-link {
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+.event-title-link:hover {
+  color: var(--accent);
 }
 
 .event-date {
@@ -478,6 +506,29 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+}
+
+.load-more-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.load-more-btn {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.65rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.load-more-btn:hover {
+  background: var(--accent);
+  color: #fff;
 }
 
 .favorites-checkbox-label {

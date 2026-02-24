@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://events.francismars.com/sitemap.xml
+Sitemap: https://francismars.com/events/sitemap.xml
 
 # Crawl delay (optional)
 Crawl-delay: 1
