@@ -64,8 +64,38 @@ function slugify(value) {
     .replace(/-{2,}/g, "-");
 }
 
+function buildSlugStats(events) {
+  const baseCounts = new Map();
+  const baseYearCounts = new Map();
+
+  events.forEach((event) => {
+    const base = slugify(event.name);
+    const year = String(event.date || "").slice(0, 4);
+    baseCounts.set(base, (baseCounts.get(base) || 0) + 1);
+    const baseYearKey = `${base}__${year}`;
+    baseYearCounts.set(baseYearKey, (baseYearCounts.get(baseYearKey) || 0) + 1);
+  });
+
+  return { baseCounts, baseYearCounts };
+}
+
+const eventSlugStats = buildSlugStats(eventsData);
+
 function buildEventSlug(event) {
-  return slugify(`${event.name}-${event.date}-${event.location}`);
+  const base = slugify(event.name);
+  const year = String(event.date || "").slice(0, 4);
+
+  if ((eventSlugStats.baseCounts.get(base) || 0) <= 1) {
+    return base;
+  }
+
+  const baseYearKey = `${base}__${year}`;
+  if (year && (eventSlugStats.baseYearCounts.get(baseYearKey) || 0) <= 1) {
+    return `${base}-${year}`;
+  }
+
+  const uniquePart = event.id != null ? String(event.id) : slugify(event.location || "event");
+  return year ? `${base}-${year}-${uniquePart}` : `${base}-${uniquePart}`;
 }
 
 function getEventDetailPath(event) {

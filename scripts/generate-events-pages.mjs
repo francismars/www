@@ -30,8 +30,38 @@ function slugify(value) {
     .replace(/-{2,}/g, "-");
 }
 
+let eventSlugStats = { baseCounts: new Map(), baseYearCounts: new Map() };
+
+function buildSlugStats(events) {
+  const baseCounts = new Map();
+  const baseYearCounts = new Map();
+
+  events.forEach((event) => {
+    const base = slugify(event.name);
+    const year = String(event.date || "").slice(0, 4);
+    baseCounts.set(base, (baseCounts.get(base) || 0) + 1);
+    const baseYearKey = `${base}__${year}`;
+    baseYearCounts.set(baseYearKey, (baseYearCounts.get(baseYearKey) || 0) + 1);
+  });
+
+  return { baseCounts, baseYearCounts };
+}
+
 function buildEventSlug(event) {
-  return slugify(`${event.name}-${event.date}-${event.location}`);
+  const base = slugify(event.name);
+  const year = String(event.date || "").slice(0, 4);
+
+  if ((eventSlugStats.baseCounts.get(base) || 0) <= 1) {
+    return base;
+  }
+
+  const baseYearKey = `${base}__${year}`;
+  if (year && (eventSlugStats.baseYearCounts.get(baseYearKey) || 0) <= 1) {
+    return `${base}-${year}`;
+  }
+
+  const uniquePart = event.id != null ? String(event.id) : slugify(event.location || "event");
+  return year ? `${base}-${year}-${uniquePart}` : `${base}-${uniquePart}`;
 }
 
 function formatDate(dateString) {
@@ -331,6 +361,8 @@ async function main() {
   const allEvents = loadEventsData(dataSource)
     .filter((event) => event && event.name && event.date && event.location)
     .sort((a, b) => a.date.localeCompare(b.date) || a.name.localeCompare(b.name));
+
+  eventSlugStats = buildSlugStats(allEvents);
 
   const upcomingEvents = allEvents.filter((event) => event.date >= todayIso());
   const eventsForIndex = (upcomingEvents.length ? upcomingEvents : allEvents).slice(0, 120);
