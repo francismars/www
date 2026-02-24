@@ -137,6 +137,23 @@ The events page is fully responsive and works well on:
 - Minimal JavaScript dependencies
 - Fast page load times
 
+## SEO Build (Phase 2)
+
+The events directory now uses a static SEO generator to produce:
+
+- Server-rendered event cards in `events/index.html` (fallback content for crawlers/no-JS)
+- Individual event detail pages in `events/pages/<slug>.html` (served as `/events/<slug>/` via rewrite)
+- Event URL entries in `events/sitemap.xml`
+- Event and breadcrumb structured data on detail pages
+
+Run from the repository root:
+
+```bash
+node scripts/generate-events-pages.mjs
+```
+
+Re-run this command whenever `events/events-data.js` changes.
+
 ## Security Considerations
 
 - Form validation on both client and server side

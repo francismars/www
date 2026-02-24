@@ -11,6 +11,67 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+const externalScriptPromises = new Map();
+let isMapInitialized = false;
+
+function loadExternalScript(src, globalName) {
+  if (globalName && typeof window[globalName] !== "undefined") {
+    return Promise.resolve();
+  }
+
+  if (externalScriptPromises.has(src)) {
+    return externalScriptPromises.get(src);
+  }
+
+  const promise = new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = src;
+    script.async = true;
+    script.onload = () => {
+      if (globalName && typeof window[globalName] === "undefined") {
+        reject(new Error(`Global ${globalName} not found after loading ${src}`));
+        return;
+      }
+      resolve();
+    };
+    script.onerror = () => reject(new Error(`Failed to load ${src}`));
+    document.body.appendChild(script);
+  });
+
+  externalScriptPromises.set(src, promise);
+  return promise;
+}
+
+function ensureLeafletLoaded() {
+  return loadExternalScript("https://unpkg.com/leaflet@1.9.4/dist/leaflet.js", "L");
+}
+
+function ensureQRCodeLoaded() {
+  return loadExternalScript("https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js", "QRCode");
+}
+
+function ensureNostrToolsLoaded() {
+  return loadExternalScript("https://unpkg.com/nostr-tools/lib/nostr.bundle.js", "NostrTools");
+}
+
+function slugify(value) {
+  return String(value || "")
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .replace(/-{2,}/g, "-");
+}
+
+function buildEventSlug(event) {
+  return slugify(`${event.name}-${event.date}-${event.location}`);
+}
+
+function getEventDetailPath(event) {
+  return `pages/${buildEventSlug(event)}.html`;
+}
+
 function initializeEventsPage() {
   // Load favorites from localStorage
   loadFavorites();
@@ -31,8 +92,8 @@ function initializeEventsPage() {
   // Initialize calendar
   initializeCalendar();
   
-  // Initialize map
-  initializeMap();
+  // Initialize map lazily to avoid loading map libraries on first paint
+  setupLazyMapInitialization();
   
   // Initialize filters
   initializeFilters();
@@ -40,13 +101,52 @@ function initializeEventsPage() {
   // Initialize form submission
   initializeEventForm();
   
-  // Initialize donation form with a small delay to ensure DOM is ready
-  setTimeout(() => {
-    initializeDonationForm();
-  }, 100);
+  // Initialize donation form interactions
+  initializeDonationForm();
   
   // Initialize navigation
   initializeNavigation();
+}
+
+function setupLazyMapInitialization() {
+  const mapSection = document.getElementById("map");
+  const mapElement = document.getElementById("events-map");
+
+  if (!mapSection || !mapElement) return;
+
+  const initializeMapWhenNeeded = async () => {
+    if (isMapInitialized) return;
+    isMapInitialized = true;
+
+    try {
+      await ensureLeafletLoaded();
+      initializeMap();
+    } catch (error) {
+      isMapInitialized = false;
+      console.error("Failed to initialize map:", error);
+      mapElement.innerHTML = "<p style='padding:1rem;text-align:center;color:var(--muted-text);'>Map failed to load. Please refresh to try again.</p>";
+    }
+  };
+
+  document.querySelectorAll('a[href="#map"]').forEach(link => {
+    link.addEventListener("click", initializeMapWhenNeeded, { once: true });
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          initializeMapWhenNeeded();
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.15 });
+
+    observer.observe(mapSection);
+  } else {
+    // Browser fallback: initialize after initial content settles.
+    setTimeout(initializeMapWhenNeeded, 1200);
+  }
 }
 
 function renderUpcomingEvents() {
@@ -64,7 +164,7 @@ function renderPastEvents() {
 function createEventCard(event, isPast = false) {
   const card = document.createElement("div");
   card.className = `event-card ${event.type} ${event.featured ? 'featured' : ''} ${isPast ? 'past' : ''}`;
-  card.style.cursor = 'pointer';
+  card.style.cursor = 'default';
   
   const dateRange = event.endDate 
     ? `${formatDate(event.date)} - ${formatDate(event.endDate)}`
@@ -83,14 +183,8 @@ function createEventCard(event, isPast = false) {
       <p class="event-description-preview">${event.description.substring(0, 100)}${event.description.length > 100 ? '...' : ''}</p>
     </div>
     <div class="event-actions">
-      <span class="click-hint">Click for details</span>
     </div>
   `;
-  
-  // Add click event to show full event details
-  card.addEventListener('click', () => {
-    showEventDetails(event);
-  });
   
   return card;
 }
@@ -228,6 +322,8 @@ function getEventsOnDay(year, month, day) {
 }
 
 function initializeMap() {
+  if (!window.L) return;
+
   // Initialize Leaflet map
   const map = L.map('events-map').setView([20, 0], 2);
   
@@ -282,12 +378,6 @@ function initializeMap() {
   // Initialize legend click handlers
   initializeMapLegend();
   
-  // Initialize donation form with a small delay to ensure DOM is ready
-  setTimeout(() => {
-    initializeDonationForm();
-  }, 100);
-  
-
 }
 
 function initializeMapLegend() {
@@ -485,6 +575,7 @@ async function handleDonation(event) {
   const zapAmountMilliSats = amount * 1000;
   
   try {
+    await ensureNostrToolsLoaded();
     const pool = new NostrTools.SimplePool();
     const { type, data: recipientHexPubkey } = NostrTools.nip19.decode(recipientNpub);
     if (type !== "npub") throw new Error("Invalid recipient npub.");
@@ -554,6 +645,7 @@ async function handleDonation(event) {
     //console.log("Invoice response:", invoiceData);
     
     if (invoiceData.pr) {
+      await ensureQRCodeLoaded();
       // Show donation invoice section
       document.getElementById('donation-invoice-section').style.display = 'block';
       document.getElementById('donation-invoice-string').textContent = invoiceData.pr;
@@ -876,6 +968,8 @@ function createEventMarker(event, map) {
   marker._isUpcoming = isUpcoming;
   marker._isFeatured = isFeatured;
   
+  const detailPath = getEventDetailPath(event);
+
   // Create popup content
   const popupContent = `
     <div style="min-width: 200px;">
@@ -890,7 +984,7 @@ function createEventMarker(event, map) {
         ${event.description.substring(0, 100)}${event.description.length > 100 ? '...' : ''}
       </p>
       <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-        ${event.website ? `<a href="${event.website}" target="_blank" style="
+        ${event.website ? `<a href="${event.website}" target="_blank" rel="noopener noreferrer" style="
           background: var(--accent); 
           color: white; 
           padding: 6px 12px; 
@@ -899,7 +993,7 @@ function createEventMarker(event, map) {
           font-size: 0.8rem;
           font-weight: 500;
         ">Website</a>` : ''}
-        ${event.x ? `<a href="${event.x}" target="_blank" style="
+        ${event.x ? `<a href="${event.x}" target="_blank" rel="noopener noreferrer" style="
           background: #1da1f2; 
           color: white; 
           padding: 6px 12px; 
@@ -908,7 +1002,7 @@ function createEventMarker(event, map) {
           font-size: 0.8rem;
           font-weight: 500;
         ">X</a>` : ''}
-        ${event.nostr ? `<a href="${event.nostr}" target="_blank" style="
+        ${event.nostr ? `<a href="${event.nostr}" target="_blank" rel="noopener noreferrer" style="
           background: #8b5cf6; 
           color: white; 
           padding: 6px 12px; 
@@ -917,24 +1011,22 @@ function createEventMarker(event, map) {
           font-size: 0.8rem;
           font-weight: 500;
         ">Nostr</a>` : ''}
-        <button onclick="showEventDetails(${JSON.stringify(event).replace(/"/g, '&quot;')})" style="
-          background: transparent; 
-          color: var(--accent); 
-          border: 1px solid var(--accent); 
-          padding: 6px 12px; 
-          border-radius: 6px; 
-          cursor: pointer; 
+        <a href="${detailPath}" style="
+          background: transparent;
+          color: var(--accent);
+          border: 1px solid var(--accent);
+          padding: 6px 12px;
+          border-radius: 6px;
+          cursor: pointer;
           font-size: 0.8rem;
           font-weight: 500;
-        ">Details</button>
+          text-decoration: none;
+        ">Event page</a>
       </div>
     </div>
   `;
   
   marker.bindPopup(popupContent);
-  
-  // Remove the duplicate click event - now only the popup will show
-  // Users can click the "Details" button in the popup to see full event details
   
   return marker;
 }
@@ -1001,6 +1093,7 @@ function createGroupMarker(events, map) {
 
   sortedEvents.forEach(event => {
     const isUpcoming = event.date >= currentDate;
+    const detailPath = getEventDetailPath(event);
     const dateStr = event.endDate && event.endDate !== event.date
       ? `${event.date} — ${event.endDate}`
       : event.date;
@@ -1011,8 +1104,8 @@ function createGroupMarker(events, map) {
         <div class="group-popup-event-date">${dateStr}</div>
         <div class="group-popup-event-location">${event.location}</div>
         <div class="group-popup-event-actions">
-          ${event.website ? `<a href="${event.website}" target="_blank" class="group-popup-link website">Website</a>` : ''}
-          <button onclick="showEventDetails(${JSON.stringify(event).replace(/"/g, '&quot;')})" class="group-popup-link details">Details</button>
+          ${event.website ? `<a href="${event.website}" target="_blank" rel="noopener noreferrer" class="group-popup-link website">Website</a>` : ''}
+          <a href="${detailPath}" class="group-popup-link details">Event page</a>
         </div>
       </div>`;
   });
@@ -1034,6 +1127,8 @@ function showEventDetails(event) {
     ? `${formatDate(event.date)} - ${formatDate(event.endDate)}`
     : formatDate(event.date);
   
+  const detailPath = getEventDetailPath(event);
+
   // Create modal for event details
   const modal = document.createElement('div');
   modal.className = 'event-details-modal';
@@ -1056,9 +1151,10 @@ function showEventDetails(event) {
           <p>${event.description}</p>
         </div>
         <div class="event-links">
-          ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Visit Website</a>` : ''}
-          ${event.x ? `<a href="${event.x}" target="_blank" class="event-link social x">Follow on X</a>` : ''}
-          ${event.nostr ? `<a href="${event.nostr}" target="_blank" class="event-link social nostr">Follow on Nostr</a>` : ''}
+          <a href="${detailPath}" class="event-link website">Open event page</a>
+          ${event.website ? `<a href="${event.website}" target="_blank" rel="noopener noreferrer" class="event-link website">Visit Website</a>` : ''}
+          ${event.x ? `<a href="${event.x}" target="_blank" rel="noopener noreferrer" class="event-link social x">Follow on X</a>` : ''}
+          ${event.nostr ? `<a href="${event.nostr}" target="_blank" rel="noopener noreferrer" class="event-link social nostr">Follow on Nostr</a>` : ''}
         </div>
       </div>
     </div>
@@ -1105,9 +1201,10 @@ function showEventsForDay(events, year, month, day) {
             <p class="event-location">📍 ${event.location}</p>
             <p class="event-description">${event.description}</p>
             <div class="modal-event-links">
-              ${event.website ? `<a href="${event.website}" target="_blank" class="event-link website">Website</a>` : ''}
-              ${event.x ? `<a href="${event.x}" target="_blank" class="event-link social x">X</a>` : ''}
-              ${event.nostr ? `<a href="${event.nostr}" target="_blank" class="event-link social nostr">Nostr</a>` : ''}
+              <a href="${getEventDetailPath(event)}" class="event-link website">Event page</a>
+              ${event.website ? `<a href="${event.website}" target="_blank" rel="noopener noreferrer" class="event-link website">Website</a>` : ''}
+              ${event.x ? `<a href="${event.x}" target="_blank" rel="noopener noreferrer" class="event-link social x">X</a>` : ''}
+              ${event.nostr ? `<a href="${event.nostr}" target="_blank" rel="noopener noreferrer" class="event-link social nostr">Nostr</a>` : ''}
             </div>
           </div>
         `).join('')}
@@ -1349,6 +1446,8 @@ let currentFilters = {
 };
 
 let filteredEvents = [...eventsData];
+const EVENTS_PAGE_SIZE = 15;
+let visibleEventsCount = EVENTS_PAGE_SIZE;
 
 // Favorites system
 let favoriteEvents = new Set();
@@ -1525,12 +1624,25 @@ function initializeSearchAndFilters() {
   if (resetBtn) {
     resetBtn.addEventListener('click', resetAllFilters);
   }
+
+  initializeLoadMoreButton();
   
   // Load filters from URL parameters
   loadFiltersFromURL();
   
   // Apply initial filters
   applyFilters();
+}
+
+function initializeLoadMoreButton() {
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  if (!loadMoreBtn) return;
+
+  loadMoreBtn.addEventListener('click', () => {
+    visibleEventsCount += EVENTS_PAGE_SIZE;
+    renderFilteredEvents();
+    updateFavoriteButtons();
+  });
 }
 
 function handleSearch(event) {
@@ -1682,6 +1794,7 @@ function applyFilters() {
   
   // Update global filtered events
   filteredEvents = filtered;
+  visibleEventsCount = EVENTS_PAGE_SIZE;
   
   // Render filtered events
   renderFilteredEvents();
@@ -1726,14 +1839,18 @@ function renderFilteredEvents() {
   
   if (filteredEvents.length === 0) {
     renderNoResults();
+    updateLoadMoreButton();
     return;
   }
   
-  // Render all events in a unified list
-  filteredEvents.forEach(event => {
+  // Render only a page of events and let users load more
+  const eventsToRender = filteredEvents.slice(0, visibleEventsCount);
+  eventsToRender.forEach(event => {
     const eventCard = createEventCard(event);
     eventsContainer.appendChild(eventCard);
   });
+
+  updateLoadMoreButton();
 }
 
 function renderNoResults() {
@@ -1758,6 +1875,19 @@ function renderNoResults() {
   `;
   
   eventsContainer.innerHTML = noResultsHTML;
+}
+
+function updateLoadMoreButton() {
+  const loadMoreBtn = document.getElementById('load-more-btn');
+  if (!loadMoreBtn) return;
+
+  const remaining = filteredEvents.length - visibleEventsCount;
+  if (remaining > 0) {
+    loadMoreBtn.hidden = false;
+    loadMoreBtn.textContent = 'Load more';
+  } else {
+    loadMoreBtn.hidden = true;
+  }
 }
 
 function updateResultsCount() {
@@ -1872,13 +2002,14 @@ function updateURL() {
 // Enhanced createEventCard function with search highlighting and time status
 function createEventCard(event) {
   const card = document.createElement("div");
+  const detailPath = getEventDetailPath(event);
   
   // Determine if event is upcoming or past
   const currentDate = getCurrentDate();
   const isPast = event.date < currentDate;
   
   card.className = `event-card ${event.type} ${event.featured ? 'featured' : ''} ${isPast ? 'past' : ''}`;
-  card.style.cursor = 'pointer';
+  card.style.cursor = 'default';
   
   const dateRange = event.endDate 
     ? `${formatDate(event.date)} - ${formatDate(event.endDate)}`
@@ -1909,14 +2040,9 @@ function createEventCard(event) {
       <p class="event-description-preview">${highlightedDescription}</p>
     </div>
     <div class="event-actions">
-      <span class="click-hint">Click for details</span>
+      <a href="${detailPath}" class="click-hint" aria-label="Open event page for ${event.name}">Open event page</a>
     </div>
   `;
-  
-  // Add click event to show full event details
-  card.addEventListener('click', () => {
-    showEventDetails(event);
-  });
   
   // Add click event for favorite button (prevent event propagation)
   const favoriteBtn = card.querySelector('.favorite-btn');
@@ -1924,6 +2050,13 @@ function createEventCard(event) {
     e.stopPropagation(); // Prevent triggering the card click
     toggleFavorite(event.id);
   });
+
+  const detailLink = card.querySelector('a[href]');
+  if (detailLink) {
+    detailLink.addEventListener('click', (e) => {
+      e.stopPropagation();
+    });
+  }
   
   return card;
 }
