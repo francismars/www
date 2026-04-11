@@ -16,6 +16,14 @@ const projects = [
     tags: ["Bitcoin", "Lightning", "LNbits", "WebSocket", "Node.js", "TypeScript"]
   },
   {
+    name: "Homeserver Dashboard",
+    type: "Admin UI",
+    description: "A Next.js admin dashboard for managing Pubky homeservers. Features user management, a WebDAV file browser, API explorer, and secure server-side configuration. Includes Docker integration for Umbrel and Tailscale tunnel setup for closed networks. Built during an engagement with Synonym.",
+    github: "https://github.com/francismars/homeserver-dashboard",
+    website: "#",
+    tags: ["Next.js", "TypeScript", "Docker", "Tailscale", "Pubky", "Tailwind"]
+  },
+  {
     name: "PubPay",
     type: "Nostr App",
     description: "PubPay is a public payment client for Nostr. Create, share, and verify public payment requests using Nostr events. Supports donations, service payments, and more.",
