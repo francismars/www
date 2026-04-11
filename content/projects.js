@@ -24,6 +24,14 @@ const projects = [
     tags: ["Bitcoin", "Lightning", "Payments", "Nostr", "Node.js", "JavaScript"]
   },
   {
+    name: "Homeserver Dashboard",
+    type: "Admin UI",
+    description: "A Next.js admin dashboard for managing Pubky homeservers. Features user management, a WebDAV file browser, API explorer, and secure server-side configuration. Includes Docker integration for Umbrel and Tailscale tunnel setup for closed networks. Built during an engagement with Synonym.",
+    github: "https://github.com/francismars/homeserver-dashboard",
+    website: "#",
+    tags: ["Next.js", "TypeScript", "Docker", "Tailscale", "Pubky", "Tailwind"]
+  },
+  {
     name: "Smart Rockets",
     type: "Genetic Algorithm",
     description: "A 0-player game and simulation using genetic algorithms to evolve rocket trajectories toward a target. Features obstacle creation, pathfinding, and real-time visualization. Built with Processing.",
