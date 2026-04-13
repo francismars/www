@@ -286,6 +286,20 @@ async function handleNostrZap(event) {
 document.addEventListener("DOMContentLoaded", function () {
   // Populate about section
   populateAboutSection();
+
+  // Scroll-triggered section animations
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1 }
+  );
+  document.querySelectorAll(".section").forEach((el) => observer.observe(el));
   
   // Typing effect for main header - starts after DOM is ready
   const text = "Bitcoin | Lightning | Nostr";
@@ -545,6 +559,17 @@ document.addEventListener("DOMContentLoaded", function () {
     document.addEventListener("DOMContentLoaded", onVideosToggleReady);
   } else {
     onVideosToggleReady();
+  }
+
+  // Live character counter for contact message
+  const msgField = document.getElementById("contact-message");
+  const charCounter = document.getElementById("char-counter");
+  if (msgField && charCounter) {
+    msgField.addEventListener("input", function () {
+      const len = msgField.value.length;
+      charCounter.textContent = `${len} / 200`;
+      charCounter.style.color = len >= 180 ? "#ef4444" : "var(--muted-text)";
+    });
   }
 
   document

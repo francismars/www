@@ -84,7 +84,7 @@
   <div class="section" id="education">
     <h2>Education</h2>
     <div style="margin-bottom:2em;">
-      <h3 style="margin-bottom:0.5em; color:var(--accent); font-size:1.2em;">Academic Degrees</h3>
+      <h3>Academic Degrees</h3>
       <ul>
         <li>
           <strong>B.Sc. in Information Technologies</strong><br>
@@ -100,7 +100,7 @@
       </ul>
     </div>
     <div>
-      <h3 style="margin-bottom:0.5em; color:var(--accent); font-size:1.2em;">Additional Training</h3>
+      <h3>Additional Training</h3>
       <ul>
         <li>
           Chaincode Labs: Bitcoin Protocol Development Seminar (2021)
@@ -134,16 +134,21 @@
     <ul>
       <li><span class="tag">JavaScript</span> <span class="tag">TypeScript</span> <span class="tag">Node.js</span> <span class="tag">React</span></li>
       <li><span class="tag">Python</span> <span class="tag">Java</span> <span class="tag">Go</span></li>
-      <li><span class="tag">Bitcoin</span> <span class="tag">Lightning</span> <span class="tag">AI</span> <span class="tag">ML</span></li>
+      <li><span class="tag">Bitcoin</span> <span class="tag">Lightning</span> <span class="tag">Nostr</span></li>
       <li><span class="tag">Public Speaking</span> <span class="tag">Education</span></li>
+    </ul>
+    <h3 style="margin-top:1.5em;">AI Tooling</h3>
+    <ul>
+      <li><span class="tag">Cursor</span> <span class="tag">Claude Code</span> <span class="tag">ChatGPT</span> <span class="tag">Perplexity</span></li>
     </ul>
   </div>
   <div class="section" id="contact">
-    <h2>Contact Me (with Lightning)</h2>
+    <h2>Contact via Lightning</h2>
     <form id="ln-contact-form" onsubmit="return handleNostrZap(event)">
       <input type="text" id="contact-name" placeholder="Your name (optional)" maxlength="40" class="contact-input" />
       <input type="email" id="contact-email" placeholder="Your email (optional)" maxlength="60" class="contact-input" />
-      <textarea id="contact-message" maxlength="200" placeholder="Your message (max 200 chars)" required></textarea>
+      <textarea id="contact-message" maxlength="200" placeholder="Your message" required></textarea>
+      <div id="char-counter" style="text-align:right; font-size:0.85rem; color:var(--muted-text); margin-top:0.3em;">0 / 200</div>
       <button type="submit">Send & Pay 2,000 sats</button>
     </form>
     <div id="invoice-section" style="display:none; margin-top:2em; text-align:center;">
@@ -161,7 +166,7 @@
     </div>
   </div>
   <footer style="text-align:center; padding:2em 1em; color:var(--muted-text); font-size:1.1rem;">
-    &copy; 2025 Francis Mars.
+    &copy; 2026 Francis Mars.
   </footer>
   <script src="content/about.js"></script>
   <script src="content/projects.js"></script>
