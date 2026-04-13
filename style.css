@@ -69,15 +69,6 @@ h2 {
   padding-left: 0.7rem;
   background: none;
 }
-.section h3 {
-  color: var(--accent);
-  font-size: 1.1rem;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  margin-bottom: 0.6rem;
-  padding-left: 0.7rem;
-  border-left: 2px solid var(--accent);
-}
 .section {
   max-width: 800px;
   margin-left: auto;
@@ -385,9 +376,9 @@ html {
     flex-wrap: nowrap;
     gap: 0.5em;
     padding: 0.7em 4vw 0.7em 4vw;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    background: #181818ee;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: #181818;
   }
   .navbar-links {
     flex-direction: column;
@@ -460,6 +451,19 @@ link[rel="icon"] {
     mask: circle();
     -webkit-mask: circle();
   }
+}
+
+.skills-group {
+  margin-bottom: 1em;
+}
+.skills-label {
+  display: block;
+  font-size: 0.72rem;
+  font-family: "Fira Code", monospace;
+  color: var(--muted-text);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.4em;
 }
 
 /* Contact form styling */
