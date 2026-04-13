@@ -1,35 +1,30 @@
-# Francis Mars - Personal Portfolio Website
+# Francis Mars - Personal Portfolio
 
-A modern, responsive personal portfolio website showcasing software engineering projects, conference appearances, and professional experience. Built with vanilla HTML, CSS, and JavaScript with a focus on clean design and smooth user experience.
+Personal portfolio website built with vanilla HTML, CSS, and JavaScript.
 
-## 🚀 Live Demo
+## Live
 
-Visit the live website: [Francis Mars Portfolio](https://francismars.github.io/www/)
+[francismars.com](https://www.francismars.com)
 
-## 🛠️ Technologies Used
+## Stack
 
-- **HTML5**: Semantic markup and structure
-- **CSS3**: Modern styling with CSS Grid, Flexbox, and custom properties
-- **Vanilla JavaScript**: No frameworks, pure JavaScript for interactivity
-- **Google Fonts**: Inter and Fira Code for typography
+- HTML5, CSS3, Vanilla JavaScript
+- Google Fonts: Inter, Fira Code
+- GoatCounter for privacy-focused analytics
+- Lightning / Nostr contact form (zap-to-message)
 
-## 🎯 Sections
+## Sections
 
-1. **Header**: Profile picture, name, typing effect, and social links
-2. **About**: Personal introduction and background
-3. **Projects**: Showcase of software projects with GitHub and website links
-4. **Appearances**: Video presentations from Bitcoin conferences
-5. **Education**: Academic degrees and professional development
-6. **Skills**: Technical skills and expertise areas
+1. **About** — Introduction, background, and AI workflow
+2. **Projects** — Chain Duel, MarsPay, PubPay, Homeserver Dashboard
+3. **Contributions** — Open-source contributions across the Bitcoin/Lightning ecosystem
+4. **Appearances** — Conference talks and interviews
+5. **Education** — Academic degrees and additional training
+6. **Skills** — Languages, frameworks, domain expertise, AI tooling
+7. **Contact** — Lightning-powered contact form via Nostr zap
 
-## 👤 About Francis Mars
+## Contact
 
-Francis is a software engineer passionate about Bitcoin, Lightning Network, and building practical tools with real-world impact. He has developed several Lightning-powered applications and has spoken at major Bitcoin conferences.
-
-- **GitHub**: [@francismars](https://github.com/francismars)
-- **Nostr**: [npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl](https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl)
-- **X (Twitter)**: [@btcfrancis](https://x.com/btcfrancis)
-
----
-
-⭐ If you find this portfolio template useful, consider giving it a star! 
+- GitHub: [@francismars](https://github.com/francismars)
+- Nostr: [npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl](https://njump.me/npub1t5atsakzq63h45asjn3qhlpeg80nlgs6zkkgafmddyvywdufv6dqxfahcl)
+- X: [@btcfrancis](https://x.com/btcfrancis)
