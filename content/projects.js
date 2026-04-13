@@ -2,15 +2,15 @@ const projects = [
   {
     name: "Chain Duel",
     type: "Lightning Game",
-    description: "Chain Duel is a Lightning-powered competitive game designed to gamify Bitcoin adoption. Players duel in real-time with instant microtransactions, demonstrating the speed and efficiency of Lightning payments. Featured at major Bitcoin conferences, the game showcases practical Lightning use cases while providing an engaging gaming experience.",
+    description: "A real-time multiplayer game where every move is settled on Lightning. Players duel competitively with instant microtransactions — no sign-ups, no custodians, just sats. Running live at Bitcoin conferences worldwide for 3+ years, with hundreds of matches played on stage and on the arcade cabinet.",
     github: "https://github.com/francismars/chain-duel",
     website: "https://chainduel.net",
-    tags: ["Bitcoin", "Lightning", "Gaming", "Adoption", "JavaScript", "Real-time"]
+    tags: ["Bitcoin", "Lightning", "Gaming", "JavaScript", "Real-time", "PixiJS"]
   },
   {
     name: "MarsPay",
     type: "Lightning Backend",
-    description: "MarsPay is a modular backend service designed to integrate Lightning payments into any 1v1 game. Provides WebSocket API for real-time communication, handles LNURL generation and withdrawal via LNbits, and exposes REST endpoints for webhooks. Abstracts payment logic and session tracking for game developers.",
+    description: "The payment engine behind Chain Duel. A modular backend that handles WebSocket game state, LNURL generation, LNbits withdrawals, and Nostr (NDK) zap support. Server owns the state; clients send inputs. Designed so any 1v1 game can plug in Lightning payments without touching the payment logic.",
     github: "https://github.com/francismars/marspay",
     website: "#",
     tags: ["Bitcoin", "Lightning", "LNbits", "WebSocket", "Node.js", "TypeScript"]
@@ -18,25 +18,17 @@ const projects = [
   {
     name: "PubPay",
     type: "Nostr App",
-    description: "PubPay is a public payment client for Nostr. Create, share, and verify public payment requests using Nostr events. Supports donations, service payments, and more.",
+    description: "A Nostr-native tool for public, shareable payment requests — no sign-ups, no fees. Powers PubPay Live, a real-time zap display for live events, and PubPay Multi Live, a multi-stage conference tool with timeline editor and auto-rotation. Battle-tested at Bitcoin 2025, BCC8333, and Adopting Bitcoin.",
     github: "https://github.com/francismars/PubPay",
     website: "https://pubpay.me",
-    tags: ["Bitcoin", "Lightning", "Payments", "Nostr", "Node.js", "JavaScript"]
+    tags: ["Bitcoin", "Lightning", "Nostr", "Node.js", "JavaScript", "React"]
   },
   {
     name: "Homeserver Dashboard",
     type: "Admin UI",
-    description: "A Next.js admin dashboard for managing Pubky homeservers. Features user management, a WebDAV file browser, API explorer, and secure server-side configuration. Includes Docker integration for Umbrel and Tailscale tunnel setup for closed networks. Built during an engagement with Synonym.",
+    description: "A Next.js admin UI built for Pubky homeserver management during an engagement with Synonym. Features user management, a WebDAV file browser, API explorer, and Docker/Umbrel integration with Tailscale tunnel support for air-gapped or closed networks.",
     github: "https://github.com/francismars/homeserver-dashboard",
     website: "#",
     tags: ["Next.js", "TypeScript", "Docker", "Tailscale", "Pubky", "Tailwind"]
-  },
-  {
-    name: "Smart Rockets",
-    type: "Genetic Algorithm",
-    description: "A 0-player game and simulation using genetic algorithms to evolve rocket trajectories toward a target. Features obstacle creation, pathfinding, and real-time visualization. Built with Processing.",
-    github: "https://github.com/francismars/smartrockets",
-    website: "#",
-    tags: ["Genetic Algorithms", "Java", "Processing", "Simulation", "AI"]
   }
 ]; 

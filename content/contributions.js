@@ -3,23 +3,23 @@ const contributions = [
   {
     name: "Satsigner",
     type: "Bitcoin Mobile App",
-    description: "Contributed to Satsigner, a powerful native mobile Bitcoin signer management application. Features UTXO control, message signing, visual chain analysis, and Bitcoin-specific UX patterns. Built with React Native and Bitcoin Development Kit (BDK).",
+    description: "A self-custodial Bitcoin mobile signer with UTXO control, message signing, and visual chain analysis. Contributed React Native frontend work, focusing on Bitcoin-specific UX patterns and the BDK integration layer.",
     github: "https://github.com/satsigner/satsigner",
     website: "https://satsigner.com",
-    tags: ["Bitcoin", "BDK","Mobile", "React Native", "TypeScript"]
+    tags: ["Bitcoin", "BDK", "Mobile", "React Native", "TypeScript"]
   },
   {
     name: "Stable Channels",
     type: "Lightning Development",
-    description: "Contributed to Stable Channels, a p2p stable channels technology on the Bitcoin Lightning Network that lets users peg a portion of their bitcoin to a dollar balance. Features self-custodial stability through Lightning channels with automatic rebalancing based on price feeds.",
+    description: "A self-custodial way to peg bitcoin to a dollar balance using Lightning channels, with automatic rebalancing based on price feeds — no stablecoin issuer, no custodian. Contributed to the core channel management and rebalancing logic.",
     github: "https://github.com/toneloc/stable-channels",
     website: "https://stablechannels.com",
-    tags: ["Bitcoin", "Lightning", "Rust", "BDK", "LDK","Stablecoin"]
+    tags: ["Bitcoin", "Lightning", "Rust", "BDK", "LDK", "Stablecoin"]
   },
   {
     name: "lnurlp",
     type: "Lightning Development",
-    description: "Contributed to lnurlp, an LNbits extension for creating static QR codes and Lightning addresses for LNURL-pay functionality. Enables easy payment links and Lightning addresses for receiving payments over the Lightning Network.",
+    description: "An LNbits extension for static LNURL-pay QR codes and Lightning addresses. Contributed fixes and improvements to the payment flow and address resolution logic.",
     github: "https://github.com/lnbits/lnurlp",
     website: "#",
     tags: ["Bitcoin", "Lightning", "Python", "LNURL", "Payments"]
@@ -27,25 +27,25 @@ const contributions = [
   {
     name: "Nigiri Bitcoin",
     type: "Bitcoin Development",
-    description: "Contributed to Nigiri, a Docker-based Bitcoin regtest development environment. Nigiri provides ready-to-use Bitcoin development environment with Bitcoin Core, Elements and more.",
+    description: "A Docker-based Bitcoin regtest environment with Bitcoin Core, Elements, and supporting services — the standard local dev setup for Liquid/Bitcoin work. Contributed to tooling and environment configuration.",
     github: "https://github.com/vulpemventures/nigiri",
     website: "https://nigiri.vulpem.com",
-    tags: ["Bitcoin", "Docker", "Liquid", "Go", "Development Tools"]
+    tags: ["Bitcoin", "Docker", "Liquid", "Go", "Dev Tools"]
   },
   {
     name: "go-elements",
     type: "Liquid Development",
-    description: "Contributed to go-elements, a Go library for Elements-based blockchains. This library provides support for Liquid Network transactions, asset issuance, and confidential transaction features.",
+    description: "A Go library for Elements/Liquid transactions, asset issuance, and confidential transaction features. Contributed during active Liquid Network development work.",
     github: "https://github.com/vulpemventures/go-elements",
     website: "#",
-    tags: ["Bitcoin","Liquid", "Go"]
+    tags: ["Bitcoin", "Liquid", "Go"]
   },
   {
     name: "tdex-feeder",
     type: "DeFi Development",
-    description: "Contributed to tdex-feeder, a service that connects external price feeds to TDex Daemon for automatic market price updates. Enables decentralized exchange functionality by providing real-time price data from exchanges like Kraken.",
+    description: "A price feed service that connects external exchanges (Kraken, etc.) to the TDex daemon for automatic market price updates on the Liquid Network. Contributed to feed integration and reliability improvements.",
     github: "https://github.com/tdex-network/tdex-feeder",
     website: "#",
-    tags: ["Bitcoin", "Liquid", "Go", "Decentralized Exchange", "Price Feeds"]
+    tags: ["Bitcoin", "Liquid", "Go", "DEX", "Price Feeds"]
   }
 ]; 
