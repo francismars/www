@@ -69,6 +69,15 @@ h2 {
   padding-left: 0.7rem;
   background: none;
 }
+.section h3 {
+  color: var(--accent);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.6rem;
+  padding-left: 0.7rem;
+  border-left: 2px solid var(--accent);
+}
 .section {
   max-width: 800px;
   margin-left: auto;
@@ -82,13 +91,17 @@ h2 {
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow);
   padding: 2.5rem;
-  transition: box-shadow 0.3s, transform 0.3s;
-  animation: fadeInUp 1s cubic-bezier(0.77, 0, 0.18, 1);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.77, 0, 0.18, 1), transform 0.6s cubic-bezier(0.77, 0, 0.18, 1), border-color 0.3s;
   scroll-margin-top: 100px;
 }
+.section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 .section:hover {
-  box-shadow: 0 8px 40px 0 var(--accent);
-  /*transform: translateY(-4px) scale(1.01);*/
+  border-color: var(--accent);
 }
 @keyframes fadeInUp {
   from {
@@ -136,8 +149,7 @@ li {
   margin-bottom: 1.5rem;
   border: 1px solid var(--border-color);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
-  transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-  animation: fadeInUp 1s cubic-bezier(0.77, 0, 0.18, 1);
+  transition: border-color 0.3s;
   display: block;
 }
 .project-card:hover,
@@ -218,8 +230,8 @@ li {
 }
 .video-card iframe {
   width: 100%;
-  height: 180px;
-  border-radius: 10px;
+  height: 220px;
+  border-radius: 0;
   border: none;
   background: #000;
 }
@@ -233,7 +245,7 @@ li {
     margin-bottom: 1rem;
   }
   .video-card iframe {
-    height: 160px;
+    height: 190px;
   }
 }
 .navbar {
@@ -373,9 +385,9 @@ html {
     flex-wrap: nowrap;
     gap: 0.5em;
     padding: 0.7em 4vw 0.7em 4vw;
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    background: #181818;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    background: #181818ee;
   }
   .navbar-links {
     flex-direction: column;
@@ -586,10 +598,7 @@ link[rel="icon"] {
 }
 
 .about-justified {
-  text-align: justify;
-  text-justify: inter-word;
-  hyphens: auto;
-  word-spacing: normal;
+  text-align: left;
   letter-spacing: 0.01em;
 }
 
@@ -598,11 +607,6 @@ link[rel="icon"] {
   .about-justified {
     font-size: 1rem !important;
     line-height: 1.6 !important;
-    text-align: justify;
-    text-justify: inter-word;
-    hyphens: auto;
-    word-spacing: 0.02em;
-    letter-spacing: 0.005em;
   }
 }
 
@@ -610,7 +614,7 @@ link[rel="icon"] {
   margin-bottom: 0.7em;
   width: 100%;
   padding: 0.8em 1em;
-  border-radius: 6px;
+  border-radius: 0;
   border: 1px solid var(--border-color);
   background: var(--card-bg);
   color: var(--text-color);
