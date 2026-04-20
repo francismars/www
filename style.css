@@ -9,7 +9,7 @@
   --text-color: #fff;
   --muted-text: #bbb;
   --border-color: #222;
-  --accent: #2a6dbc;
+  --accent: #c8853a;
   --shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.18);
 }
 body {
@@ -332,7 +332,7 @@ html {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3a7ddc;
+  background: #e09548;
   box-shadow: 0 0 8px var(--accent);
 }
 
@@ -420,7 +420,7 @@ html {
   }
   .navbar-links a:hover,
   .navbar-links a:active {
-    background: rgba(42, 109, 188, 0.15);
+    background: rgba(200, 133, 58, 0.15);
   }
   .navbar-links.open {
     display: flex;
