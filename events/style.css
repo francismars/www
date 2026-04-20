@@ -163,9 +163,9 @@
 }
 
 .event-type-badge.conference {
-  background: rgba(42, 109, 188, 0.2);
-  color: #60a5fa;
-  border: 1px solid rgba(42, 109, 188, 0.3);
+  background: rgba(200, 133, 58, 0.2);
+  color: #e09548;
+  border: 1px solid rgba(200, 133, 58, 0.3);
 }
 
 .event-type-badge.meetup {
@@ -400,7 +400,7 @@
 .search-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(42, 109, 188, 0.1);
+  box-shadow: 0 0 0 3px rgba(200, 133, 58, 0.1);
 }
 
 .search-input::placeholder {
@@ -1105,13 +1105,13 @@
 }
 
 .calendar-day.has-events {
-  background: rgba(42, 109, 188, 0.2);
+  background: rgba(200, 133, 58, 0.2);
   color: var(--accent);
   font-weight: 700;
 }
 
 .calendar-day.has-events:hover {
-  background: rgba(42, 109, 188, 0.3);
+  background: rgba(200, 133, 58, 0.3);
 }
 
 /* Event Form */
