@@ -2480,5 +2480,19 @@ const eventsData = [
     x: "",
     nostr: "",
     featured: false
+  },
+  {
+    id: 183,
+    name: "Bitcoin Histórico",
+    date: "2026-11-11",
+    endDate: "2026-11-12",
+    type: "conference",
+    location: "San Salvador, El Salvador",
+    coordinates: { lat: 13.6929, lng: -89.2182 },
+    description: "A conference by the National Bitcoin Office of El Salvador celebrating financial freedom in Centro Histórico, San Salvador. Two days of immersive activities across historic landmarks, with keynotes at the National Palace live-streamed to Plaza Gerardo Barrios.",
+    website: "https://bitcoinhistorico.com/",
+    x: "",
+    nostr: "",
+    featured: false
   }
 ];
