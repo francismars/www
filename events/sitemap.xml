@@ -415,7 +415,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://francismars.com/events/noderunners-conference/</loc>
+    <loc>https://francismars.com/events/noderunners-conference-2025/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
@@ -463,7 +463,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://francismars.com/events/bitfest/</loc>
+    <loc>https://francismars.com/events/bitfest-2025/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
@@ -979,6 +979,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://francismars.com/events/copa-bitcoin/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/noderunners-conference-2026/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://francismars.com/events/european-mining-summit/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1015,6 +1027,18 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://francismars.com/events/bitcoin-poland/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/imagine-if/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://francismars.com/events/tabconf-8/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1039,12 +1063,6 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://francismars.com/events/labitconf/</loc>
-    <lastmod>2026-07-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.7</priority>
-  </url>
-  <url>
     <loc>https://francismars.com/events/bitcoin-for-corporations-symposium/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
@@ -1052,6 +1070,18 @@
   </url>
   <url>
     <loc>https://francismars.com/events/bitcoin-amsterdam-2026/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/golden-gate-bitcoin/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/bitcoin-korea-conference/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
@@ -1069,7 +1099,43 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://francismars.com/events/global-bitcoin-circular-economies-summit/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/bitfest-2026/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/labitconf/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://francismars.com/events/bitcoin-mena-2026/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/bitblockboom-2027/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/btc-prague-2027/</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://francismars.com/events/bitcoin-2027/</loc>
     <lastmod>2026-07-15</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.7</priority>
