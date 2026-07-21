@@ -2648,5 +2648,19 @@ const eventsData = [
     x: "",
     nostr: "",
     featured: false
+  },
+  {
+    id: 195,
+    name: "Bitcoin Circular Economies Summit",
+    date: "2026-01-26",
+    endDate: "2026-01-29",
+    type: "conference",
+    location: "El Zonte, El Salvador",
+    coordinates: { lat: 13.4917, lng: -89.3894 },
+    description: "Global gathering in El Zonte, birthplace of Bitcoin Beach, for leaders building Bitcoin circular economies. Closed-door sessions for community leaders plus an open day of talks, panels, and workshops on grassroots Bitcoin adoption.",
+    website: "https://www.bitcoinbeach.com/summit-blog/bitcoin-circular-economies-summit-2026",
+    x: "",
+    nostr: "",
+    featured: false
   }
 ];
